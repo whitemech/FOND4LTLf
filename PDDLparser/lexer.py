@@ -62,10 +62,10 @@ class Lexer(object):
         r'\?[a-zA-z_][a-zA-Z_0-9\-]*'
         return t
 
-    def t_PROBABILITY(self, t):
-        r'[0-1]\.\d+'
-        t.value = float(t.value)
-        return t
+    # def t_PROBABILITY(self, t):
+    #     r'[0-1]\.\d+'
+    #     t.value = float(t.value)
+    #     return t
 
     def t_newline(self, t):
         r'\n+'

@@ -1,5 +1,9 @@
 import ply.yacc as yacc
-from PDDLparser.Lexer import Lexer
+from lexer import Lexer
+from domain import Domain
+from literal import Literal
+from predicate import Predicate
+from term import Term
 
 class Parser(object):
 
@@ -8,13 +12,6 @@ class Parser(object):
         self.lexer.build()
         self.tokens = self.lexer.tokens
         self.parser = yacc.yacc(module=self)
-        # self.precedence = (
-        #
-        #     ('nonassoc', 'LPAR', 'RPAR'),
-        #     ('left', 'AND', 'OR', 'IMPLIES', 'DIMPLIES', 'UNTIL', 'PASTUNTIL'),
-        #     ('right', 'NEXT', 'EVENTUALLY', 'GLOBALLY', 'PASTNEXT', 'PASTEVENTUALLY', 'PASTGLOBALLY'),
-        #     ('right', 'NOT')
-        # )
 
     def __call__(self, s, **kwargs):
         return self.parser.parse(s, lexer=self.lexer.lexer)
@@ -29,33 +26,33 @@ class Parser(object):
         '''domain : LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN'''
         p[0] = Domain(p[3], p[4], p[5], p[6], p[7])
 
-    def p_problem(self, p):
-        '''problem : LPAREN DEFINE_KEY problem_def domain_def objects_def init_def goal_def RPAREN'''
-        p[0] = Problem(p[3], p[4], p[5], p[6], p[7])
+    # def p_problem(self, p):
+    #     '''problem : LPAREN DEFINE_KEY problem_def domain_def objects_def init_def goal_def RPAREN'''
+    #     p[0] = Problem(p[3], p[4], p[5], p[6], p[7])
 
     def p_domain_def(self, p):
         '''domain_def : LPAREN DOMAIN_KEY NAME RPAREN'''
         p[0] = p[3]
 
-    def p_problem_def(self, p):
-        '''problem_def : LPAREN PROBLEM_KEY NAME RPAREN'''
-        p[0] = p[3]
-
-    def p_objects_def(self, p):
-        '''objects_def : LPAREN OBJECTS_KEY typed_constants_lst RPAREN'''
-        p[0] = p[3]
-
-    def p_init_def(self, p):
-        '''init_def : LPAREN INIT_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
-                    | LPAREN INIT_KEY ground_predicates_lst RPAREN'''
-        if len(p) == 5:
-            p[0] = p[3]
-        elif len(p) == 8:
-            p[0] = p[5]
-
-    def p_goal_def(self, p):
-        '''goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN'''
-        p[0] = p[5]
+    # def p_problem_def(self, p):
+    #     '''problem_def : LPAREN PROBLEM_KEY NAME RPAREN'''
+    #     p[0] = p[3]
+    #
+    # def p_objects_def(self, p):
+    #     '''objects_def : LPAREN OBJECTS_KEY typed_constants_lst RPAREN'''
+    #     p[0] = p[3]
+    #
+    # def p_init_def(self, p):
+    #     '''init_def : LPAREN INIT_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
+    #                 | LPAREN INIT_KEY ground_predicates_lst RPAREN'''
+    #     if len(p) == 5:
+    #         p[0] = p[3]
+    #     elif len(p) == 8:
+    #         p[0] = p[5]
+    #
+    # def p_goal_def(self, p):
+    #     '''goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN'''
+    #     p[0] = p[5]
 
     def p_require_def(self, p):
         '''require_def : LPAREN REQUIREMENTS_KEY require_key_lst RPAREN'''
@@ -124,17 +121,6 @@ class Parser(object):
         '''action_def_body : precond_def effects_def'''
         p[0] = (p[1], p[2])
 
-    def p_formula(self, p):
-        '''formula : literal
-                   | NOT_KEY formula
-                   | AND_KEY formula_lst
-                   | OR_KEY formula_lst
-                   | IMPLY_KEY formula formula
-                   | EXITST_KEY LPAREN typed_variables_lst RPAREN formula
-                   | FORALL_KEY LPAREN typed_variables_lst RPAREN formula '''
-
-        pass #TODO
-
     def p_precond_def(self, p):
         '''precond_def : PRECONDITION_KEY formula'''
         if len(p) == 3:
@@ -144,6 +130,44 @@ class Parser(object):
                 p[0] = [p[4]]
             else: p[0] = p[4]
 
+    def p_effects_def(self, p):
+        '''effects_def : EFFECT_KEY LPAREN AND_KEY one_eff_formula_lst RPAREN
+                       | EFFECT_KEY LPAREN ONEOF_KEY one_eff_formula_lst RPAREN
+                       | EFFECT_KEY one_eff_formula'''
+        if len(p) == 3:
+            p[0] = [p[2]]
+        elif len(p) == 6:
+            #handling oneof or not
+            p[0] = p[4]
+
+    def p_formula(self, p):
+        '''formula : literal
+                   | NOT_KEY formula
+                   | AND_KEY formula_lst
+                   | OR_KEY formula_lst
+                   | IMPLY_KEY formula formula
+                   | EXITST_KEY LPAREN typed_variables_lst RPAREN formula
+                   | FORALL_KEY LPAREN typed_variables_lst RPAREN formula'''
+
+        pass #TODO
+
+    def p_formula_lst(self, p):
+        '''formula_lst: formula formula_lst
+                      | formula'''
+
+        if len(p) == 2:
+            p[0] = [p[1]]
+        elif len(p) == 3:
+            p[0] = [p[1]] + p[2]
+
+    def p_one_eff_formula_lst(self, p):
+        '''one_eff_formula_lst: one_eff_formula one_eff_formula_lst
+                              | one_eff_formula'''
+        if len(p) == 2:
+            p[0] = [p[1]]
+        elif len(p) == 3:
+            p[0] = [p[1]] + p[2]
+
     def p_one_eff_formula(self, p):
         '''one_eff_formula: atomic_effs
                           | LPAREN WHEN_KEY formula atomic_effs RPAREN
@@ -151,13 +175,11 @@ class Parser(object):
                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN LPAREN WHEN_KEY formula atomic_effs RPAREN RPAREN'''
         pass #TODO
 
-    def p_effects_def(self, p):
-        '''effects_def : EFFECT_KEY LPAREN AND_KEY one_eff_formula_lst RPAREN
-                       | EFFECT_KEY one_eff_formula'''
-        if len(p) == 3:
-            p[0] = [p[2]]
-        elif len(p) == 6:
-            p[0] = p[4]
+    def p_atomic_effs(self, p):
+        '''atomic_effs: LPAREN AND_KEY literals_lst RPAREN
+                      | literal'''
+        pass  # TODO
+
 
     # def p_effects_lst(self, p):
     #     '''effects_lst : effect effects_lst
@@ -191,13 +213,21 @@ class Parser(object):
         elif len(p) == 5:
             p[0] = Literal.negative(p[3])
 
-    def p_ground_predicates_lst(self, p):
-        '''ground_predicates_lst : ground_predicate ground_predicates_lst
-                                 | ground_predicate'''
-        if len(p) == 2:
-            p[0] = [p[1]]
-        elif len(p) == 3:
-            p[0] = [p[1]] + p[2]
+    # def p_ground_predicates_lst(self, p):
+    #     '''ground_predicates_lst : ground_predicate ground_predicates_lst
+    #                              | ground_predicate'''
+    #     if len(p) == 2:
+    #         p[0] = [p[1]]
+    #     elif len(p) == 3:
+    #         p[0] = [p[1]] + p[2]
+    #
+    # def p_ground_predicate(self, p):
+    #     '''ground_predicate : LPAREN NAME constants_lst RPAREN
+    #                         | LPAREN NAME RPAREN'''
+    #     if len(p) == 4:
+    #         p[0] = Predicate(p[2])
+    #     elif len(p) == 5:
+    #         p[0] = Predicate(p[2], p[3])
 
     def p_predicate(self, p):
         '''predicate : LPAREN NAME variables_lst RPAREN
@@ -209,14 +239,6 @@ class Parser(object):
             p[0] = Predicate(p[2], p[3])
         elif len(p) == 6:
             p[0] = Predicate('=', [p[3], p[4]])
-
-    def p_ground_predicate(self, p):
-        '''ground_predicate : LPAREN NAME constants_lst RPAREN
-                            | LPAREN NAME RPAREN'''
-        if len(p) == 4:
-            p[0] = Predicate(p[2])
-        elif len(p) == 5:
-            p[0] = Predicate(p[2], p[3])
 
     def p_typed_constants_lst(self, p):
         '''typed_constants_lst : constants_lst HYPHEN type typed_constants_lst
@@ -234,13 +256,13 @@ class Parser(object):
         elif len(p) == 5:
             p[0] = [Term.variable(name, p[3]) for name in p[1]] + p[4]
 
-    def p_constants_lst(self, p):
-        '''constants_lst : constant constants_lst
-                         | constant'''
-        if len(p) == 2:
-            p[0] = [Term.constant(p[1])]
-        elif len(p) == 3:
-            p[0] = [Term.constant(p[1])] + p[2]
+    # def p_constants_lst(self, p):
+    #     '''constants_lst : constant constants_lst
+    #                      | constant'''
+    #     if len(p) == 2:
+    #         p[0] = [Term.constant(p[1])]
+    #     elif len(p) == 3:
+    #         p[0] = [Term.constant(p[1])] + p[2]
 
     def p_variables_lst(self, p):
         '''variables_lst : VARIABLE variables_lst
@@ -263,10 +285,10 @@ class Parser(object):
     def p_type(self, p):
         '''type : NAME'''
         p[0] = p[1]
-
-    def p_constant(self, p):
-        '''constant : NAME'''
-        p[0] = p[1]
+    #
+    # def p_constant(self, p):
+    #     '''constant : NAME'''
+    #     p[0] = p[1]
 
     def p_error(self, p):
         print("Error: syntax error when parsing '{}'".format(p))
