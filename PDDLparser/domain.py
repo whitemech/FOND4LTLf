@@ -12,6 +12,7 @@ class Domain:
         domain_str += '>> requirements: {0}\n'.format(', '.join(self.requirements))
         domain_str += '>> types: {0}\n'.format(', '.join(self.types))
         domain_str += '>> predicates: {0}\n'.format(', '.join(map(str, self.predicates)))
-        domain_str += '>> operators:\n    {0}\n'.format(
-            '\n    '.join(str(op).replace('\n', '\n    ') for op in self.operators))
+        domain_str += '>> operators:\n\t{0}\n'.format(
+            '\n\t'.join(str(op).replace('\n', '\n\t') for op in self.operators))
+        domain_str += 'ciao caro'
         return domain_str

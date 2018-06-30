@@ -1,6 +1,6 @@
 import ply.lex as lex
 
-class Lexer(object):
+class MyLexer(object):
 
     reserved = {
         'define':                   'DEFINE_KEY',
@@ -17,18 +17,17 @@ class Lexer(object):
         ':precondition':            'PRECONDITION_KEY',
         ':effect':                  'EFFECT_KEY',
         'and':                      'AND_KEY',
-        'or':                       'OR_KEY',
-        'not':                      'NOT_KEY',
-        'imply':                    'IMPLY_KEY',
-        'oneof':                    'ONEOF_KEY',
-        'forall':                   'FORALL_KEY',
-        'exists':                   'EXISTS_KEY',
-        'when':                     'WHEN_KEY',
-        'problem':                  'PROBLEM_KEY',
-        ':domain':                  'DOMAIN_KEY',
-        ':objects':                 'OBJECTS_KEY',
-        ':init':                    'INIT_KEY',
-        ':goal':                    'GOAL_KEY'
+        # 'or':                       'OR_KEY',
+        'not':                      'NOT_KEY'
+        # 'imply':                    'IMPLY_KEY',
+        # 'oneof':                    'ONEOF_KEY',
+        # 'forall':                   'FORALL_KEY',
+        # 'exists':                   'EXISTS_KEY',
+        # 'when':                     'WHEN_KEY',
+        # 'problem':                  'PROBLEM_KEY',
+        # ':objects':                 'OBJECTS_KEY',
+        # ':init':                    'INIT_KEY',
+        # ':goal':                    'GOAL_KEY'
     }
 
     # List of token names. This is always required
@@ -51,7 +50,7 @@ class Lexer(object):
 
     def t_KEYWORD(self, t):
         r':?[a-zA-z_][a-zA-Z_0-9\-]*'
-        t.type = self.reserved.get(t.value(),'NAME')
+        t.type = self.reserved.get(t.value,'NAME')
         return t
 
     def t_NAME(self, t):
@@ -79,16 +78,17 @@ class Lexer(object):
     def build(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
 
-    # Test it output
-#     def test(self,data):
-#         self.lexer.input(data)
-#         while True:
-#             tok = self.lexer.token()
-#             if not tok:
-#                 break
-#             print(tok)
-#
-# # Build the lexer and try it out
-# m = Lexer()
-# m.build()           # Build the lexer
-# m.test("P(a -> bSc)")     # Test it
+    # Test the lexer
+    def test(self,data):
+        self.lexer.input(data)
+        while True:
+            tok = self.lexer.token()
+            if not tok:
+                break
+            print(tok)
+
+if __name__ == '__main__':
+    # Build the lexer and try it out
+    m = MyLexer()
+    m.build()           # Build the lexer
+    m.test("(define (domain blocks-domain))")     # Test it

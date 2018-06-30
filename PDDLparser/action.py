@@ -1,4 +1,4 @@
-class Operator:
+class Action:
 
     def __init__(self, name, parameters, preconditions, effects):
         self.name = name
