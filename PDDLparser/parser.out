@@ -30,43 +30,51 @@ Rule 24    precond_def -> PRECONDITION_KEY LPAREN formula RPAREN
 Rule 25    effects_def -> EFFECT_KEY LPAREN formula RPAREN
 Rule 26    formula -> literal
 Rule 27    formula -> AND_KEY formula_lst
-Rule 28    formula -> LPAREN literal RPAREN
-Rule 29    formula_lst -> formula formula_lst
-Rule 30    formula_lst -> formula
-Rule 31    literal -> LPAREN NOT_KEY predicate RPAREN
-Rule 32    literal -> predicate
-Rule 33    predicate -> LPAREN NAME variables_lst RPAREN
-Rule 34    predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN
-Rule 35    predicate -> LPAREN NAME RPAREN
-Rule 36    typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst
-Rule 37    typed_variables_lst -> variables_lst HYPHEN type
-Rule 38    variables_lst -> VARIABLE variables_lst
-Rule 39    variables_lst -> VARIABLE
-Rule 40    type -> NAME
+Rule 28    formula -> OR_KEY formula_lst
+Rule 29    formula -> NOT_KEY formula
+Rule 30    formula -> IMPLY_KEY formula formula
+Rule 31    formula -> LPAREN AND_KEY formula_lst RPAREN
+Rule 32    formula -> LPAREN OR_KEY formula_lst RPAREN
+Rule 33    formula -> LPAREN IMPLY_KEY formula formula RPAREN
+Rule 34    formula -> LPAREN literal RPAREN
+Rule 35    formula_lst -> formula formula_lst
+Rule 36    formula_lst -> formula
+Rule 37    literal -> LPAREN NOT_KEY predicate RPAREN
+Rule 38    literal -> predicate
+Rule 39    predicate -> LPAREN NAME variables_lst RPAREN
+Rule 40    predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN
+Rule 41    predicate -> LPAREN NAME RPAREN
+Rule 42    typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst
+Rule 43    typed_variables_lst -> variables_lst HYPHEN type
+Rule 44    variables_lst -> VARIABLE variables_lst
+Rule 45    variables_lst -> VARIABLE
+Rule 46    type -> NAME
 
 Terminals, with rules where they appear
 
 ACTION_KEY           : 21
 ADL_KEY              : 10
-AND_KEY              : 27
+AND_KEY              : 27 31
 DEFINE_KEY           : 2
 DOMAIN_KEY           : 3
 EFFECT_KEY           : 25
 EQUALITY_KEY         : 8
-EQUALS               : 34
-HYPHEN               : 36 37
-LPAREN               : 2 3 4 11 14 17 18 21 22 23 24 25 28 31 33 34 35
-NAME                 : 3 12 13 17 18 21 33 35 40
-NOT_KEY              : 31
+EQUALS               : 40
+HYPHEN               : 42 43
+IMPLY_KEY            : 30 33
+LPAREN               : 2 3 4 11 14 17 18 21 22 23 24 25 31 32 33 34 37 39 40 41
+NAME                 : 3 12 13 17 18 21 39 41 46
+NOT_KEY              : 29 37
+OR_KEY               : 28 32
 PARAMETERS_KEY       : 22 23
 PRECONDITION_KEY     : 24
 PREDICATES_KEY       : 14
 REQUIREMENTS_KEY     : 4
-RPAREN               : 2 3 4 11 14 17 18 21 22 23 24 25 28 31 33 34 35
+RPAREN               : 2 3 4 11 14 17 18 21 22 23 24 25 31 32 33 34 37 39 40 41
 STRIPS_KEY           : 7
 TYPES_KEY            : 11
 TYPING_KEY           : 9
-VARIABLE             : 34 34 38 39
+VARIABLE             : 40 40 44 45
 error                : 
 
 Nonterminals, with rules where they appear
@@ -76,24 +84,24 @@ action_def_lst       : 2 19
 domain               : 1
 domain_def           : 2
 effects_def          : 21
-formula              : 24 25 29 30
-formula_lst          : 27 29
-literal              : 26 28
+formula              : 24 25 29 30 30 33 33 35 36
+formula_lst          : 27 28 31 32 35
+literal              : 26 34
 names_lst            : 11 12
 parameters_def       : 21
 pddl                 : 0
 precond_def          : 21
-predicate            : 31 32
+predicate            : 37 38
 predicate_def        : 15 16
 predicate_def_lst    : 14 15
 predicates_def       : 2
 require_def          : 2
 require_key          : 5 6
 require_key_lst      : 4 5
-type                 : 36 37
-typed_variables_lst  : 17 22 36
+type                 : 42 43
+typed_variables_lst  : 17 22 42
 types_def            : 2
-variables_lst        : 33 36 37 38
+variables_lst        : 39 42 43 44
 
 Parsing method: LALR
 
@@ -467,10 +475,10 @@ state 40
 
     (17) predicate_def -> LPAREN NAME . typed_variables_lst RPAREN
     (18) predicate_def -> LPAREN NAME . RPAREN
-    (36) typed_variables_lst -> . variables_lst HYPHEN type typed_variables_lst
-    (37) typed_variables_lst -> . variables_lst HYPHEN type
-    (38) variables_lst -> . VARIABLE variables_lst
-    (39) variables_lst -> . VARIABLE
+    (42) typed_variables_lst -> . variables_lst HYPHEN type typed_variables_lst
+    (43) typed_variables_lst -> . variables_lst HYPHEN type
+    (44) variables_lst -> . VARIABLE variables_lst
+    (45) variables_lst -> . VARIABLE
 
     RPAREN          shift and go to state 45
     VARIABLE        shift and go to state 47
@@ -519,21 +527,21 @@ state 45
 
 state 46
 
-    (36) typed_variables_lst -> variables_lst . HYPHEN type typed_variables_lst
-    (37) typed_variables_lst -> variables_lst . HYPHEN type
+    (42) typed_variables_lst -> variables_lst . HYPHEN type typed_variables_lst
+    (43) typed_variables_lst -> variables_lst . HYPHEN type
 
     HYPHEN          shift and go to state 51
 
 
 state 47
 
-    (38) variables_lst -> VARIABLE . variables_lst
-    (39) variables_lst -> VARIABLE .
-    (38) variables_lst -> . VARIABLE variables_lst
-    (39) variables_lst -> . VARIABLE
+    (44) variables_lst -> VARIABLE . variables_lst
+    (45) variables_lst -> VARIABLE .
+    (44) variables_lst -> . VARIABLE variables_lst
+    (45) variables_lst -> . VARIABLE
 
-    HYPHEN          reduce using rule 39 (variables_lst -> VARIABLE .)
-    RPAREN          reduce using rule 39 (variables_lst -> VARIABLE .)
+    HYPHEN          reduce using rule 45 (variables_lst -> VARIABLE .)
+    RPAREN          reduce using rule 45 (variables_lst -> VARIABLE .)
     VARIABLE        shift and go to state 47
 
     variables_lst                  shift and go to state 52
@@ -565,9 +573,9 @@ state 50
 
 state 51
 
-    (36) typed_variables_lst -> variables_lst HYPHEN . type typed_variables_lst
-    (37) typed_variables_lst -> variables_lst HYPHEN . type
-    (40) type -> . NAME
+    (42) typed_variables_lst -> variables_lst HYPHEN . type typed_variables_lst
+    (43) typed_variables_lst -> variables_lst HYPHEN . type
+    (46) type -> . NAME
 
     NAME            shift and go to state 57
 
@@ -575,10 +583,10 @@ state 51
 
 state 52
 
-    (38) variables_lst -> VARIABLE variables_lst .
+    (44) variables_lst -> VARIABLE variables_lst .
 
-    HYPHEN          reduce using rule 38 (variables_lst -> VARIABLE variables_lst .)
-    RPAREN          reduce using rule 38 (variables_lst -> VARIABLE variables_lst .)
+    HYPHEN          reduce using rule 44 (variables_lst -> VARIABLE variables_lst .)
+    RPAREN          reduce using rule 44 (variables_lst -> VARIABLE variables_lst .)
 
 
 state 53
@@ -601,10 +609,10 @@ state 55
 
     (22) parameters_def -> PARAMETERS_KEY LPAREN . typed_variables_lst RPAREN
     (23) parameters_def -> PARAMETERS_KEY LPAREN . RPAREN
-    (36) typed_variables_lst -> . variables_lst HYPHEN type typed_variables_lst
-    (37) typed_variables_lst -> . variables_lst HYPHEN type
-    (38) variables_lst -> . VARIABLE variables_lst
-    (39) variables_lst -> . VARIABLE
+    (42) typed_variables_lst -> . variables_lst HYPHEN type typed_variables_lst
+    (43) typed_variables_lst -> . variables_lst HYPHEN type
+    (44) variables_lst -> . VARIABLE variables_lst
+    (45) variables_lst -> . VARIABLE
 
     RPAREN          shift and go to state 62
     VARIABLE        shift and go to state 47
@@ -614,14 +622,14 @@ state 55
 
 state 56
 
-    (36) typed_variables_lst -> variables_lst HYPHEN type . typed_variables_lst
-    (37) typed_variables_lst -> variables_lst HYPHEN type .
-    (36) typed_variables_lst -> . variables_lst HYPHEN type typed_variables_lst
-    (37) typed_variables_lst -> . variables_lst HYPHEN type
-    (38) variables_lst -> . VARIABLE variables_lst
-    (39) variables_lst -> . VARIABLE
+    (42) typed_variables_lst -> variables_lst HYPHEN type . typed_variables_lst
+    (43) typed_variables_lst -> variables_lst HYPHEN type .
+    (42) typed_variables_lst -> . variables_lst HYPHEN type typed_variables_lst
+    (43) typed_variables_lst -> . variables_lst HYPHEN type
+    (44) variables_lst -> . VARIABLE variables_lst
+    (45) variables_lst -> . VARIABLE
 
-    RPAREN          reduce using rule 37 (typed_variables_lst -> variables_lst HYPHEN type .)
+    RPAREN          reduce using rule 43 (typed_variables_lst -> variables_lst HYPHEN type .)
     VARIABLE        shift and go to state 47
 
     variables_lst                  shift and go to state 46
@@ -629,10 +637,10 @@ state 56
 
 state 57
 
-    (40) type -> NAME .
+    (46) type -> NAME .
 
-    VARIABLE        reduce using rule 40 (type -> NAME .)
-    RPAREN          reduce using rule 40 (type -> NAME .)
+    VARIABLE        reduce using rule 46 (type -> NAME .)
+    RPAREN          reduce using rule 46 (type -> NAME .)
 
 
 state 58
@@ -654,25 +662,34 @@ state 60
     (24) precond_def -> PRECONDITION_KEY LPAREN . formula RPAREN
     (26) formula -> . literal
     (27) formula -> . AND_KEY formula_lst
-    (28) formula -> . LPAREN literal RPAREN
-    (31) literal -> . LPAREN NOT_KEY predicate RPAREN
-    (32) literal -> . predicate
-    (33) predicate -> . LPAREN NAME variables_lst RPAREN
-    (34) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> . LPAREN NAME RPAREN
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
     AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
     LPAREN          shift and go to state 66
 
     formula                        shift and go to state 67
     literal                        shift and go to state 68
-    predicate                      shift and go to state 70
+    predicate                      shift and go to state 73
 
 state 61
 
     (22) parameters_def -> PARAMETERS_KEY LPAREN typed_variables_lst . RPAREN
 
-    RPAREN          shift and go to state 71
+    RPAREN          shift and go to state 74
 
 
 state 62
@@ -684,9 +701,9 @@ state 62
 
 state 63
 
-    (36) typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst .
+    (42) typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst .
 
-    RPAREN          reduce using rule 36 (typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst .)
+    RPAREN          reduce using rule 42 (typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst .)
 
 
 state 64
@@ -702,46 +719,61 @@ state 65
     (25) effects_def -> EFFECT_KEY LPAREN . formula RPAREN
     (26) formula -> . literal
     (27) formula -> . AND_KEY formula_lst
-    (28) formula -> . LPAREN literal RPAREN
-    (31) literal -> . LPAREN NOT_KEY predicate RPAREN
-    (32) literal -> . predicate
-    (33) predicate -> . LPAREN NAME variables_lst RPAREN
-    (34) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> . LPAREN NAME RPAREN
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
     AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
     LPAREN          shift and go to state 66
 
-    formula                        shift and go to state 72
+    formula                        shift and go to state 75
     literal                        shift and go to state 68
-    predicate                      shift and go to state 70
+    predicate                      shift and go to state 73
 
 state 66
 
-    (28) formula -> LPAREN . literal RPAREN
-    (31) literal -> LPAREN . NOT_KEY predicate RPAREN
-    (33) predicate -> LPAREN . NAME variables_lst RPAREN
-    (34) predicate -> LPAREN . EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> LPAREN . NAME RPAREN
-    (31) literal -> . LPAREN NOT_KEY predicate RPAREN
-    (32) literal -> . predicate
-    (33) predicate -> . LPAREN NAME variables_lst RPAREN
-    (34) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> . LPAREN NAME RPAREN
+    (31) formula -> LPAREN . AND_KEY formula_lst RPAREN
+    (32) formula -> LPAREN . OR_KEY formula_lst RPAREN
+    (33) formula -> LPAREN . IMPLY_KEY formula formula RPAREN
+    (34) formula -> LPAREN . literal RPAREN
+    (37) literal -> LPAREN . NOT_KEY predicate RPAREN
+    (39) predicate -> LPAREN . NAME variables_lst RPAREN
+    (40) predicate -> LPAREN . EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> LPAREN . NAME RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
-    NOT_KEY         shift and go to state 75
-    NAME            shift and go to state 76
-    EQUALS          shift and go to state 77
-    LPAREN          shift and go to state 73
+    AND_KEY         shift and go to state 77
+    OR_KEY          shift and go to state 78
+    IMPLY_KEY       shift and go to state 79
+    NOT_KEY         shift and go to state 81
+    NAME            shift and go to state 82
+    EQUALS          shift and go to state 83
+    LPAREN          shift and go to state 76
 
-    literal                        shift and go to state 74
-    predicate                      shift and go to state 70
+    literal                        shift and go to state 80
+    predicate                      shift and go to state 73
 
 state 67
 
     (24) precond_def -> PRECONDITION_KEY LPAREN formula . RPAREN
 
-    RPAREN          shift and go to state 78
+    RPAREN          shift and go to state 84
 
 
 state 68
@@ -750,248 +782,628 @@ state 68
 
     RPAREN          reduce using rule 26 (formula -> literal .)
     AND_KEY         reduce using rule 26 (formula -> literal .)
+    OR_KEY          reduce using rule 26 (formula -> literal .)
+    NOT_KEY         reduce using rule 26 (formula -> literal .)
+    IMPLY_KEY       reduce using rule 26 (formula -> literal .)
     LPAREN          reduce using rule 26 (formula -> literal .)
 
 
 state 69
 
     (27) formula -> AND_KEY . formula_lst
-    (29) formula_lst -> . formula formula_lst
-    (30) formula_lst -> . formula
+    (35) formula_lst -> . formula formula_lst
+    (36) formula_lst -> . formula
     (26) formula -> . literal
     (27) formula -> . AND_KEY formula_lst
-    (28) formula -> . LPAREN literal RPAREN
-    (31) literal -> . LPAREN NOT_KEY predicate RPAREN
-    (32) literal -> . predicate
-    (33) predicate -> . LPAREN NAME variables_lst RPAREN
-    (34) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> . LPAREN NAME RPAREN
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
     AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
     LPAREN          shift and go to state 66
 
-    formula_lst                    shift and go to state 79
-    formula                        shift and go to state 80
+    formula_lst                    shift and go to state 85
+    formula                        shift and go to state 86
     literal                        shift and go to state 68
-    predicate                      shift and go to state 70
+    predicate                      shift and go to state 73
 
 state 70
 
-    (32) literal -> predicate .
+    (28) formula -> OR_KEY . formula_lst
+    (35) formula_lst -> . formula formula_lst
+    (36) formula_lst -> . formula
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
-    RPAREN          reduce using rule 32 (literal -> predicate .)
-    AND_KEY         reduce using rule 32 (literal -> predicate .)
-    LPAREN          reduce using rule 32 (literal -> predicate .)
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
 
+    formula_lst                    shift and go to state 87
+    formula                        shift and go to state 86
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
 
 state 71
+
+    (29) formula -> NOT_KEY . formula
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
+
+    formula                        shift and go to state 88
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
+
+state 72
+
+    (30) formula -> IMPLY_KEY . formula formula
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
+
+    formula                        shift and go to state 89
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
+
+state 73
+
+    (38) literal -> predicate .
+
+    RPAREN          reduce using rule 38 (literal -> predicate .)
+    AND_KEY         reduce using rule 38 (literal -> predicate .)
+    OR_KEY          reduce using rule 38 (literal -> predicate .)
+    NOT_KEY         reduce using rule 38 (literal -> predicate .)
+    IMPLY_KEY       reduce using rule 38 (literal -> predicate .)
+    LPAREN          reduce using rule 38 (literal -> predicate .)
+
+
+state 74
 
     (22) parameters_def -> PARAMETERS_KEY LPAREN typed_variables_lst RPAREN .
 
     PRECONDITION_KEY reduce using rule 22 (parameters_def -> PARAMETERS_KEY LPAREN typed_variables_lst RPAREN .)
 
 
-state 72
+state 75
 
     (25) effects_def -> EFFECT_KEY LPAREN formula . RPAREN
 
-    RPAREN          shift and go to state 81
+    RPAREN          shift and go to state 90
 
-
-state 73
-
-    (31) literal -> LPAREN . NOT_KEY predicate RPAREN
-    (33) predicate -> LPAREN . NAME variables_lst RPAREN
-    (34) predicate -> LPAREN . EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> LPAREN . NAME RPAREN
-
-    NOT_KEY         shift and go to state 75
-    NAME            shift and go to state 76
-    EQUALS          shift and go to state 77
-
-
-state 74
-
-    (28) formula -> LPAREN literal . RPAREN
-
-    RPAREN          shift and go to state 82
-
-
-state 75
-
-    (31) literal -> LPAREN NOT_KEY . predicate RPAREN
-    (33) predicate -> . LPAREN NAME variables_lst RPAREN
-    (34) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> . LPAREN NAME RPAREN
-
-    LPAREN          shift and go to state 83
-
-    predicate                      shift and go to state 84
 
 state 76
 
-    (33) predicate -> LPAREN NAME . variables_lst RPAREN
-    (35) predicate -> LPAREN NAME . RPAREN
-    (38) variables_lst -> . VARIABLE variables_lst
-    (39) variables_lst -> . VARIABLE
+    (37) literal -> LPAREN . NOT_KEY predicate RPAREN
+    (39) predicate -> LPAREN . NAME variables_lst RPAREN
+    (40) predicate -> LPAREN . EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> LPAREN . NAME RPAREN
 
-    RPAREN          shift and go to state 86
-    VARIABLE        shift and go to state 47
+    NOT_KEY         shift and go to state 81
+    NAME            shift and go to state 82
+    EQUALS          shift and go to state 83
 
-    variables_lst                  shift and go to state 85
 
 state 77
 
-    (34) predicate -> LPAREN EQUALS . VARIABLE VARIABLE RPAREN
+    (31) formula -> LPAREN AND_KEY . formula_lst RPAREN
+    (35) formula_lst -> . formula formula_lst
+    (36) formula_lst -> . formula
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
-    VARIABLE        shift and go to state 87
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
 
+    formula_lst                    shift and go to state 91
+    formula                        shift and go to state 86
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
 
 state 78
+
+    (32) formula -> LPAREN OR_KEY . formula_lst RPAREN
+    (35) formula_lst -> . formula formula_lst
+    (36) formula_lst -> . formula
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
+
+    formula_lst                    shift and go to state 92
+    formula                        shift and go to state 86
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
+
+state 79
+
+    (33) formula -> LPAREN IMPLY_KEY . formula formula RPAREN
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
+
+    formula                        shift and go to state 93
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
+
+state 80
+
+    (34) formula -> LPAREN literal . RPAREN
+
+    RPAREN          shift and go to state 94
+
+
+state 81
+
+    (37) literal -> LPAREN NOT_KEY . predicate RPAREN
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    LPAREN          shift and go to state 95
+
+    predicate                      shift and go to state 96
+
+state 82
+
+    (39) predicate -> LPAREN NAME . variables_lst RPAREN
+    (41) predicate -> LPAREN NAME . RPAREN
+    (44) variables_lst -> . VARIABLE variables_lst
+    (45) variables_lst -> . VARIABLE
+
+    RPAREN          shift and go to state 98
+    VARIABLE        shift and go to state 47
+
+    variables_lst                  shift and go to state 97
+
+state 83
+
+    (40) predicate -> LPAREN EQUALS . VARIABLE VARIABLE RPAREN
+
+    VARIABLE        shift and go to state 99
+
+
+state 84
 
     (24) precond_def -> PRECONDITION_KEY LPAREN formula RPAREN .
 
     EFFECT_KEY      reduce using rule 24 (precond_def -> PRECONDITION_KEY LPAREN formula RPAREN .)
 
 
-state 79
+state 85
 
     (27) formula -> AND_KEY formula_lst .
 
     RPAREN          reduce using rule 27 (formula -> AND_KEY formula_lst .)
     AND_KEY         reduce using rule 27 (formula -> AND_KEY formula_lst .)
+    OR_KEY          reduce using rule 27 (formula -> AND_KEY formula_lst .)
+    NOT_KEY         reduce using rule 27 (formula -> AND_KEY formula_lst .)
+    IMPLY_KEY       reduce using rule 27 (formula -> AND_KEY formula_lst .)
     LPAREN          reduce using rule 27 (formula -> AND_KEY formula_lst .)
 
 
-state 80
+state 86
 
-    (29) formula_lst -> formula . formula_lst
-    (30) formula_lst -> formula .
-    (29) formula_lst -> . formula formula_lst
-    (30) formula_lst -> . formula
+    (35) formula_lst -> formula . formula_lst
+    (36) formula_lst -> formula .
+    (35) formula_lst -> . formula formula_lst
+    (36) formula_lst -> . formula
     (26) formula -> . literal
     (27) formula -> . AND_KEY formula_lst
-    (28) formula -> . LPAREN literal RPAREN
-    (31) literal -> . LPAREN NOT_KEY predicate RPAREN
-    (32) literal -> . predicate
-    (33) predicate -> . LPAREN NAME variables_lst RPAREN
-    (34) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> . LPAREN NAME RPAREN
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
 
   ! shift/reduce conflict for AND_KEY resolved as shift
+  ! shift/reduce conflict for OR_KEY resolved as shift
+  ! shift/reduce conflict for NOT_KEY resolved as shift
+  ! shift/reduce conflict for IMPLY_KEY resolved as shift
   ! shift/reduce conflict for LPAREN resolved as shift
-    RPAREN          reduce using rule 30 (formula_lst -> formula .)
+    RPAREN          reduce using rule 36 (formula_lst -> formula .)
     AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
     LPAREN          shift and go to state 66
 
-  ! AND_KEY         [ reduce using rule 30 (formula_lst -> formula .) ]
-  ! LPAREN          [ reduce using rule 30 (formula_lst -> formula .) ]
+  ! AND_KEY         [ reduce using rule 36 (formula_lst -> formula .) ]
+  ! OR_KEY          [ reduce using rule 36 (formula_lst -> formula .) ]
+  ! NOT_KEY         [ reduce using rule 36 (formula_lst -> formula .) ]
+  ! IMPLY_KEY       [ reduce using rule 36 (formula_lst -> formula .) ]
+  ! LPAREN          [ reduce using rule 36 (formula_lst -> formula .) ]
 
-    formula                        shift and go to state 80
-    formula_lst                    shift and go to state 88
+    formula                        shift and go to state 86
+    formula_lst                    shift and go to state 100
     literal                        shift and go to state 68
-    predicate                      shift and go to state 70
+    predicate                      shift and go to state 73
 
-state 81
+state 87
+
+    (28) formula -> OR_KEY formula_lst .
+
+    RPAREN          reduce using rule 28 (formula -> OR_KEY formula_lst .)
+    AND_KEY         reduce using rule 28 (formula -> OR_KEY formula_lst .)
+    OR_KEY          reduce using rule 28 (formula -> OR_KEY formula_lst .)
+    NOT_KEY         reduce using rule 28 (formula -> OR_KEY formula_lst .)
+    IMPLY_KEY       reduce using rule 28 (formula -> OR_KEY formula_lst .)
+    LPAREN          reduce using rule 28 (formula -> OR_KEY formula_lst .)
+
+
+state 88
+
+    (29) formula -> NOT_KEY formula .
+
+    RPAREN          reduce using rule 29 (formula -> NOT_KEY formula .)
+    AND_KEY         reduce using rule 29 (formula -> NOT_KEY formula .)
+    OR_KEY          reduce using rule 29 (formula -> NOT_KEY formula .)
+    NOT_KEY         reduce using rule 29 (formula -> NOT_KEY formula .)
+    IMPLY_KEY       reduce using rule 29 (formula -> NOT_KEY formula .)
+    LPAREN          reduce using rule 29 (formula -> NOT_KEY formula .)
+
+
+state 89
+
+    (30) formula -> IMPLY_KEY formula . formula
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
+
+    formula                        shift and go to state 101
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
+
+state 90
 
     (25) effects_def -> EFFECT_KEY LPAREN formula RPAREN .
 
     RPAREN          reduce using rule 25 (effects_def -> EFFECT_KEY LPAREN formula RPAREN .)
 
 
-state 82
-
-    (28) formula -> LPAREN literal RPAREN .
-
-    RPAREN          reduce using rule 28 (formula -> LPAREN literal RPAREN .)
-    AND_KEY         reduce using rule 28 (formula -> LPAREN literal RPAREN .)
-    LPAREN          reduce using rule 28 (formula -> LPAREN literal RPAREN .)
-
-
-state 83
-
-    (33) predicate -> LPAREN . NAME variables_lst RPAREN
-    (34) predicate -> LPAREN . EQUALS VARIABLE VARIABLE RPAREN
-    (35) predicate -> LPAREN . NAME RPAREN
-
-    NAME            shift and go to state 76
-    EQUALS          shift and go to state 77
-
-
-state 84
-
-    (31) literal -> LPAREN NOT_KEY predicate . RPAREN
-
-    RPAREN          shift and go to state 89
-
-
-state 85
-
-    (33) predicate -> LPAREN NAME variables_lst . RPAREN
-
-    RPAREN          shift and go to state 90
-
-
-state 86
-
-    (35) predicate -> LPAREN NAME RPAREN .
-
-    RPAREN          reduce using rule 35 (predicate -> LPAREN NAME RPAREN .)
-    AND_KEY         reduce using rule 35 (predicate -> LPAREN NAME RPAREN .)
-    LPAREN          reduce using rule 35 (predicate -> LPAREN NAME RPAREN .)
-
-
-state 87
-
-    (34) predicate -> LPAREN EQUALS VARIABLE . VARIABLE RPAREN
-
-    VARIABLE        shift and go to state 91
-
-
-state 88
-
-    (29) formula_lst -> formula formula_lst .
-
-    RPAREN          reduce using rule 29 (formula_lst -> formula formula_lst .)
-    AND_KEY         reduce using rule 29 (formula_lst -> formula formula_lst .)
-    LPAREN          reduce using rule 29 (formula_lst -> formula formula_lst .)
-
-
-state 89
-
-    (31) literal -> LPAREN NOT_KEY predicate RPAREN .
-
-    RPAREN          reduce using rule 31 (literal -> LPAREN NOT_KEY predicate RPAREN .)
-    AND_KEY         reduce using rule 31 (literal -> LPAREN NOT_KEY predicate RPAREN .)
-    LPAREN          reduce using rule 31 (literal -> LPAREN NOT_KEY predicate RPAREN .)
-
-
-state 90
-
-    (33) predicate -> LPAREN NAME variables_lst RPAREN .
-
-    RPAREN          reduce using rule 33 (predicate -> LPAREN NAME variables_lst RPAREN .)
-    AND_KEY         reduce using rule 33 (predicate -> LPAREN NAME variables_lst RPAREN .)
-    LPAREN          reduce using rule 33 (predicate -> LPAREN NAME variables_lst RPAREN .)
-
-
 state 91
 
-    (34) predicate -> LPAREN EQUALS VARIABLE VARIABLE . RPAREN
+    (31) formula -> LPAREN AND_KEY formula_lst . RPAREN
 
-    RPAREN          shift and go to state 92
+    RPAREN          shift and go to state 102
 
 
 state 92
 
-    (34) predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .
+    (32) formula -> LPAREN OR_KEY formula_lst . RPAREN
 
-    RPAREN          reduce using rule 34 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
-    AND_KEY         reduce using rule 34 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
-    LPAREN          reduce using rule 34 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
+    RPAREN          shift and go to state 103
+
+
+state 93
+
+    (33) formula -> LPAREN IMPLY_KEY formula . formula RPAREN
+    (26) formula -> . literal
+    (27) formula -> . AND_KEY formula_lst
+    (28) formula -> . OR_KEY formula_lst
+    (29) formula -> . NOT_KEY formula
+    (30) formula -> . IMPLY_KEY formula formula
+    (31) formula -> . LPAREN AND_KEY formula_lst RPAREN
+    (32) formula -> . LPAREN OR_KEY formula_lst RPAREN
+    (33) formula -> . LPAREN IMPLY_KEY formula formula RPAREN
+    (34) formula -> . LPAREN literal RPAREN
+    (37) literal -> . LPAREN NOT_KEY predicate RPAREN
+    (38) literal -> . predicate
+    (39) predicate -> . LPAREN NAME variables_lst RPAREN
+    (40) predicate -> . LPAREN EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> . LPAREN NAME RPAREN
+
+    AND_KEY         shift and go to state 69
+    OR_KEY          shift and go to state 70
+    NOT_KEY         shift and go to state 71
+    IMPLY_KEY       shift and go to state 72
+    LPAREN          shift and go to state 66
+
+    formula                        shift and go to state 104
+    literal                        shift and go to state 68
+    predicate                      shift and go to state 73
+
+state 94
+
+    (34) formula -> LPAREN literal RPAREN .
+
+    RPAREN          reduce using rule 34 (formula -> LPAREN literal RPAREN .)
+    AND_KEY         reduce using rule 34 (formula -> LPAREN literal RPAREN .)
+    OR_KEY          reduce using rule 34 (formula -> LPAREN literal RPAREN .)
+    NOT_KEY         reduce using rule 34 (formula -> LPAREN literal RPAREN .)
+    IMPLY_KEY       reduce using rule 34 (formula -> LPAREN literal RPAREN .)
+    LPAREN          reduce using rule 34 (formula -> LPAREN literal RPAREN .)
+
+
+state 95
+
+    (39) predicate -> LPAREN . NAME variables_lst RPAREN
+    (40) predicate -> LPAREN . EQUALS VARIABLE VARIABLE RPAREN
+    (41) predicate -> LPAREN . NAME RPAREN
+
+    NAME            shift and go to state 82
+    EQUALS          shift and go to state 83
+
+
+state 96
+
+    (37) literal -> LPAREN NOT_KEY predicate . RPAREN
+
+    RPAREN          shift and go to state 105
+
+
+state 97
+
+    (39) predicate -> LPAREN NAME variables_lst . RPAREN
+
+    RPAREN          shift and go to state 106
+
+
+state 98
+
+    (41) predicate -> LPAREN NAME RPAREN .
+
+    RPAREN          reduce using rule 41 (predicate -> LPAREN NAME RPAREN .)
+    AND_KEY         reduce using rule 41 (predicate -> LPAREN NAME RPAREN .)
+    OR_KEY          reduce using rule 41 (predicate -> LPAREN NAME RPAREN .)
+    NOT_KEY         reduce using rule 41 (predicate -> LPAREN NAME RPAREN .)
+    IMPLY_KEY       reduce using rule 41 (predicate -> LPAREN NAME RPAREN .)
+    LPAREN          reduce using rule 41 (predicate -> LPAREN NAME RPAREN .)
+
+
+state 99
+
+    (40) predicate -> LPAREN EQUALS VARIABLE . VARIABLE RPAREN
+
+    VARIABLE        shift and go to state 107
+
+
+state 100
+
+    (35) formula_lst -> formula formula_lst .
+
+    RPAREN          reduce using rule 35 (formula_lst -> formula formula_lst .)
+    AND_KEY         reduce using rule 35 (formula_lst -> formula formula_lst .)
+    OR_KEY          reduce using rule 35 (formula_lst -> formula formula_lst .)
+    NOT_KEY         reduce using rule 35 (formula_lst -> formula formula_lst .)
+    IMPLY_KEY       reduce using rule 35 (formula_lst -> formula formula_lst .)
+    LPAREN          reduce using rule 35 (formula_lst -> formula formula_lst .)
+
+
+state 101
+
+    (30) formula -> IMPLY_KEY formula formula .
+
+    RPAREN          reduce using rule 30 (formula -> IMPLY_KEY formula formula .)
+    AND_KEY         reduce using rule 30 (formula -> IMPLY_KEY formula formula .)
+    OR_KEY          reduce using rule 30 (formula -> IMPLY_KEY formula formula .)
+    NOT_KEY         reduce using rule 30 (formula -> IMPLY_KEY formula formula .)
+    IMPLY_KEY       reduce using rule 30 (formula -> IMPLY_KEY formula formula .)
+    LPAREN          reduce using rule 30 (formula -> IMPLY_KEY formula formula .)
+
+
+state 102
+
+    (31) formula -> LPAREN AND_KEY formula_lst RPAREN .
+
+    RPAREN          reduce using rule 31 (formula -> LPAREN AND_KEY formula_lst RPAREN .)
+    AND_KEY         reduce using rule 31 (formula -> LPAREN AND_KEY formula_lst RPAREN .)
+    OR_KEY          reduce using rule 31 (formula -> LPAREN AND_KEY formula_lst RPAREN .)
+    NOT_KEY         reduce using rule 31 (formula -> LPAREN AND_KEY formula_lst RPAREN .)
+    IMPLY_KEY       reduce using rule 31 (formula -> LPAREN AND_KEY formula_lst RPAREN .)
+    LPAREN          reduce using rule 31 (formula -> LPAREN AND_KEY formula_lst RPAREN .)
+
+
+state 103
+
+    (32) formula -> LPAREN OR_KEY formula_lst RPAREN .
+
+    RPAREN          reduce using rule 32 (formula -> LPAREN OR_KEY formula_lst RPAREN .)
+    AND_KEY         reduce using rule 32 (formula -> LPAREN OR_KEY formula_lst RPAREN .)
+    OR_KEY          reduce using rule 32 (formula -> LPAREN OR_KEY formula_lst RPAREN .)
+    NOT_KEY         reduce using rule 32 (formula -> LPAREN OR_KEY formula_lst RPAREN .)
+    IMPLY_KEY       reduce using rule 32 (formula -> LPAREN OR_KEY formula_lst RPAREN .)
+    LPAREN          reduce using rule 32 (formula -> LPAREN OR_KEY formula_lst RPAREN .)
+
+
+state 104
+
+    (33) formula -> LPAREN IMPLY_KEY formula formula . RPAREN
+
+    RPAREN          shift and go to state 108
+
+
+state 105
+
+    (37) literal -> LPAREN NOT_KEY predicate RPAREN .
+
+    RPAREN          reduce using rule 37 (literal -> LPAREN NOT_KEY predicate RPAREN .)
+    AND_KEY         reduce using rule 37 (literal -> LPAREN NOT_KEY predicate RPAREN .)
+    OR_KEY          reduce using rule 37 (literal -> LPAREN NOT_KEY predicate RPAREN .)
+    NOT_KEY         reduce using rule 37 (literal -> LPAREN NOT_KEY predicate RPAREN .)
+    IMPLY_KEY       reduce using rule 37 (literal -> LPAREN NOT_KEY predicate RPAREN .)
+    LPAREN          reduce using rule 37 (literal -> LPAREN NOT_KEY predicate RPAREN .)
+
+
+state 106
+
+    (39) predicate -> LPAREN NAME variables_lst RPAREN .
+
+    RPAREN          reduce using rule 39 (predicate -> LPAREN NAME variables_lst RPAREN .)
+    AND_KEY         reduce using rule 39 (predicate -> LPAREN NAME variables_lst RPAREN .)
+    OR_KEY          reduce using rule 39 (predicate -> LPAREN NAME variables_lst RPAREN .)
+    NOT_KEY         reduce using rule 39 (predicate -> LPAREN NAME variables_lst RPAREN .)
+    IMPLY_KEY       reduce using rule 39 (predicate -> LPAREN NAME variables_lst RPAREN .)
+    LPAREN          reduce using rule 39 (predicate -> LPAREN NAME variables_lst RPAREN .)
+
+
+state 107
+
+    (40) predicate -> LPAREN EQUALS VARIABLE VARIABLE . RPAREN
+
+    RPAREN          shift and go to state 109
+
+
+state 108
+
+    (33) formula -> LPAREN IMPLY_KEY formula formula RPAREN .
+
+    RPAREN          reduce using rule 33 (formula -> LPAREN IMPLY_KEY formula formula RPAREN .)
+    AND_KEY         reduce using rule 33 (formula -> LPAREN IMPLY_KEY formula formula RPAREN .)
+    OR_KEY          reduce using rule 33 (formula -> LPAREN IMPLY_KEY formula formula RPAREN .)
+    NOT_KEY         reduce using rule 33 (formula -> LPAREN IMPLY_KEY formula formula RPAREN .)
+    IMPLY_KEY       reduce using rule 33 (formula -> LPAREN IMPLY_KEY formula formula RPAREN .)
+    LPAREN          reduce using rule 33 (formula -> LPAREN IMPLY_KEY formula formula RPAREN .)
+
+
+state 109
+
+    (40) predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .
+
+    RPAREN          reduce using rule 40 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
+    AND_KEY         reduce using rule 40 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
+    OR_KEY          reduce using rule 40 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
+    NOT_KEY         reduce using rule 40 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
+    IMPLY_KEY       reduce using rule 40 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
+    LPAREN          reduce using rule 40 (predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for AND_KEY in state 80 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 80 resolved as shift
+WARNING: shift/reduce conflict for AND_KEY in state 86 resolved as shift
+WARNING: shift/reduce conflict for OR_KEY in state 86 resolved as shift
+WARNING: shift/reduce conflict for NOT_KEY in state 86 resolved as shift
+WARNING: shift/reduce conflict for IMPLY_KEY in state 86 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 86 resolved as shift

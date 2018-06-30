@@ -5,7 +5,7 @@ from action import Action
 from literal import Literal
 from predicate import Predicate
 from term import Term
-from formula import FormulaAnd
+from formula import *
 
 class MyParser(object):
 
@@ -13,6 +13,7 @@ class MyParser(object):
         self.lexer = MyLexer()
         self.lexer.build()
         self.tokens = self.lexer.tokens
+        self.symbols = self.lexer.reserved
         self.parser = yacc.yacc(module=self)
 
     def __call__(self, s, **kwargs):
@@ -114,13 +115,31 @@ class MyParser(object):
     def p_formula(self, p):
         '''formula : literal
                    | AND_KEY formula_lst
+                   | OR_KEY formula_lst
+                   | NOT_KEY formula
+                   | IMPLY_KEY formula formula
+                   | LPAREN AND_KEY formula_lst RPAREN
+                   | LPAREN OR_KEY formula_lst RPAREN
+                   | LPAREN IMPLY_KEY formula formula RPAREN
                    | LPAREN literal RPAREN'''
         if len(p) == 2:
+            # print('literal: --> '+str(type(p[1])))
             p[0] = p[1]
         elif len(p) == 3:
-            p[0] = FormulaAnd(p[2])
+            if p[1] == 'and':
+                # print(type(p[2]))
+                p[0] = FormulaAnd(p[2])
+            elif p[1] == 'or':
+                p[0] = FormulaOr(p[2])
+            elif p[1] == 'not':
+                print(type(p[2]))
+                p[0] = FormulaNot(p[2])
         elif len(p) == 4:
-            p[0] = p[2]
+            if p[1] == 'imply':
+                p[0] = FormulaImply(p[2], p[3])
+            else:
+                # print('literal tra parentesi: --> '+str(type(p[2])))
+                p[0] = p[2]
 
     def p_formula_lst(self, p):
         '''formula_lst : formula formula_lst

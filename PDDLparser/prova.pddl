@@ -23,4 +23,15 @@
 			(holding ?x)
 		)
 	)
+
+    (:action pick-down
+        :parameters (?x - block)
+        :precondition (not (clear ?x))
+        :effect (and
+            (not (ontable ?x))
+            (not (clear ?x))
+            (not (handempty))
+            (holding ?x)
+        )
+    )
 )

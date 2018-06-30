@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ACTION_KEY ADL_KEY AND_KEY DEFINE_KEY DOMAIN_KEY EFFECT_KEY EQUALITY_KEY EQUALS HYPHEN LPAREN NAME NOT_KEY PARAMETERS_KEY PRECONDITION_KEY PREDICATES_KEY REQUIREMENTS_KEY RPAREN STRIPS_KEY TYPES_KEY TYPING_KEY VARIABLEpddl : domaindomain : LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPARENdomain_def : LPAREN DOMAIN_KEY NAME RPARENrequire_def : LPAREN REQUIREMENTS_KEY require_key_lst RPARENrequire_key_lst : require_key require_key_lst\n                           | require_keyrequire_key : STRIPS_KEY\n                       | EQUALITY_KEY\n                       | TYPING_KEY\n                       | ADL_KEYtypes_def : LPAREN TYPES_KEY names_lst RPARENnames_lst : NAME names_lst\n                     | NAMEpredicates_def : LPAREN PREDICATES_KEY predicate_def_lst RPARENpredicate_def_lst : predicate_def predicate_def_lst\n                             | predicate_defpredicate_def : LPAREN NAME typed_variables_lst RPAREN\n                         | LPAREN NAME RPARENaction_def_lst : action_def action_def_lst\n                          | action_defaction_def : LPAREN ACTION_KEY NAME parameters_def precond_def effects_def RPARENparameters_def : PARAMETERS_KEY LPAREN typed_variables_lst RPAREN\n                          | PARAMETERS_KEY LPAREN RPARENprecond_def : PRECONDITION_KEY LPAREN formula RPARENeffects_def : EFFECT_KEY LPAREN formula RPARENformula : literal\n                   | AND_KEY formula_lst\n                   | LPAREN literal RPARENformula_lst : formula formula_lst\n                       | formulaliteral : LPAREN NOT_KEY predicate RPAREN\n                   | predicatepredicate : LPAREN NAME variables_lst RPAREN\n                     | LPAREN EQUALS VARIABLE VARIABLE RPAREN\n                     | LPAREN NAME RPARENtyped_variables_lst : variables_lst HYPHEN type typed_variables_lst\n                               | variables_lst HYPHEN typevariables_lst : VARIABLE variables_lst\n                         | VARIABLEtype : NAME'
+_lr_signature = 'ACTION_KEY ADL_KEY AND_KEY DEFINE_KEY DOMAIN_KEY EFFECT_KEY EQUALITY_KEY EQUALS HYPHEN IMPLY_KEY LPAREN NAME NOT_KEY OR_KEY PARAMETERS_KEY PRECONDITION_KEY PREDICATES_KEY REQUIREMENTS_KEY RPAREN STRIPS_KEY TYPES_KEY TYPING_KEY VARIABLEpddl : domaindomain : LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPARENdomain_def : LPAREN DOMAIN_KEY NAME RPARENrequire_def : LPAREN REQUIREMENTS_KEY require_key_lst RPARENrequire_key_lst : require_key require_key_lst\n                           | require_keyrequire_key : STRIPS_KEY\n                       | EQUALITY_KEY\n                       | TYPING_KEY\n                       | ADL_KEYtypes_def : LPAREN TYPES_KEY names_lst RPARENnames_lst : NAME names_lst\n                     | NAMEpredicates_def : LPAREN PREDICATES_KEY predicate_def_lst RPARENpredicate_def_lst : predicate_def predicate_def_lst\n                             | predicate_defpredicate_def : LPAREN NAME typed_variables_lst RPAREN\n                         | LPAREN NAME RPARENaction_def_lst : action_def action_def_lst\n                          | action_defaction_def : LPAREN ACTION_KEY NAME parameters_def precond_def effects_def RPARENparameters_def : PARAMETERS_KEY LPAREN typed_variables_lst RPAREN\n                          | PARAMETERS_KEY LPAREN RPARENprecond_def : PRECONDITION_KEY LPAREN formula RPARENeffects_def : EFFECT_KEY LPAREN formula RPARENformula : literal\n                   | AND_KEY formula_lst\n                   | OR_KEY formula_lst\n                   | NOT_KEY formula\n                   | IMPLY_KEY formula formula\n                   | LPAREN AND_KEY formula_lst RPAREN\n                   | LPAREN OR_KEY formula_lst RPAREN\n                   | LPAREN IMPLY_KEY formula formula RPAREN\n                   | LPAREN literal RPARENformula_lst : formula formula_lst\n                       | formulaliteral : LPAREN NOT_KEY predicate RPAREN\n                   | predicatepredicate : LPAREN NAME variables_lst RPAREN\n                     | LPAREN EQUALS VARIABLE VARIABLE RPAREN\n                     | LPAREN NAME RPARENtyped_variables_lst : variables_lst HYPHEN type typed_variables_lst\n                               | variables_lst HYPHEN typevariables_lst : VARIABLE variables_lst\n                         | VARIABLEtype : NAME'
     
-_lr_action_items = {'LPAREN':([0,4,6,9,13,14,23,24,28,31,32,36,41,45,49,50,54,59,60,64,65,66,68,69,70,75,79,80,82,86,88,89,90,92,],[3,5,8,12,22,-3,29,-4,34,29,-11,34,-14,-18,55,-17,60,65,66,-21,66,73,-26,66,-32,83,-27,66,-28,-35,-29,-31,-33,-34,]),'$end':([1,2,38,],[0,-1,-2,]),'DEFINE_KEY':([3,],[4,]),'DOMAIN_KEY':([5,],[7,]),'NAME':([7,21,27,34,37,51,66,73,83,],[10,27,27,40,43,57,76,76,76,]),'REQUIREMENTS_KEY':([8,],[11,]),'RPAREN':([10,15,16,17,18,19,20,25,26,27,30,31,33,35,36,39,40,42,44,45,47,50,52,55,56,57,58,61,63,64,67,68,70,72,74,76,79,80,81,82,84,85,86,88,89,90,91,92,],[14,24,-6,-7,-8,-9,-10,-5,32,-13,38,-20,-12,41,-16,-19,45,-15,50,-18,-39,-17,-38,62,-37,-40,64,71,-36,-21,78,-26,-32,81,82,86,-27,-30,-25,-28,89,90,-35,-29,-31,-33,92,-34,]),'STRIPS_KEY':([11,16,17,18,19,20,],[17,17,-7,-8,-9,-10,]),'EQUALITY_KEY':([11,16,17,18,19,20,],[18,18,-7,-8,-9,-10,]),'TYPING_KEY':([11,16,17,18,19,20,],[19,19,-7,-8,-9,-10,]),'ADL_KEY':([11,16,17,18,19,20,],[20,20,-7,-8,-9,-10,]),'TYPES_KEY':([12,],[21,]),'PREDICATES_KEY':([22,],[28,]),'ACTION_KEY':([29,],[37,]),'VARIABLE':([40,47,55,56,57,76,77,87,],[47,47,47,47,-40,47,87,91,]),'PARAMETERS_KEY':([43,],[49,]),'HYPHEN':([46,47,52,],[51,-39,-38,]),'PRECONDITION_KEY':([48,62,71,],[54,-23,-22,]),'EFFECT_KEY':([53,78,],[59,-24,]),'AND_KEY':([60,65,68,69,70,79,80,82,86,88,89,90,92,],[69,69,-26,69,-32,-27,69,-28,-35,-29,-31,-33,-34,]),'NOT_KEY':([66,73,],[75,75,]),'EQUALS':([66,73,83,],[77,77,77,]),}
+_lr_action_items = {'LPAREN':([0,4,6,9,13,14,23,24,28,31,32,36,41,45,49,50,54,59,60,64,65,66,68,69,70,71,72,73,77,78,79,81,85,86,87,88,89,93,94,98,100,101,102,103,105,106,108,109,],[3,5,8,12,22,-3,29,-4,34,29,-11,34,-14,-18,55,-17,60,65,66,-21,66,76,-26,66,66,66,66,-38,66,66,66,95,-27,66,-28,-29,66,66,-34,-41,-35,-30,-31,-32,-37,-39,-33,-40,]),'$end':([1,2,38,],[0,-1,-2,]),'DEFINE_KEY':([3,],[4,]),'DOMAIN_KEY':([5,],[7,]),'NAME':([7,21,27,34,37,51,66,76,95,],[10,27,27,40,43,57,82,82,82,]),'REQUIREMENTS_KEY':([8,],[11,]),'RPAREN':([10,15,16,17,18,19,20,25,26,27,30,31,33,35,36,39,40,42,44,45,47,50,52,55,56,57,58,61,63,64,67,68,73,75,80,82,85,86,87,88,90,91,92,94,96,97,98,100,101,102,103,104,105,106,107,108,109,],[14,24,-6,-7,-8,-9,-10,-5,32,-13,38,-20,-12,41,-16,-19,45,-15,50,-18,-45,-17,-44,62,-43,-46,64,74,-42,-21,84,-26,-38,90,94,98,-27,-36,-28,-29,-25,102,103,-34,105,106,-41,-35,-30,-31,-32,108,-37,-39,109,-33,-40,]),'STRIPS_KEY':([11,16,17,18,19,20,],[17,17,-7,-8,-9,-10,]),'EQUALITY_KEY':([11,16,17,18,19,20,],[18,18,-7,-8,-9,-10,]),'TYPING_KEY':([11,16,17,18,19,20,],[19,19,-7,-8,-9,-10,]),'ADL_KEY':([11,16,17,18,19,20,],[20,20,-7,-8,-9,-10,]),'TYPES_KEY':([12,],[21,]),'PREDICATES_KEY':([22,],[28,]),'ACTION_KEY':([29,],[37,]),'VARIABLE':([40,47,55,56,57,82,83,99,],[47,47,47,47,-46,47,99,107,]),'PARAMETERS_KEY':([43,],[49,]),'HYPHEN':([46,47,52,],[51,-45,-44,]),'PRECONDITION_KEY':([48,62,74,],[54,-23,-22,]),'EFFECT_KEY':([53,84,],[59,-24,]),'AND_KEY':([60,65,66,68,69,70,71,72,73,77,78,79,85,86,87,88,89,93,94,98,100,101,102,103,105,106,108,109,],[69,69,77,-26,69,69,69,69,-38,69,69,69,-27,69,-28,-29,69,69,-34,-41,-35,-30,-31,-32,-37,-39,-33,-40,]),'OR_KEY':([60,65,66,68,69,70,71,72,73,77,78,79,85,86,87,88,89,93,94,98,100,101,102,103,105,106,108,109,],[70,70,78,-26,70,70,70,70,-38,70,70,70,-27,70,-28,-29,70,70,-34,-41,-35,-30,-31,-32,-37,-39,-33,-40,]),'NOT_KEY':([60,65,66,68,69,70,71,72,73,76,77,78,79,85,86,87,88,89,93,94,98,100,101,102,103,105,106,108,109,],[71,71,81,-26,71,71,71,71,-38,81,71,71,71,-27,71,-28,-29,71,71,-34,-41,-35,-30,-31,-32,-37,-39,-33,-40,]),'IMPLY_KEY':([60,65,66,68,69,70,71,72,73,77,78,79,85,86,87,88,89,93,94,98,100,101,102,103,105,106,108,109,],[72,72,79,-26,72,72,72,72,-38,72,72,72,-27,72,-28,-29,72,72,-34,-41,-35,-30,-31,-32,-37,-39,-33,-40,]),'EQUALS':([66,76,95,],[83,83,83,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'pddl':([0,],[1,]),'domain':([0,],[2,]),'domain_def':([4,],[6,]),'require_def':([6,],[9,]),'types_def':([9,],[13,]),'require_key_lst':([11,16,],[15,25,]),'require_key':([11,16,],[16,16,]),'predicates_def':([13,],[23,]),'names_lst':([21,27,],[26,33,]),'action_def_lst':([23,31,],[30,39,]),'action_def':([23,31,],[31,31,]),'predicate_def_lst':([28,36,],[35,42,]),'predicate_def':([28,36,],[36,36,]),'typed_variables_lst':([40,55,56,],[44,61,63,]),'variables_lst':([40,47,55,56,76,],[46,52,46,46,85,]),'parameters_def':([43,],[48,]),'precond_def':([48,],[53,]),'type':([51,],[56,]),'effects_def':([53,],[58,]),'formula':([60,65,69,80,],[67,72,80,80,]),'literal':([60,65,66,69,80,],[68,68,74,68,68,]),'predicate':([60,65,66,69,75,80,],[70,70,70,70,84,70,]),'formula_lst':([69,80,],[79,88,]),}
+_lr_goto_items = {'pddl':([0,],[1,]),'domain':([0,],[2,]),'domain_def':([4,],[6,]),'require_def':([6,],[9,]),'types_def':([9,],[13,]),'require_key_lst':([11,16,],[15,25,]),'require_key':([11,16,],[16,16,]),'predicates_def':([13,],[23,]),'names_lst':([21,27,],[26,33,]),'action_def_lst':([23,31,],[30,39,]),'action_def':([23,31,],[31,31,]),'predicate_def_lst':([28,36,],[35,42,]),'predicate_def':([28,36,],[36,36,]),'typed_variables_lst':([40,55,56,],[44,61,63,]),'variables_lst':([40,47,55,56,82,],[46,52,46,46,97,]),'parameters_def':([43,],[48,]),'precond_def':([48,],[53,]),'type':([51,],[56,]),'effects_def':([53,],[58,]),'formula':([60,65,69,70,71,72,77,78,79,86,89,93,],[67,75,86,86,88,89,86,86,93,86,101,104,]),'literal':([60,65,66,69,70,71,72,77,78,79,86,89,93,],[68,68,80,68,68,68,68,68,68,68,68,68,68,]),'predicate':([60,65,66,69,70,71,72,77,78,79,81,86,89,93,],[73,73,73,73,73,73,73,73,73,73,96,73,73,73,]),'formula_lst':([69,70,77,78,86,],[85,87,91,92,100,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,44 +27,50 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> pddl","S'",1,None,None,None),
-  ('pddl -> domain','pddl',1,'p_pddl','parser.py',21),
-  ('domain -> LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN','domain',8,'p_domain','parser.py',25),
-  ('domain_def -> LPAREN DOMAIN_KEY NAME RPAREN','domain_def',4,'p_domain_def','parser.py',29),
-  ('require_def -> LPAREN REQUIREMENTS_KEY require_key_lst RPAREN','require_def',4,'p_require_def','parser.py',33),
-  ('require_key_lst -> require_key require_key_lst','require_key_lst',2,'p_require_key_lst','parser.py',37),
-  ('require_key_lst -> require_key','require_key_lst',1,'p_require_key_lst','parser.py',38),
-  ('require_key -> STRIPS_KEY','require_key',1,'p_require_key','parser.py',45),
-  ('require_key -> EQUALITY_KEY','require_key',1,'p_require_key','parser.py',46),
-  ('require_key -> TYPING_KEY','require_key',1,'p_require_key','parser.py',47),
-  ('require_key -> ADL_KEY','require_key',1,'p_require_key','parser.py',48),
-  ('types_def -> LPAREN TYPES_KEY names_lst RPAREN','types_def',4,'p_types_def','parser.py',52),
-  ('names_lst -> NAME names_lst','names_lst',2,'p_names_lst','parser.py',56),
-  ('names_lst -> NAME','names_lst',1,'p_names_lst','parser.py',57),
-  ('predicates_def -> LPAREN PREDICATES_KEY predicate_def_lst RPAREN','predicates_def',4,'p_predicates_def','parser.py',66),
-  ('predicate_def_lst -> predicate_def predicate_def_lst','predicate_def_lst',2,'p_predicate_def_lst','parser.py',70),
-  ('predicate_def_lst -> predicate_def','predicate_def_lst',1,'p_predicate_def_lst','parser.py',71),
-  ('predicate_def -> LPAREN NAME typed_variables_lst RPAREN','predicate_def',4,'p_predicate_def','parser.py',78),
-  ('predicate_def -> LPAREN NAME RPAREN','predicate_def',3,'p_predicate_def','parser.py',79),
-  ('action_def_lst -> action_def action_def_lst','action_def_lst',2,'p_action_def_lst','parser.py',86),
-  ('action_def_lst -> action_def','action_def_lst',1,'p_action_def_lst','parser.py',87),
-  ('action_def -> LPAREN ACTION_KEY NAME parameters_def precond_def effects_def RPAREN','action_def',7,'p_action_def','parser.py',94),
-  ('parameters_def -> PARAMETERS_KEY LPAREN typed_variables_lst RPAREN','parameters_def',4,'p_parameters_def','parser.py',98),
-  ('parameters_def -> PARAMETERS_KEY LPAREN RPAREN','parameters_def',3,'p_parameters_def','parser.py',99),
-  ('precond_def -> PRECONDITION_KEY LPAREN formula RPAREN','precond_def',4,'p_precond_def','parser.py',106),
-  ('effects_def -> EFFECT_KEY LPAREN formula RPAREN','effects_def',4,'p_effects_def','parser.py',110),
-  ('formula -> literal','formula',1,'p_formula','parser.py',114),
-  ('formula -> AND_KEY formula_lst','formula',2,'p_formula','parser.py',115),
-  ('formula -> LPAREN literal RPAREN','formula',3,'p_formula','parser.py',116),
-  ('formula_lst -> formula formula_lst','formula_lst',2,'p_formula_lst','parser.py',125),
-  ('formula_lst -> formula','formula_lst',1,'p_formula_lst','parser.py',126),
-  ('literal -> LPAREN NOT_KEY predicate RPAREN','literal',4,'p_literal','parser.py',133),
-  ('literal -> predicate','literal',1,'p_literal','parser.py',134),
-  ('predicate -> LPAREN NAME variables_lst RPAREN','predicate',4,'p_predicate','parser.py',141),
-  ('predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN','predicate',5,'p_predicate','parser.py',142),
-  ('predicate -> LPAREN NAME RPAREN','predicate',3,'p_predicate','parser.py',143),
-  ('typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst','typed_variables_lst',4,'p_typed_variables_lst','parser.py',152),
-  ('typed_variables_lst -> variables_lst HYPHEN type','typed_variables_lst',3,'p_typed_variables_lst','parser.py',153),
-  ('variables_lst -> VARIABLE variables_lst','variables_lst',2,'p_variables_lst','parser.py',160),
-  ('variables_lst -> VARIABLE','variables_lst',1,'p_variables_lst','parser.py',161),
-  ('type -> NAME','type',1,'p_type','parser.py',168),
+  ('pddl -> domain','pddl',1,'p_pddl','parser.py',23),
+  ('domain -> LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN','domain',8,'p_domain','parser.py',27),
+  ('domain_def -> LPAREN DOMAIN_KEY NAME RPAREN','domain_def',4,'p_domain_def','parser.py',31),
+  ('require_def -> LPAREN REQUIREMENTS_KEY require_key_lst RPAREN','require_def',4,'p_require_def','parser.py',35),
+  ('require_key_lst -> require_key require_key_lst','require_key_lst',2,'p_require_key_lst','parser.py',39),
+  ('require_key_lst -> require_key','require_key_lst',1,'p_require_key_lst','parser.py',40),
+  ('require_key -> STRIPS_KEY','require_key',1,'p_require_key','parser.py',47),
+  ('require_key -> EQUALITY_KEY','require_key',1,'p_require_key','parser.py',48),
+  ('require_key -> TYPING_KEY','require_key',1,'p_require_key','parser.py',49),
+  ('require_key -> ADL_KEY','require_key',1,'p_require_key','parser.py',50),
+  ('types_def -> LPAREN TYPES_KEY names_lst RPAREN','types_def',4,'p_types_def','parser.py',54),
+  ('names_lst -> NAME names_lst','names_lst',2,'p_names_lst','parser.py',58),
+  ('names_lst -> NAME','names_lst',1,'p_names_lst','parser.py',59),
+  ('predicates_def -> LPAREN PREDICATES_KEY predicate_def_lst RPAREN','predicates_def',4,'p_predicates_def','parser.py',68),
+  ('predicate_def_lst -> predicate_def predicate_def_lst','predicate_def_lst',2,'p_predicate_def_lst','parser.py',72),
+  ('predicate_def_lst -> predicate_def','predicate_def_lst',1,'p_predicate_def_lst','parser.py',73),
+  ('predicate_def -> LPAREN NAME typed_variables_lst RPAREN','predicate_def',4,'p_predicate_def','parser.py',80),
+  ('predicate_def -> LPAREN NAME RPAREN','predicate_def',3,'p_predicate_def','parser.py',81),
+  ('action_def_lst -> action_def action_def_lst','action_def_lst',2,'p_action_def_lst','parser.py',88),
+  ('action_def_lst -> action_def','action_def_lst',1,'p_action_def_lst','parser.py',89),
+  ('action_def -> LPAREN ACTION_KEY NAME parameters_def precond_def effects_def RPAREN','action_def',7,'p_action_def','parser.py',96),
+  ('parameters_def -> PARAMETERS_KEY LPAREN typed_variables_lst RPAREN','parameters_def',4,'p_parameters_def','parser.py',100),
+  ('parameters_def -> PARAMETERS_KEY LPAREN RPAREN','parameters_def',3,'p_parameters_def','parser.py',101),
+  ('precond_def -> PRECONDITION_KEY LPAREN formula RPAREN','precond_def',4,'p_precond_def','parser.py',108),
+  ('effects_def -> EFFECT_KEY LPAREN formula RPAREN','effects_def',4,'p_effects_def','parser.py',112),
+  ('formula -> literal','formula',1,'p_formula','parser.py',116),
+  ('formula -> AND_KEY formula_lst','formula',2,'p_formula','parser.py',117),
+  ('formula -> OR_KEY formula_lst','formula',2,'p_formula','parser.py',118),
+  ('formula -> NOT_KEY formula','formula',2,'p_formula','parser.py',119),
+  ('formula -> IMPLY_KEY formula formula','formula',3,'p_formula','parser.py',120),
+  ('formula -> LPAREN AND_KEY formula_lst RPAREN','formula',4,'p_formula','parser.py',121),
+  ('formula -> LPAREN OR_KEY formula_lst RPAREN','formula',4,'p_formula','parser.py',122),
+  ('formula -> LPAREN IMPLY_KEY formula formula RPAREN','formula',5,'p_formula','parser.py',123),
+  ('formula -> LPAREN literal RPAREN','formula',3,'p_formula','parser.py',124),
+  ('formula_lst -> formula formula_lst','formula_lst',2,'p_formula_lst','parser.py',142),
+  ('formula_lst -> formula','formula_lst',1,'p_formula_lst','parser.py',143),
+  ('literal -> LPAREN NOT_KEY predicate RPAREN','literal',4,'p_literal','parser.py',150),
+  ('literal -> predicate','literal',1,'p_literal','parser.py',151),
+  ('predicate -> LPAREN NAME variables_lst RPAREN','predicate',4,'p_predicate','parser.py',158),
+  ('predicate -> LPAREN EQUALS VARIABLE VARIABLE RPAREN','predicate',5,'p_predicate','parser.py',159),
+  ('predicate -> LPAREN NAME RPAREN','predicate',3,'p_predicate','parser.py',160),
+  ('typed_variables_lst -> variables_lst HYPHEN type typed_variables_lst','typed_variables_lst',4,'p_typed_variables_lst','parser.py',169),
+  ('typed_variables_lst -> variables_lst HYPHEN type','typed_variables_lst',3,'p_typed_variables_lst','parser.py',170),
+  ('variables_lst -> VARIABLE variables_lst','variables_lst',2,'p_variables_lst','parser.py',177),
+  ('variables_lst -> VARIABLE','variables_lst',1,'p_variables_lst','parser.py',178),
+  ('type -> NAME','type',1,'p_type','parser.py',185),
 ]

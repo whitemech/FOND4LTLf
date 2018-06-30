@@ -17,13 +17,13 @@ class MyLexer(object):
         ':precondition':            'PRECONDITION_KEY',
         ':effect':                  'EFFECT_KEY',
         'and':                      'AND_KEY',
-        # 'or':                       'OR_KEY',
-        'not':                      'NOT_KEY'
-        # 'imply':                    'IMPLY_KEY',
+        'or':                       'OR_KEY',
+        'not':                      'NOT_KEY',
+        'imply':                    'IMPLY_KEY'
         # 'oneof':                    'ONEOF_KEY',
         # 'forall':                   'FORALL_KEY',
         # 'exists':                   'EXISTS_KEY',
-        # 'when':                     'WHEN_KEY',
+        # 'when':                     'WHEN_KEY'
         # 'problem':                  'PROBLEM_KEY',
         # ':objects':                 'OBJECTS_KEY',
         # ':init':                    'INIT_KEY',
