@@ -26,7 +26,7 @@
 
     (:action pick-down
         :parameters (?x - block)
-        :precondition (not (clear ?x))
+        :precondition (and (clear ?x) (handempty) (imply (clear ?x) (handempty)) )
         :effect (and
             (not (ontable ?x))
             (not (clear ?x))

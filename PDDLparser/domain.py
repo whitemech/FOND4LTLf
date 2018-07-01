@@ -1,11 +1,12 @@
 class Domain:
 
     def __init__(self, name, requirements, types, predicates, operators):
-        self.name = name
-        self.requirements = requirements
-        self.types = types
-        self.predicates = predicates
-        self.operators = operators
+        self.name = name #string
+        self.requirements = requirements #list
+        self.types = types #list
+        self.predicates = predicates #list
+        self.operators = operators #list
+        # print('predicati nel dominio --> '+str(type(self.predicates)))
 
     def __str__(self):
         domain_str = '@ Domain: {0}\n'.format(self.name)

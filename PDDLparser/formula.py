@@ -1,35 +1,38 @@
 class FormulaAnd:
 
-    def __init__(self, formulaList):
-        self.formulaList = formulaList
+    def __init__(self, andList):
+        self.andList = andList
+        # print(self.andList)
 
     def __str__(self):
-        return self.formulaList
+        return '(and {0})'.format(', '.join(map(str, self.andList)))
 
-    def __iter__(self):
-        return iter(self.formulaList)
+    # def __iter__(self):
+    #     return iter(self.andList)
 
 class FormulaOr:
 
-    def __init__(self, formulaList):
-        self.formulaList = formulaList
+    def __init__(self, orList):
+        self.orList = orList
 
     def __str__(self):
-        return self.formulaList
+        return '(or {0})'.format(', '.join(map(str, self.orList)))
 
-    def __iter__(self):
-        return iter(self.formulaList)
+    # def __iter__(self):
+    #     return iter(self.orList)
 
 class FormulaNot:
 
     def __init__(self, formula):
         self.formula = formula
+        # print(self.formula)
 
     def __str__(self):
-        return '(not' +self.formula +')'
+        # return '(not {0})'.format(', '.join(map(str, self.formula)))
+        return '(not {0})'.format(self.formula)
 
-    def __iter__(self):
-        return '(not' + str(self.formula) +')'           
+    # def __iter__(self):
+    #     return iter(self.formula)
 
 class FormulaImply:
 
@@ -38,7 +41,4 @@ class FormulaImply:
         self.formula2 = formula2
 
     def __str__(self):
-        return self.formula1 + self.formula2
-
-    def __iter__(self):
-        raise NotImplementedError
+        return '(imply {0} {1})'.format(self.formula1, self.formula2)

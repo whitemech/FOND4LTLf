@@ -14,3 +14,4 @@ class Predicate: #atormic formula on(?x,?y) oppure x=y
             return self.name
         else:
             return '{0}({1})'.format(self.name, ', '.join(map(str, self.variables)))
+
