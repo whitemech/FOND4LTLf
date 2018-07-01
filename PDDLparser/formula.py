@@ -42,3 +42,21 @@ class FormulaImply:
 
     def __str__(self):
         return '(imply {0} {1})'.format(self.formula1, self.formula2)
+
+class FormulaExists:
+
+    def __init__(self, variables, formula):
+        self.variables = variables
+        self.formula = formula
+
+    def __str__(self):
+        pass
+
+class FormulaForall:
+
+    def __init__(self, variables, formula):
+        self.variables = variables
+        self.formula = formula
+
+    def __str__(self):
+        pass

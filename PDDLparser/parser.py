@@ -118,11 +118,15 @@ class MyParser(object):
                    | OR_KEY formula_lst
                    | NOT_KEY formula
                    | IMPLY_KEY formula formula
+                   | EXISTS_KEY LPAREN typed_variables_lst RPAREN formula
+                   | FORALL_KEY LPAREN typed_variables_lst RPAREN formula
                    | LPAREN AND_KEY formula_lst RPAREN
                    | LPAREN OR_KEY formula_lst RPAREN
                    | LPAREN NOT_KEY formula RPAREN
                    | LPAREN IMPLY_KEY formula formula RPAREN
-                   | LPAREN literal RPAREN'''
+                   | LPAREN literal RPAREN
+                   | LPAREN EXISTS_KEY LPAREN typed_variables_lst RPAREN formula RPAREN
+                   | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN formula RPAREN'''
         if len(p) == 2:
             # print('literal: --> '+str(type(p[1])))
             p[0] = p[1]
@@ -150,8 +154,18 @@ class MyParser(object):
             elif p[2] == 'not':
                 p[0] = FormulaNot(p[3])
         elif len(p) == 6:
-            p[0] = FormulaImply(p[3], p[4])
-                
+            if p[3] == 'imply':
+                p[0] = FormulaImply(p[3], p[4])
+            elif p[1] == 'exists':
+                p[0] = FormulaExists(p[3], p[5])
+            elif p[1] == 'forall':
+                p[0] = FormulaForall(p[3], p[5])
+        elif len(p) == 8:
+            if p[2] == 'exists':
+                p[0] = FormulaExists(p[4], p[6])
+            elif p[2] == 'forall':
+                p[0] = FormulaForall(p[4], p[6])    
+
     def p_formula_lst(self, p):
         '''formula_lst : formula formula_lst
                        | formula'''
