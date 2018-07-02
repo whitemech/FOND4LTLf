@@ -108,10 +108,6 @@ class MyParser(object):
         '''precond_def : PRECONDITION_KEY LPAREN formula RPAREN'''
         p[0] = p[3]
 
-    def p_effects_def(self, p):
-        '''effects_def : EFFECT_KEY LPAREN formula RPAREN'''
-        p[0] = p[3]
-
     def p_formula(self, p):
         '''formula : literal
                    | AND_KEY formula_lst
@@ -128,26 +124,21 @@ class MyParser(object):
                    | LPAREN EXISTS_KEY LPAREN typed_variables_lst RPAREN formula RPAREN
                    | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN formula RPAREN'''
         if len(p) == 2:
-            # print('literal: --> '+str(type(p[1])))
             p[0] = p[1]
         elif len(p) == 3:
             if p[1] == 'and':
-                # print(type(p[2]))
                 p[0] = FormulaAnd(p[2])
             elif p[1] == 'or':
                 p[0] = FormulaOr(p[2])
             elif p[1] == 'not':
-                # print(type(p[2]))
                 p[0] = FormulaNot(p[2])
         elif len(p) == 4:
             if p[1] == 'imply':
                 p[0] = FormulaImply(p[2], p[3])
             else:
-                # print('literal tra parentesi: --> '+str(type(p[2])))
                 p[0] = p[2]
         elif len(p) == 5:
             if p[2] == 'and':
-                # print(type(p[2]))
                 p[0] = FormulaAnd(p[3])
             elif p[2] == 'or':
                 p[0] = FormulaOr(p[3])
@@ -173,6 +164,39 @@ class MyParser(object):
             p[0] = [p[1]]
         elif len(p) == 3:
             p[0] = [p[1]] + p[2]
+
+    def p_effects_def(self, p):
+        '''effects_def : EFFECT_KEY LPAREN eff_formula RPAREN'''
+        p[0] = p[3]
+
+    def p_eff_formula(self, p):
+        '''eff_formula : one_eff_formula
+                       | AND_KEY one_eff_formula_lst'''
+        if len(p) == 2:
+            p[0] = p[1]
+        elif len(p) == 3:
+            p[0] = FormulaAnd(p[2])
+
+    def p_one_eff_formula(self, p):
+        '''one_eff_formula : atomic_eff
+                           | LPAREN WHEN_KEY formula atomic_eff RPAREN
+                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN atomic_eff RPAREN
+                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN LPAREN WHEN_KEY formula atomic_eff RPAREN RPAREN'''
+        pass
+
+    def p_atomic_eff(self, p):
+        '''atomic_eff : literal
+                      | AND_KEY literal_lst'''
+        pass
+
+    def p_literal_lst(self, p):
+        '''literal_lst : literal literal_lst
+                       | literal '''
+        if len(p) == 2:
+            p[0] = [p[1]]
+        elif len(p) == 3:
+            p[0] = [p[1]] + p[2]
+
 
     def p_literal(self, p):
         '''literal : LPAREN NOT_KEY predicate RPAREN
