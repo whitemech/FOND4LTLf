@@ -60,3 +60,21 @@ class FormulaForall:
 
     def __str__(self):
         return '(forall ({0}) {1})'.format(', '.join(map(str, self.variables)), self.formula)
+
+class FormulaWhen:
+
+    def __init__(self, condition, formula):
+        self.condition = condition
+        self.formula = formula
+
+    def __str__(self):
+        return '(when ({0}) {1})'.format(self.condition, self.formula)
+
+class FormulaOneOf:
+
+    def __init__(self, oneofList):
+        self.oneofList = oneofList
+
+    def __str__(self):
+        return '(oneof {0})'.format(', '.join(map(str, self.oneofList)))
+
