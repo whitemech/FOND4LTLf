@@ -50,7 +50,7 @@ class FormulaExists:
         self.formula = formula
 
     def __str__(self):
-        pass
+        return '(exists ({0}) {1})'.format(', '.join(map(str, self.variables)), self.formula)
 
 class FormulaForall:
 
@@ -59,4 +59,4 @@ class FormulaForall:
         self.formula = formula
 
     def __str__(self):
-        pass
+        return '(forall ({0}) {1})'.format(', '.join(map(str, self.variables)), self.formula)

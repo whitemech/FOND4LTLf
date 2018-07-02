@@ -164,7 +164,7 @@ class MyParser(object):
             if p[2] == 'exists':
                 p[0] = FormulaExists(p[4], p[6])
             elif p[2] == 'forall':
-                p[0] = FormulaForall(p[4], p[6])    
+                p[0] = FormulaForall(p[4], p[6])
 
     def p_formula_lst(self, p):
         '''formula_lst : formula formula_lst
