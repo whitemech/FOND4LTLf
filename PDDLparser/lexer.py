@@ -8,7 +8,7 @@ class MyLexer(object):
         ':requirements':            'REQUIREMENTS_KEY',
         ':strips':                  'STRIPS_KEY',
         ':adl':                     'ADL_KEY',
-        ':non-deterministic':        'ND_KEY',
+        ':non-deterministic':       'ND_KEY',
         ':equality':                'EQUALITY_KEY',
         ':typing':                  'TYPING_KEY',
         ':types':                   'TYPES_KEY',
@@ -96,4 +96,4 @@ if __name__ == '__main__':
     # Build the lexer and try it out
     m = MyLexer()
     m.build()           # Build the lexer
-    m.test("(define (domain blocks-domain))")     # Test it
+    m.test("(and (hand) (oneof (ciao) (come) ))")     # Test it
