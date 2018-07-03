@@ -2,13 +2,9 @@ class FormulaAnd:
 
     def __init__(self, andList):
         self.andList = andList
-        # print(self.andList)
 
     def __str__(self):
-        return '(and {0})'.format(', '.join(map(str, self.andList)))
-
-    # def __iter__(self):
-    #     return iter(self.andList)
+        return '(and {0})'.format(' '.join(map(str, self.andList)))
 
 class FormulaOr:
 
@@ -16,23 +12,15 @@ class FormulaOr:
         self.orList = orList
 
     def __str__(self):
-        return '(or {0})'.format(', '.join(map(str, self.orList)))
-
-    # def __iter__(self):
-    #     return iter(self.orList)
+        return '(or {0})'.format(' '.join(map(str, self.orList)))
 
 class FormulaNot:
 
     def __init__(self, formula):
         self.formula = formula
-        # print(self.formula)
 
     def __str__(self):
-        # return '(not {0})'.format(', '.join(map(str, self.formula)))
         return '(not {0})'.format(self.formula)
-
-    # def __iter__(self):
-    #     return iter(self.formula)
 
 class FormulaImply:
 
@@ -50,7 +38,7 @@ class FormulaExists:
         self.formula = formula
 
     def __str__(self):
-        return '(exists ({0}) {1})'.format(', '.join(map(str, self.variables)), self.formula)
+        return '(exists ({0}) {1})'.format(' '.join(map(str, self.variables)), self.formula)
 
 class FormulaForall:
 
@@ -59,7 +47,7 @@ class FormulaForall:
         self.formula = formula
 
     def __str__(self):
-        return '(forall ({0}) {1})'.format(', '.join(map(str, self.variables)), self.formula)
+        return '(forall ({0}) {1})'.format(' '.join(map(str, self.variables)), self.formula)
 
 class FormulaWhen:
 
@@ -76,5 +64,4 @@ class FormulaOneOf:
         self.oneofList = oneofList
 
     def __str__(self):
-        return '(oneof {0})'.format(', '.join(map(str, self.oneofList)))
-
+        return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))

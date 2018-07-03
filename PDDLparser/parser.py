@@ -47,7 +47,8 @@ class MyParser(object):
         '''require_key : STRIPS_KEY
                        | EQUALITY_KEY
                        | TYPING_KEY
-                       | ADL_KEY'''
+                       | ADL_KEY
+                       | ND_KEY'''
         p[0] = str(p[1])
 
     def p_types_def(self, p):
@@ -179,7 +180,7 @@ class MyParser(object):
             if p[1] == 'and':
                 p[0] = FormulaAnd(p[2])
             else:
-                p[0] = FormulaOneOf(p[2])    
+                p[0] = FormulaOneOf(p[2])
 
     def p_one_eff_formula(self, p):
         '''one_eff_formula : atomic_eff
@@ -219,7 +220,6 @@ class MyParser(object):
             p[0] = [p[1]]
         elif len(p) == 3:
             p[0] = [p[1]] + p[2]
-
 
     def p_literal(self, p):
         '''literal : LPAREN NOT_KEY predicate RPAREN

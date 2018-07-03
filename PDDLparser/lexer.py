@@ -8,6 +8,7 @@ class MyLexer(object):
         ':requirements':            'REQUIREMENTS_KEY',
         ':strips':                  'STRIPS_KEY',
         ':adl':                     'ADL_KEY',
+        ':non-deterministic':        'ND_KEY',
         ':equality':                'EQUALITY_KEY',
         ':typing':                  'TYPING_KEY',
         ':types':                   'TYPES_KEY',

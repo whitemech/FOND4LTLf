@@ -6,13 +6,15 @@ class Domain:
         self.types = types #list
         self.predicates = predicates #list
         self.operators = operators #list
-        # print('predicati nel dominio --> '+str(type(self.predicates)))
 
     def __str__(self):
-        domain_str = '@ Domain: {0}\n'.format(self.name)
-        domain_str += '>> requirements: {0}\n'.format(', '.join(self.requirements))
-        domain_str += '>> types: {0}\n'.format(', '.join(self.types))
-        domain_str += '>> predicates: {0}\n'.format(', '.join(map(str, self.predicates)))
-        domain_str += '>> operators:\n\t{0}\n'.format(
-            '\n\t'.join(str(op).replace('\n', '\n\t') for op in self.operators))
+        domain_str = '(define (domain {0})\n'.format(self.name)
+        domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
+        domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
+        domain_str += '\t(:predicates {0})\n'.format(' '.join(map(str, self.predicates)))
+
+        for op in self.operators:
+            domain_str += '\t(:action {0})\n'.format(str(op).replace('\n', '\n\t'))
+
+        domain_str += ')'
         return domain_str

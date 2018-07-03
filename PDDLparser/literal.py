@@ -26,4 +26,4 @@ class Literal:
             rhs = str(self.term.args[1])
             return '{0} != {1}'.format(lhs, rhs)
         if not self.is_positive():
-            return 'not {}'.format(str(self.term))
+            return '(not {})'.format(str(self.term))
