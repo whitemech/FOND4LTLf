@@ -99,6 +99,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# PDDL documents
+*.pddl
+
 # C extensions
 *.so
 
