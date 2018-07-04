@@ -167,32 +167,35 @@ class MyParser(object):
             p[0] = [p[1]] + p[2]
 
     def p_effects_def(self, p):
-        '''effects_def : EFFECT_KEY LPAREN eff_formula RPAREN'''
+        '''effects_def : EFFECT_KEY LPAREN one_eff_formula RPAREN'''
         p[0] = p[3]
 
-    def p_eff_formula(self, p):
-        '''eff_formula : one_eff_formula
-                       | AND_KEY one_eff_formula_lst
-                       | ONEOF_KEY one_eff_formula_lst'''
+    # def p_eff_formula(self, p):
+    #     '''eff_formula : one_eff_formula
+    #                    | AND_KEY one_eff_formula_lst
+    #                    | ONEOF_KEY one_eff_formula_lst'''
+    #     if len(p) == 2:
+    #         p[0] = p[1]
+    #     elif len(p) == 3:
+    #         if p[1] == 'and':
+    #             p[0] = FormulaAnd(p[2])
+    #         else:
+    #             p[0] = FormulaOneOf(p[2])
+
+    def p_one_eff_formula(self, p):
+        '''one_eff_formula : literal
+                           | AND_KEY one_eff_formula_lst
+                           | ONEOF_KEY atomic_eff_lst
+                           | LPAREN ONEOF_KEY atomic_eff_lst RPAREN
+                           | LPAREN WHEN_KEY formula atomic_eff RPAREN
+                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN atomic_eff RPAREN
+                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN LPAREN WHEN_KEY formula atomic_eff RPAREN RPAREN'''
         if len(p) == 2:
             p[0] = p[1]
         elif len(p) == 3:
             if p[1] == 'and':
                 p[0] = FormulaAnd(p[2])
-            else:
-                p[0] = FormulaOneOf(p[2])
-
-    def p_one_eff_formula(self, p):
-        '''one_eff_formula : literal
-                           | AND_KEY one_eff_formula_lst
-                           | LPAREN ONEOF_KEY one_eff_formula_lst RPAREN
-                           | LPAREN WHEN_KEY formula one_eff_formula RPAREN
-                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN one_eff_formula RPAREN
-                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN LPAREN WHEN_KEY formula one_eff_formula RPAREN RPAREN'''
-        if len(p) == 2:
-            p[0] = p[1]
-        elif len(p) == 3:
-            p[0] = FormulaAnd(p[2])
+            else: p[0] = FormulaOneOf(p[2])
         elif len(p) == 5:
             p[0] = FormulaOneOf(p[3])
         elif len(p) == 6:
@@ -211,30 +214,38 @@ class MyParser(object):
         elif len(p) == 3:
             p[0] = [p[1]] + p[2]
 
-    # def p_atomic_eff(self, p):
-    #     '''atomic_eff : literal
-    #                   | AND_KEY literal_lst
-    #                   | LPAREN AND_KEY literal_lst RPAREN'''
-    #     if len(p) == 2:
-    #         p[0] = p[1]
-    #     elif len(p) == 3:
-    #         if p[1] == 'and':
-    #             p[0] = FormulaAnd(p[2])
-    #         # else:
-    #         #     p[0] = FormulaOneOf(p[2])
-    #     elif len(p) == 5:
-    #         if p[2] == 'and':
-    #             p[0] = FormulaAnd(p[3])
-    #         # else:
-    #         #     p[0] = FormulaOneOf(p[3])
-    #
-    # def p_literal_lst(self, p):
-    #     '''literal_lst : literal literal_lst
-    #                    | literal '''
-    #     if len(p) == 2:
-    #         p[0] = [p[1]]
-    #     elif len(p) == 3:
-    #         p[0] = [p[1]] + p[2]
+    def p_atomic_eff_lst(self, p):
+        '''atomic_eff_lst : atomic_eff atomic_eff_lst
+                          | atomic_eff'''
+        if len(p) == 2:
+            p[0] = [p[1]]
+        elif len(p) == 3:
+            p[0] = [p[1]] + p[2]
+
+    def p_atomic_eff(self, p):
+        '''atomic_eff : literal
+                      | AND_KEY literal_lst
+                      | LPAREN AND_KEY literal_lst RPAREN'''
+        if len(p) == 2:
+            p[0] = p[1]
+        elif len(p) == 3:
+            if p[1] == 'and':
+                p[0] = FormulaAnd(p[2])
+            # else:
+            #     p[0] = FormulaOneOf(p[2])
+        elif len(p) == 5:
+            if p[2] == 'and':
+                p[0] = FormulaAnd(p[3])
+            # else:
+            #     p[0] = FormulaOneOf(p[3])
+
+    def p_literal_lst(self, p):
+        '''literal_lst : literal literal_lst
+                       | literal '''
+        if len(p) == 2:
+            p[0] = [p[1]]
+        elif len(p) == 3:
+            p[0] = [p[1]] + p[2]
 
     def p_literal(self, p):
         '''literal : LPAREN NOT_KEY predicate RPAREN
