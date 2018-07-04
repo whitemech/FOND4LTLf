@@ -101,6 +101,7 @@ __pycache__/
 
 # PDDL documents
 *.pddl
+PDDLParser/*.pddl
 
 # C extensions
 *.so
