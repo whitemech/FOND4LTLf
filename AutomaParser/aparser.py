@@ -1,57 +1,36 @@
 import pydot
-import os
 from automata.fa.dfa import DFA
 
-def import_dot(path):
+def parse_dot(path):
 
-    # istantiation of automaton
-    # automata = DFA(
-    #     states={'q0', 'q1', 'q2'},
-    #     input_symbols={'0', '1'},
-    #     transitions={
-    #         'q0': {'0': 'q0', '1': 'q1'},
-    #         'q1': {'0': 'q0', '1': 'q2'},
-    #         'q2': {'0': 'q2', '1': 'q1'}
-    #     },
-    #     initial_state='q0',
-    #     final_states={'q1'}
-    # )
-
-    dot_graph = pydot.graph_from_dot_file(path)
-    graph = dot_graph[0]
+    graph = get_graph_from_dot(path)
 
     #taking integer nodes
-    nodes = [] ## list of integer nodes as string (in the example: 1,2,3)
+    nodes = [] ## list of integer nodes as string (in the example: 3,1,2)
     for node in graph.get_nodes():
-        if node.to_string()[:-1].isdigit(): #maybe it can be rewrited as node.get_name().isdigit():
+        if node.get_name().isdigit(): #maybe it can be rewrited as node.to_string()[:-1].isdigit():
             nodes.append(node.get_name())
         else: continue
 
-    # sort in ascending order the list of nodes
-    sorted(nodes, key=int)
-
-    # ora possiamo assegnare all'attributo stati dell'automa la lista ordinata di nodi
-    automa.states = nodes
+    # assign set of states
+    states = set(nodes)
 
     # getting the initial state as a string
-    automa.initial_state = nodes[0]
+    initial_state = sorted(nodes, key=int)[0]
 
     # let's get the accepting states
-    # there is a problem recognizing accepting states
-    with open(path, 'r') as file:
-        lines = file.readlines()
-        file.close()
+    lines = get_file(path)
     accepting_states = set() #set containing all accepting states of the automaton
-    for line in lines[5:]:
-        if line != '[shape=circle];\n':
-            ll = line.replace(";\n", "")
-            accepting_states.add(ll)
+    for line in lines[7:]:
+        if line.strip() != 'node [shape = circle];':
+            temp = line.replace(";\n", "")
+            accepting_states.add(temp.strip())
         else:
             break
 
     # let's get sources nodes
     sources = []
-    for elem in e:
+    for elem in graph.get_edges():
         if elem.get_source().isdigit():
             sources.append(elem.get_source())
         else: continue
@@ -60,30 +39,64 @@ def import_dot(path):
     i = 0
     transitions = dict()
     for source in sources:
-        label = e[i].get_label()[1] # only support simple labels!!!!
-        destination = e[i].get_destination()
+        label = graph.get_edges()[i].get_label()
+        final_label =  get_final_label(label)# only support simple labels!!!!
+        destination = graph.get_edges()[i].get_destination()
         i += 1
         if source in transitions:
-            transitions[source][label] = destination
+            transitions[source][final_label] = destination
         else:
-            transitions[source] = dict({label: destination})
+            transitions[source] = dict({final_label: destination})
 
-    # try to handle also complex labels
-    s = e[i].get_label()
-    s1 = s.replace(" ", "")
+    print('states: '+ str(states))
+    print('transitions: '+ str(transitions))
+    print('init: '+ str(initial_state))
+    print('final: '+ str(accepting_states))
+    #istantiation of automaton
+    automaton = DFA(
+        states=states,
+        input_symbols={'0', '1', 'X'},
+        transitions=transitions,
+        initial_state=initial_state,
+        final_states=accepting_states
+    )
+    return automaton
+
+def get_file(path):
+    try:
+        with open(path, 'r') as file:
+            lines = file.readlines()
+            file.close()
+        return lines
+    except IOError:
+        print('[ERROR] : Not able to open the file from the path {}'.format(path))
+
+def get_graph_from_dot(path):
+    try:
+        dot_graph = pydot.graph_from_dot_file(path)
+        return dot_graph[0]
+    except IOError:
+        print('[ERROR] : Not able to import the dot file')
+
+
+def get_final_label(label):
+
+    s1 = label.replace(" ", "")
     s2 = s1.replace(",","")
     s3 = s2.replace('"','')
     s4 = s3.split('\n') # now s4 should be a list like ['01', '0X', '00']
 
     # compose symbols
-    label = ''
+    inter_label = ''
     leng_elem = len(s4)
     for i in range(0,leng_elem):
         for elem in s4:
-            label += elem[i]
-        label+=','
-    final_label = label[:-1] # as in the example we obtain '000,1X0'
+            inter_label += elem[i]
+            inter_label += ',' # at the end of the for we have something like '000,1X0,'
 
+    return inter_label[:-1] # as in the example we obtain '000,1X0'
 
-
-
+if __name__ == '__main__':
+    path = "AutomaParser/automa.dot"
+    result = parse_dot(path)
+    print(result)
