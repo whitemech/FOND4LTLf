@@ -1,5 +1,6 @@
 import pydot
-from automata.fa.dfa import DFA
+# from automata.fa.dfa import DFA
+from automa import Automa
 
 def parse_dot(path):
 
@@ -48,17 +49,13 @@ def parse_dot(path):
         else:
             transitions[source] = dict({final_label: destination})
 
-    print('states: '+ str(states))
-    print('transitions: '+ str(transitions))
-    print('init: '+ str(initial_state))
-    print('final: '+ str(accepting_states))
     #istantiation of automaton
-    automaton = DFA(
+    automaton = Automa(
+        alphabet={'0', '1', 'X'},
         states=states,
-        input_symbols={'0', '1', 'X'},
-        transitions=transitions,
         initial_state=initial_state,
-        final_states=accepting_states
+        accepting_states=accepting_states,
+        transitions=transitions
     )
     return automaton
 
