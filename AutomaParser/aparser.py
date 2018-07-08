@@ -2,6 +2,43 @@ import pydot
 # from automata.fa.dfa import DFA
 from automa import Automa
 
+def get_file(path):
+    try:
+        with open(path, 'r') as file:
+            lines = file.readlines()
+            file.close()
+        return lines
+    except IOError:
+        print('[ERROR] : Not able to open the file from the path {}'.format(path))
+
+def get_graph_from_dot(path):
+    try:
+        dot_graph = pydot.graph_from_dot_file(path)
+        return dot_graph[0]
+    except IOError:
+        print('[ERROR] : Not able to import the dot file')
+
+def get_final_label(label):
+
+    s1 = label.replace(" ", "")
+    s2 = s1.replace('"','')
+    if len(s2) < 2:
+        return s2
+    else:
+        s3 = s2.replace(",","")
+        s4 = s3.split('\\n') # now s4 should be a list like ['01', '0X', '00']
+
+        leng_elem = len(s4[0])#length of elements in s4
+        temp = ''
+        inter_label = []
+        for i in range(leng_elem):
+            for elem in s4:
+                temp += elem[i]
+            inter_label.append(temp)
+            temp = ''
+
+        return inter_label # as in the example we obtain '000,1X0' , now should be like ['000','1X0']
+
 def parse_dot(path):
 
     graph = get_graph_from_dot(path)
@@ -41,13 +78,20 @@ def parse_dot(path):
     transitions = dict()
     for source in sources:
         label = graph.get_edges()[i].get_label()
-        final_label =  get_final_label(label)# only support simple labels!!!!
+        final_label =  get_final_label(label)
         destination = graph.get_edges()[i].get_destination()
         i += 1
-        if source in transitions:
-            transitions[source][final_label] = destination
+        if type(final_label) is str:
+            if source in transitions:
+                transitions[source][final_label] = destination
+            else:
+                transitions[source] = dict({final_label: destination})
         else:
-            transitions[source] = dict({final_label: destination})
+            for lab in final_label:
+                if source in transitions:
+                    transitions[source][lab] = destination
+                else:
+                    transitions[source] = dict({lab: destination})
 
     #istantiation of automaton
     automaton = Automa(
@@ -58,40 +102,6 @@ def parse_dot(path):
         transitions=transitions
     )
     return automaton
-
-def get_file(path):
-    try:
-        with open(path, 'r') as file:
-            lines = file.readlines()
-            file.close()
-        return lines
-    except IOError:
-        print('[ERROR] : Not able to open the file from the path {}'.format(path))
-
-def get_graph_from_dot(path):
-    try:
-        dot_graph = pydot.graph_from_dot_file(path)
-        return dot_graph[0]
-    except IOError:
-        print('[ERROR] : Not able to import the dot file')
-
-
-def get_final_label(label):
-
-    s1 = label.replace(" ", "")
-    s2 = s1.replace(",","")
-    s3 = s2.replace('"','')
-    s4 = s3.split('\n') # now s4 should be a list like ['01', '0X', '00']
-
-    # compose symbols
-    inter_label = ''
-    leng_elem = len(s4)
-    for i in range(0,leng_elem):
-        for elem in s4:
-            inter_label += elem[i]
-            inter_label += ',' # at the end of the for we have something like '000,1X0,'
-
-    return inter_label[:-1] # as in the example we obtain '000,1X0'
 
 if __name__ == '__main__':
     path = "AutomaParser/automa.dot"
