@@ -1,5 +1,4 @@
 import pydot
-# from automata.fa.dfa import DFA
 from automa import Automa
 
 def get_file(path):
@@ -106,4 +105,5 @@ def parse_dot(path):
 if __name__ == '__main__':
     path = "AutomaParser/automa.dot"
     result = parse_dot(path)
-    print(result)
+    print(result.create_operator_trans())
+    # print(result)
