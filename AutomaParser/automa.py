@@ -1,13 +1,15 @@
+import re
+
 class Automa:
     """
         DFA Automa:
-        • alphabet         => set() ;
-        • states           => set() ;
-        • initial_state    => str() ;
-        • accepting_states => set() ;
-        • transitions      => dict(), where
-        **key**: *state* ∈ states
-        **value**: {*action*: *arriving_state*)
+        - alphabet         => set() ;
+        - states           => set() ;
+        - initial_state    => str() ;
+        - accepting_states => set() ;
+        - transitions      => dict(), where
+        **key**: *source* ∈ states
+        **value**: {*action*: *destination*)
     """
 
     def __init__(self, alphabet, states, initial_state, accepting_states, transitions):
@@ -33,10 +35,21 @@ class Automa:
         if any(not s in self.states for s in self.accepting_states):
             raise ValueError('accepting states not defined as state')
 
+    def validate_input_symbols(self):
+        alphabet_pattern = self.get_alphabet_pattern()
+        for state in self.states:
+            for action in self.transitions[state]:
+                if not re.match(alphabet_pattern, action):
+                    raise ValueError('invalid transition found')
+
+    def get_alphabet_pattern(self):
+        return re.compile("(^["+''.join(self.alphabet)+"]+$)")
+
     def validate(self):
         self.validate_initial_state()
         self.validate_accepting_states()
         self.valide_transition_start_states()
+        self.validate_input_symbols()
         return True
 
     def __str__(self):
