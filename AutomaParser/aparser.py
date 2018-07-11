@@ -21,8 +21,9 @@ def get_final_label(label):
 
     s1 = label.replace(" ", "")
     s2 = s1.replace('"','')
+
     if len(s2) < 2:
-        return s2
+        return _split_dont_care(list(s2))
     else:
         s3 = s2.replace(",","")
         s4 = s3.split('\\n') # now s4 should be a list like ['01', '0X', '00']
@@ -36,7 +37,28 @@ def get_final_label(label):
             inter_label.append(temp)
             temp = ''
 
-        return inter_label # as in the example we obtain '000,1X0' , now should be like ['000','1X0']
+        # inter_label should be like ['000','1X0']
+        final_label = []
+        for lab in inter_label:
+            final_label += _split_dont_care(list(lab))
+
+        return final_label
+
+def _split_dont_care(label_list):
+    final = []
+    return split_dont_care(label_list, final)
+
+def split_dont_care(label_list, splitted):
+    if 'X' in label_list:
+        lowest_index = label_list.index('X')
+        label_list[lowest_index] = '0'
+        split_dont_care(label_list, splitted)
+        label_list[lowest_index] = '1'
+        split_dont_care(label_list, splitted)
+        label_list[lowest_index] = 'X'
+    else:
+        splitted += [''.join(label_list)]
+    return splitted
 
 def parse_dot(path):
 
@@ -79,22 +101,17 @@ def parse_dot(path):
         label = graph.get_edges()[i].get_label()
         final_label =  get_final_label(label)
         destination = graph.get_edges()[i].get_destination()
+        #print('[LOOP #'+str(i)+'] source: '+str(source)+', destination: '+str(destination)+', label: '+str(final_label))
         i += 1
-        if type(final_label) is str:
+        for lab in final_label:
             if source in transitions:
-                transitions[source][final_label] = destination
+                transitions[source][lab] = destination
             else:
-                transitions[source] = dict({final_label: destination})
-        else:
-            for lab in final_label:
-                if source in transitions:
-                    transitions[source][lab] = destination
-                else:
-                    transitions[source] = dict({lab: destination})
+                transitions[source] = dict({lab: destination})
 
     #istantiation of automaton
     automaton = Automa(
-        alphabet={'0', '1', 'X'},
+        alphabet={'0', '1'},
         states=states,
         initial_state=initial_state,
         accepting_states=accepting_states,
@@ -105,5 +122,5 @@ def parse_dot(path):
 if __name__ == '__main__':
     path = "AutomaParser/automa.dot"
     result = parse_dot(path)
-    print(result.create_operator_trans())
-    # print(result)
+    # print(result.create_operator_trans())
+    print(result)
