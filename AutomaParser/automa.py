@@ -82,11 +82,11 @@ class Automa:
         return formula_when
 
     def get_formula_condition(self, state, action):
-        formula_condition = '(and (q = {0}) {1})'.format(state, ' '.join(self.get_condition_action(action)))
+        formula_condition = '(and (= q s{0}) {1})'.format(state, ' '.join(self.get_condition_action(action)))
         return formula_condition
 
     def get_formula_statement(self, state, action):
-        formula_statement = '(and (q = {0}) (turnDomain))'.format(self.transitions[state][action])
+        formula_statement = '(and (= q s{0}) (turnDomain))'.format(self.transitions[state][action])
         return formula_statement
 
     def get_condition_action(self, action):
