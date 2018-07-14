@@ -56,7 +56,7 @@ class FormulaWhen:
         self.formula = formula
 
     def __str__(self):
-        return '(when ({0}) {1})'.format(self.condition, self.formula)
+        return '(when {0} {1})'.format(self.condition, self.formula)
 
 class FormulaOneOf:
 

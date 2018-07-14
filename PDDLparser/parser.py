@@ -186,6 +186,7 @@ class MyParser(object):
         '''one_eff_formula : literal
                            | AND_KEY one_eff_formula_lst
                            | ONEOF_KEY atomic_eff_lst
+                           | WHEN_KEY formula atomic_eff
                            | LPAREN ONEOF_KEY atomic_eff_lst RPAREN
                            | LPAREN WHEN_KEY formula atomic_eff RPAREN
                            | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN atomic_eff RPAREN
@@ -196,6 +197,9 @@ class MyParser(object):
             if p[1] == 'and':
                 p[0] = FormulaAnd(p[2])
             else: p[0] = FormulaOneOf(p[2])
+        elif len(p) == 4:
+            if p[1] == 'when':
+                p[0] = FormulaWhen(p[2], p[3])
         elif len(p) == 5:
             p[0] = FormulaOneOf(p[3])
         elif len(p) == 6:
@@ -225,7 +229,8 @@ class MyParser(object):
     def p_atomic_eff(self, p):
         '''atomic_eff : literal
                       | AND_KEY literal_lst
-                      | LPAREN AND_KEY literal_lst RPAREN'''
+                      | LPAREN AND_KEY literal_lst RPAREN
+                      | LPAREN WHEN_KEY formula atomic_eff RPAREN'''
         if len(p) == 2:
             p[0] = p[1]
         elif len(p) == 3:
@@ -236,6 +241,8 @@ class MyParser(object):
         elif len(p) == 5:
             if p[2] == 'and':
                 p[0] = FormulaAnd(p[3])
+        elif len(p) == 6:
+            p[0] = FormulaWhen(p[3], p[4])
             # else:
             #     p[0] = FormulaOneOf(p[3])
 
