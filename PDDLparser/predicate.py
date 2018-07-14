@@ -18,7 +18,7 @@ class Predicate:
 
     def __str__(self):
         if self.name == '=':
-            return '{0} = {1}'.format(str(self._args[0]), str(self._args[1]))
+            return '(= {0} {1})'.format(str(self._args[0]), str(self._args[1]))
         elif self.arity == 0:
             return '('+self.name+')'
         else:
