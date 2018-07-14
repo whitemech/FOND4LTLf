@@ -103,6 +103,10 @@ __pycache__/
 *.pddl
 PDDLParser/*.pddl
 
+# DOT files
+*.dot
+AutomaParser/*.dot
+
 # C extensions
 *.so
 
