@@ -5,6 +5,18 @@ class Term:
         self._type  = kwargs.get('type',  None)
         self._value = kwargs.get('value', None)
 
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def value(self):
+        return self._value
+
     def is_variable(self):
         return self._name is not None
 

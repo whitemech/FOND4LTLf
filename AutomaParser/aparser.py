@@ -122,5 +122,5 @@ def parse_dot(path):
 if __name__ == '__main__':
     path = "AutomaParser/automa.dot"
     result = parse_dot(path)
-    # print(result.create_operator_trans())
+    print(result.create_operator_trans()+'\n')
     print(result)
