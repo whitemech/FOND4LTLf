@@ -11,6 +11,8 @@ class Automa:
         **key**: *source* ∈ states
         **value**: {*action*: *destination*)
     """
+    MAX_ALPHABET = 26
+    en_alphabet = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
 
     def __init__(self, alphabet, states, initial_state, accepting_states, transitions):
         self.alphabet = alphabet
@@ -90,6 +92,13 @@ class Automa:
 
     def get_condition_action(self, action):
         temp = []
+        length = len(action)
+        alpha_set = self.en_alphabet[0:length]
+        i = 0
         for char in action:
-            temp.append('('+char+')')
+            if char == '1':
+                temp.append('('+alpha_set[i]+')')
+            else:
+                temp.append('(not '+alpha_set[i]+')')
+            i += 1
         return temp
