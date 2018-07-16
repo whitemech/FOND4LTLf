@@ -1,5 +1,5 @@
 import pydot
-from automa import Automa
+from AutomaParser.automa import Automa
 
 def get_file(path):
     try:
