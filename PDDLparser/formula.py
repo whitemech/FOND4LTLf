@@ -1,3 +1,6 @@
+from PDDLparser.literal import Literal
+from PDDLparser.predicate import Predicate
+
 class FormulaAnd:
 
     def __init__(self, andList):
@@ -5,6 +8,12 @@ class FormulaAnd:
 
     def __str__(self):
         return '(and {0})'.format(' '.join(map(str, self.andList)))
+
+    def complete_domain_turn(self, flag):
+        if flag:
+            self.andList.append(Literal.positive(Predicate('turnDomain')))
+        else:
+            self.andList.append(Literal.negative(Predicate('turnDomain')))
 
 class FormulaOr:
 
