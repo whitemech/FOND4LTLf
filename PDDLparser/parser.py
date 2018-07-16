@@ -1,11 +1,11 @@
 import ply.yacc as yacc
-from lexer import MyLexer
-from domain import Domain
-from action import Action
-from literal import Literal
-from predicate import Predicate
-from term import Term
-from formula import *
+from PDDLparser.lexer import MyLexer
+from PDDLparser.domain import Domain
+from PDDLparser.action import Action
+from PDDLparser.literal import Literal
+from PDDLparser.predicate import Predicate
+from PDDLparser.term import Term
+from PDDLparser.formula import *
 
 class MyParser(object):
 
@@ -314,6 +314,8 @@ if __name__ == '__main__':
         f.close()
 
     result = par(domain)
-    # print(type(result.operators[1].preconditions))
-    # print(result.operators[1].preconditions)
+    # states = {'1','2','3','4'}
+    # alpha = ['a','b','c']
+    # transition = 'trans\n:parameters ()\n:precondition (not turnDomain)\n:effect (oneof (when (and (q2) (not a)) (and (q2) (turnDomain))) (when (and (q2) (a)) (turnDomain)))\n'
+    # result1 = result.get_new_domain(alpha, states, transition)
     print(result)
