@@ -68,7 +68,7 @@ class Automa:
         operator  = '(:action trans\n'
         operator += '\t:parameters ()\n'
         operator += '\t:precondition (not turnDomain)\n'
-        operator += '\t:effect (oneof {0}\t)\n'.format(' '.join(self.get_whens()))
+        operator += '\t:effect (and {0}\t)\n'.format(' '.join(self.get_whens()))
         operator += ')'
         return operator
 
@@ -84,11 +84,11 @@ class Automa:
         return formula_when
 
     def get_formula_condition(self, state, action):
-        formula_condition = '(and (q{0}) {1})'.format(state, ' '.join(self.get_condition_action(action)))
+        formula_condition = '(and (= q {0}) {1})'.format(state, ' '.join(self.get_condition_action(action)))
         return formula_condition
 
     def get_formula_statement(self, state, action):
-        formula_statement = '(and (q{0}) (turnDomain))'.format(self.transitions[state][action])
+        formula_statement = '(and (= q {0}) (turnDomain))'.format(self.transitions[state][action])
         return formula_statement
 
     def get_condition_action(self, action):
