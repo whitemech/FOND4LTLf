@@ -6,6 +6,7 @@ class MyLexer(object):
         'define':                   'DEFINE_KEY',
         'domain':                   'DOMAIN_KEY',
         ':requirements':            'REQUIREMENTS_KEY',
+        ':constants':               'CONSTANTS_KEY',
         ':strips':                  'STRIPS_KEY',
         ':adl':                     'ADL_KEY',
         ':non-deterministic':       'ND_KEY',
@@ -24,11 +25,11 @@ class MyLexer(object):
         'oneof':                    'ONEOF_KEY',
         'forall':                   'FORALL_KEY',
         'exists':                   'EXISTS_KEY',
-        'when':                     'WHEN_KEY'
-        # 'problem':                  'PROBLEM_KEY',
-        # ':objects':                 'OBJECTS_KEY',
-        # ':init':                    'INIT_KEY',
-        # ':goal':                    'GOAL_KEY'
+        'when':                     'WHEN_KEY',
+        'problem':                  'PROBLEM_KEY',
+        ':objects':                 'OBJECTS_KEY',
+        ':init':                    'INIT_KEY',
+        ':goal':                    'GOAL_KEY'
     }
 
     # List of token names. This is always required
@@ -55,7 +56,7 @@ class MyLexer(object):
         return t
 
     def t_NAME(self, t):
-        r'[a-zA-z_][a-zA-Z_0-9\-]*'
+        r'[0-9a-zA-z_][a-zA-Z_0-9\-]*'
         return t
 
     def t_VARIABLE(self, t):

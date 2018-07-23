@@ -1,9 +1,10 @@
 class Domain:
 
-    def __init__(self, name, requirements, types, predicates, operators):
+    def __init__(self, name, requirements, types, constants, predicates, operators):
         self.name = name #string
         self.requirements = requirements #list
         self.types = types #list
+        self.constants = constants #list
         self.predicates = predicates #list
         self.operators = operators #list
 
@@ -11,6 +12,7 @@ class Domain:
         domain_str = '(define (domain {0})\n'.format(self.name)
         domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
         domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
+        domain_str += '\t(:constants {0})\n'.format(' '.join(self.constants))
         domain_str += '\t(:predicates {0})\n'.format(' '.join(map(str, self.predicates)))
 
         for op in self.operators:

@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from PDDLparser.lexer import MyLexer
 from PDDLparser.domain import Domain
+from PDDLparser.problem import Problem
 from PDDLparser.action import Action
 from PDDLparser.literal import Literal
 from PDDLparser.predicate import Predicate
@@ -20,16 +21,41 @@ class MyParser(object):
         return self.parser.parse(s, lexer=self.lexer.lexer)
 
     def p_pddl(self, p):
-        '''pddl : domain'''
+        '''pddl : domain
+                | problem'''
         p[0] = p[1]
 
     def p_domain(self, p):
-        '''domain : LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN'''
-        p[0] = Domain(p[3], p[4], p[5], p[6], p[7])
+        '''domain : LPAREN DEFINE_KEY domain_def require_def types_def constants_def predicates_def action_def_lst RPAREN'''
+        p[0] = Domain(p[3], p[4], p[5], p[6], p[7], p[8])
+
+    def p_problem(self, p):
+        '''problem : LPAREN DEFINE_KEY problem_def domain_def objects_def init_def goal_def RPAREN'''
+        p[0] = Problem(p[3], p[4], p[5], p[6], p[7])
 
     def p_domain_def(self, p):
         '''domain_def : LPAREN DOMAIN_KEY NAME RPAREN'''
         p[0] = p[3]
+
+    def p_problem_def(self, p):
+        '''problem_def : LPAREN PROBLEM_KEY NAME RPAREN'''
+        p[0] = p[3]
+
+    def p_objects_def(self, p):
+        '''objects_def : LPAREN OBJECTS_KEY typed_constants_lst RPAREN'''
+        p[0] = p[3]
+
+    def p_init_def(self, p):
+        '''init_def : LPAREN INIT_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
+                    | LPAREN INIT_KEY ground_predicates_lst RPAREN'''
+        if len(p) == 5:
+            p[0] = p[3]
+        elif len(p) == 8:
+            p[0] = p[5]
+
+    def p_goal_def(self, p):
+        '''goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN'''
+        p[0] = p[5]
 
     def p_require_def(self, p):
         '''require_def : LPAREN REQUIREMENTS_KEY require_key_lst RPAREN'''
@@ -53,6 +79,10 @@ class MyParser(object):
 
     def p_types_def(self, p):
         '''types_def : LPAREN TYPES_KEY names_lst RPAREN'''
+        p[0] = p[3]
+
+    def p_constants_def(self, p):
+        '''constants_def : LPAREN CONSTANTS_KEY names_lst RPAREN'''
         p[0] = p[3]
 
     def p_names_lst(self, p):
@@ -84,6 +114,38 @@ class MyParser(object):
             p[0] = Predicate(p[2])
         elif len(p) == 5:
             p[0] = Predicate(p[2], p[3])
+
+    def p_ground_predicates_lst(self, p):
+        '''ground_predicates_lst : ground_predicate ground_predicates_lst
+                                 | ground_predicate'''
+        if len(p) == 2:
+            p[0] = [p[1]]
+        elif len(p) == 3:
+            p[0] = [p[1]] + p[2]
+
+    def p_ground_predicate(self, p):
+        '''ground_predicate : LPAREN NAME constants_lst RPAREN
+                            | LPAREN NAME RPAREN'''
+        if len(p) == 4:
+            p[0] = Predicate(p[2])
+        elif len(p) == 5:
+            p[0] = Predicate(p[2], p[3])
+
+    def p_constants_lst(self, p):
+        '''constants_lst : constant constants_lst
+                         | constant'''
+        if len(p) == 2:
+            p[0] = [Term.constant(p[1])]
+        elif len(p) == 3:
+            p[0] = [Term.constant(p[1])] + p[2]
+
+    def p_typed_constants_lst(self, p):
+        '''typed_constants_lst : constants_lst HYPHEN type typed_constants_lst
+                               | constants_lst HYPHEN type'''
+        if len(p) == 4:
+            p[0] = [Term.constant(value, p[3]) for value in p[1]]
+        elif len(p) == 5:
+            p[0] = [Term.constant(value, p[3]) for value in p[1]] + p[4]
 
     def p_action_def_lst(self, p):
         '''action_def_lst : action_def action_def_lst
@@ -301,6 +363,10 @@ class MyParser(object):
 
     def p_type(self, p):
         '''type : NAME'''
+        p[0] = p[1]
+
+    def p_constant(self, p):
+        '''constant : NAME'''
         p[0] = p[1]
 
     def p_error(self, p):

@@ -1,6 +1,6 @@
 from PDDLparser.parser import MyParser
 import argparse
-from AutomaParser.aparser import parse_dot
+#from AutomaParser.aparser import parse_dot
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D and a goal'
                                                   + ' formula G and returns a new planning domain D\'')
@@ -27,10 +27,10 @@ parsed_domain = parser(domain)
 # parsed_automa = parse_dot('automa.dot')
 # transition_operator = parsed_automa.create_operator_trans()
 
-transition_operator = 'trans\n:parameters ()\n:precondition (not turnDomain)\n:effect (oneof (when (and (q2) (not a)) (and (q2) (turnDomain))) (when (and (q2) (a)) (turnDomain)))\n'
-states = {'1','2','3','4'}
-alpha = ['a','b','c']
-# new_domain = parsed_domain.get_new_domain(parsed_automa.used_alpha, parsed_automa.states, transition_operator)
-new_domain = parsed_domain.get_new_domain(alpha, states, transition_operator)
+# transition_operator = 'trans\n:parameters ()\n:precondition (not turnDomain)\n:effect (oneof (when (and (q2) (not a)) (and (q2) (turnDomain))) (when (and (q2) (a)) (turnDomain)))\n'
+# states = {'1','2','3','4'}
+# alpha = ['a','b','c']
+# # new_domain = parsed_domain.get_new_domain(parsed_automa.used_alpha, parsed_automa.states, transition_operator)
+# new_domain = parsed_domain.get_new_domain(alpha, states, transition_operator)
 
-print(new_domain)
+print(parsed_domain)
