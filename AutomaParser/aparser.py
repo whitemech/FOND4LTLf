@@ -85,7 +85,7 @@ def parse_dot(path):
     lines = get_file(path)
     accepting_states = set() #set containing all accepting states of the automaton
     for line in lines[7:]:
-        if line.strip() != 'node [shape = circle];':
+        if line.strip() != 'node [shape=circle];':
             temp = line.replace(";\n", "")
             accepting_states.add(temp.strip())
         else:
@@ -126,5 +126,5 @@ def parse_dot(path):
 if __name__ == '__main__':
     path = "AutomaParser/automa.dot"
     result = parse_dot(path)
-    #print(result.create_operator_trans()+'\n')
-    print(result.transitions)
+    print(result.create_operator_trans()+'\n')
+    #print(result)
