@@ -12,7 +12,7 @@ class Domain:
         domain_str = '(define (domain {0})\n'.format(self.name)
         domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
         domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
-        domain_str += '\t(:constants {0})\n'.format(' '.join(self.constants))
+        domain_str += '\t(:constants {0})\n'.format(' '.join(map(str, self.constants)))
         domain_str += '\t(:predicates {0})\n'.format(' '.join(map(str, self.predicates)))
 
         for op in self.operators:
@@ -24,19 +24,22 @@ class Domain:
     def add_operator_trans(self, transition_operator):
         self.operators.append(transition_operator)
 
-    def add_predicates(self, fluents, states):
-        self.predicates.append('(turnDomain)')
-        for state in states:
-            self.predicates.append('(q{0})'.format(str(state)))
+    def add_predicates(self, fluents):
+        self.predicates.append('(turnDomain) (q)')
         for fluent in fluents:
             self.predicates.append('({0})'.format(fluent))
+
+    def add_constants(self, states):
+        for state in states:
+            self.constants.append('{0}'.format(str(state)))
 
     def add_precond_effect(self):
         for op in self.operators:
             op.add_turn_domain()
 
     def get_new_domain(self, fluents, states, transition_operator):
-        self.add_predicates(fluents, states)
+        self.add_constants(states)
+        self.add_predicates(fluents)
         self.add_precond_effect()
         self.add_operator_trans(transition_operator)
         return self.__str__()
