@@ -2,7 +2,7 @@ from PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
 from AutomaParser.aparser import parse_dot
-import argparse
+import argparse, os
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D, a planning'
                                                   ' problem P and a goal formula G and returns a new planning domain D\'')
@@ -12,21 +12,6 @@ args_parser.add_argument('<goal_formula>', type=str, help='Goal formula G -- MAN
 
 params = vars(args_parser.parse_args())
 pddl_parser = MyParser()
-# if not params['<planning_domain>']:
-#     print('Planning domain required!')
-#     exit()
-# else:
-#     domain_path = params['planning_domain']
-# if not params['<planning_problem>']:
-#     print('Planning problem required!')
-#     exit()
-# else:
-#     problem_path = params['planning_problem']
-# if not params['<goal_formula>']:
-#     print('Formula argument required!')
-#     exit()
-# else:
-#     formula = params['goal_formula']
 
 try:
     with open(params['<planning_domain>'], 'r') as f:
@@ -55,6 +40,8 @@ try:
     dot_handler.output_dot()
     dfa_automaton = parse_dot("automa.dot")
     operator_trans = dfa_automaton.create_operator_trans()
+    #os.remove('automa.mona')
+    #os.remove('automa.dot')
 except:
     raise ValueError('[ERROR]: Could not create DFA')
 
