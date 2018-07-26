@@ -5,7 +5,7 @@ class MyLexer(object):
     reserved = {
         'define':                   'DEFINE_KEY',
         'domain':                   'DOMAIN_KEY',
-        ':domain':                  'DOMAIN_KEY',
+        ':domain':                  'DOMAIN_PKEY',
         ':requirements':            'REQUIREMENTS_KEY',
         ':constants':               'CONSTANTS_KEY',
         ':strips':                  'STRIPS_KEY',
