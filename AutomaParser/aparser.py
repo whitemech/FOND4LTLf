@@ -15,7 +15,7 @@ def get_graph_from_dot(path):
         dot_graph = pydot.graph_from_dot_file(path)
         return dot_graph[0]
     except IOError:
-        print('[ERROR] : Not able to import the dot file')
+        print('[ERROR]: Not able to import the dot file')
 
 def get_final_label(label):
 
@@ -124,7 +124,7 @@ def parse_dot(path):
     return automaton
 
 if __name__ == '__main__':
-    path = "AutomaParser/automa.dot"
+    path = "automa.dot"
     result = parse_dot(path)
-    print(result.create_operator_trans()+'\n')
-    #print(result)
+    #print(result.create_operator_trans()+'\n')
+    print(result)
