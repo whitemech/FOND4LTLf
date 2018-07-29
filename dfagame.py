@@ -1,7 +1,7 @@
-from PDDLparser.parser import MyParser
+from dfagame.PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
-from AutomaParser.aparser import parse_dot
+from dfagame.AutomaParser.aparser import parse_dot
 import argparse, os
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D, a planning'
