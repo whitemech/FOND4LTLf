@@ -66,11 +66,10 @@ class Automa:
 
     def create_operator_trans(self):
         '''create operator trans as a string'''
-        operator  = '(:action trans\n'
+        operator  = 'trans\n'
         operator += '\t:parameters ()\n'
-        operator += '\t:precondition (not turnDomain)\n'
+        operator += '\t:precondition (not (turnDomain))\n'
         operator += '\t:effect (and {0}\t)\n'.format(' '.join(self.get_whens()))
-        operator += ')'
         return operator
 
     def get_whens(self):
@@ -141,7 +140,7 @@ class Automa:
             if char == '1':
                 temp.append('('+self.used_alpha[i]+')')
             elif char == '0':
-                temp.append('(not '+self.used_alpha[i]+')')
+                temp.append('(not ('+self.used_alpha[i]+'))')
             else:
                 pass
             i += 1

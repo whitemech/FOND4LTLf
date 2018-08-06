@@ -45,8 +45,9 @@ try:
 except:
     raise ValueError('[ERROR]: Could not create DFA')
 
-#new_domain = parsed_domain.get_new_domain(dfa_automaton.used_alpha, dfa_automaton.states, operator_trans)
-#new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states))
-print('[TRANSITIONS]: '+str(dfa_automaton.transitions)+'\n')
-print('[TRANSITIONS_BY_DESTINATION]: '+str(dfa_automaton.transitions_by_destination)+'\n')
+new_domain = parsed_domain.get_new_domain(dfa_automaton.used_alpha, dfa_automaton.states, operator_trans)
+new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states))
+#print('[TRANSITIONS]: '+str(dfa_automaton.transitions)+'\n')
+#print('[TRANSITIONS_BY_DESTINATION]: '+str(dfa_automaton.transitions_by_destination)+'\n')
 #print('[OPERATOR_TRANS]:\n'+operator_trans)
+print(new_domain)
