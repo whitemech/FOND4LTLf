@@ -35,6 +35,14 @@ class Domain:
 
     def add_precond_effect(self):
         for op in self.operators:
+            if isinstance(op, str):
+                pass
+            else:
+                if op.isOneOf():
+                    oneof_fluent = str(op.effects)
+                    self.predicates.append(oneof_fluent)
+                else:
+                    pass
             op.add_turn_domain()
 
     def get_new_domain(self, fluents, states, transition_operator):
