@@ -73,4 +73,6 @@ class FormulaOneOf:
         self.oneofList = oneofList
 
     def __str__(self):
-        return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
+        intermediate_str = '(A (oneof {0}))'.format(' '.join(map(str, self.oneofList)))
+        final_str = intermediate_str.replace(' ', '_')
+        return final_str
