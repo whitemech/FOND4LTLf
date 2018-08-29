@@ -1,4 +1,4 @@
-from dfagame.PDDLparser.formula import FormulaAnd
+from dfagame.PDDLparser.formula import FormulaAnd, FormulaOneOf
 from dfagame.PDDLparser.literal import Literal
 from dfagame.PDDLparser.predicate import Predicate
 
@@ -36,3 +36,9 @@ class Action:
     def add_turn_domain(self):
         self.add_to_precond()
         self.add_to_effect()
+
+    def isOneOf(self):
+        if isinstance(self.effects, FormulaOneOf):
+            return True
+        else:
+            return False
