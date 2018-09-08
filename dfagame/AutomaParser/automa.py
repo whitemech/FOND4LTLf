@@ -12,7 +12,8 @@ class Automa:
         **value**: {*action*: *destination*)
     """
     MAX_ALPHABET = 26
-    en_alphabet = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    en_alphabet = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                   'u', 'v', 'w', 'x', 'y', 'z')
     used_alpha = None
 
     def __init__(self, alphabet, states, initial_state, accepting_states, transitions):
@@ -88,9 +89,9 @@ class Automa:
     def get_formula_condition(self, source_action_list):
         if len(source_action_list) == 1:
             if self.get_condition_action(source_action_list[0][1]) == []:
-                formula_condition = '(= q {0})'.format(source_action_list[0][0])
+                formula_condition = '(q{0})'.format(source_action_list[0][0])
             else:
-                formula_condition = '(and (= q {0}) {1})'.format(source_action_list[0][0], ' '.join(self.get_condition_action(source_action_list[0][1])))
+                formula_condition = '(and (q{0}) {1})'.format(source_action_list[0][0], ' '.join(self.get_condition_action(source_action_list[0][1])))
         else:
             formula_condition = '(or {0})'.format(' '.join(self.get_or_conditions(source_action_list)))
         return formula_condition
@@ -100,13 +101,19 @@ class Automa:
         for source, action in source_action_list:
             formula_conditions = self.get_condition_action(action)
             if formula_conditions == []:
-                items.append('(= q {0})'.format(source))
+                items.append('(q{0})'.format(source))
             else:
-                items.append( '(and (= q {0}) {1})'.format(source, ' '.join(self.get_condition_action(action))))
+                items.append( '(and (q{0}) {1})'.format(source, ' '.join(self.get_condition_action(action))))
         return items
 
     def get_formula_statement(self, destination):
-        formula_statement = '(and (= q {0}) (turnDomain))'.format(destination)
+        negated_states = []
+        for state in self.states:
+            if state != destination:
+                negated_states.append('(not q{0})'.format(state))
+            else:
+                pass
+        formula_statement = '(and (q{0}) {1} (turnDomain))'.format(destination, ' '.join(negated_states))
         return formula_statement
 
     # def get_whens(self):
