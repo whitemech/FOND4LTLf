@@ -29,11 +29,14 @@ class MyParser(object):
 
     def p_domain(self, p):
         '''domain : LPAREN DEFINE_KEY domain_def require_def types_def constants_def predicates_def action_def_lst RPAREN
-                  | LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN'''
+                  | LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN
+                  | LPAREN DEFINE_KEY domain_def require_def predicates_def action_def_lst RPAREN'''
         if len(p) == 10:
             p[0] = Domain(p[3], p[4], p[5], p[6], p[7], p[8])
-        else:
+        elif len(p) == 9:
             p[0] = Domain(p[3], p[4], p[5], [], p[6], p[7])
+        else:
+            p[0] = Domain(p[3], p[4], [], [], p[5], p[6])
 
     def p_problem(self, p):
         '''problem : LPAREN DEFINE_KEY problem_def domain_pdef objects_def init_def goal_def RPAREN'''
@@ -241,7 +244,10 @@ class MyParser(object):
 
     def p_effects_def(self, p):
         '''effects_def : EFFECT_KEY LPAREN one_eff_formula RPAREN'''
-        p[0] = p[3]
+        if p[3] == 'and':
+            p[0] = '(and)'
+        else:
+            p[0] = p[3]
 
     # def p_eff_formula(self, p):
     #     '''eff_formula : one_eff_formula
@@ -258,6 +264,7 @@ class MyParser(object):
     def p_one_eff_formula(self, p):
         '''one_eff_formula : literal
                            | AND_KEY one_eff_formula_lst
+                           | AND_KEY
                            | ONEOF_KEY atomic_eff_lst
                            | WHEN_KEY formula atomic_eff
                            | LPAREN ONEOF_KEY atomic_eff_lst RPAREN
@@ -390,7 +397,7 @@ def id_generator():
 
 if __name__ == '__main__':
     par = MyParser()
-    with open('PDDLparser/prob.pddl', 'r') as f:
+    with open('./domain.pddl', 'r') as f:
         domain = f.read()
         f.close()
 

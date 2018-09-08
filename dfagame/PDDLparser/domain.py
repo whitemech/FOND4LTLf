@@ -9,11 +9,14 @@ class Domain:
         self.operators = operators #list
 
     def __str__(self):
-        self.requirements.remove(':non-deterministic')
+        if ':non-deterministic' in self.requirements:
+            self.requirements.remove(':non-deterministic')
         domain_str = '(define (domain {0})\n'.format(self.name)
         domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
-        domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
-        domain_str += '\t(:constants {0})\n'.format(' '.join(map(str, self.constants)))
+        if self.types:
+            domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
+        if self.constants:
+            domain_str += '\t(:constants {0})\n'.format(' '.join(map(str, self.constants)))
         domain_str += '\t(:predicates {0})\n'.format(' '.join(map(str, self.predicates)))
 
         for op in self.operators:
