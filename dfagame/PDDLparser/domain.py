@@ -9,6 +9,7 @@ class Domain:
         self.operators = operators #list
 
     def __str__(self):
+        self.requirements.remove(':non-deterministic')
         domain_str = '(define (domain {0})\n'.format(self.name)
         domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
         domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
