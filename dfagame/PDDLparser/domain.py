@@ -53,4 +53,4 @@ class Domain:
         self.add_predicates(fluents, states)
         self.add_precond_effect()
         self.add_operator_trans(transition_operator)
-        return self.__str__()
+        return self

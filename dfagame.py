@@ -47,16 +47,30 @@ except:
 
 new_domain = parsed_domain.get_new_domain(dfa_automaton.used_alpha, dfa_automaton.states, operator_trans)
 new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states))
-with open("./new-dom.pddl", 'w+') as dom:
-    dom.write(new_domain)
-    dom.close()
-with open("./new-prob.pddl", 'w+') as prob:
-    prob.write(new_problem)
-    prob.close()
-# print('[TRANSITIONS]: '+str(dfa_automaton.transitions)+'\n')
-# print('[TRANSITIONS_BY_DESTINATION]: '+str(dfa_automaton.transitions_by_destination)+'\n')
-# print('[OPERATOR_TRANS]:\n'+operator_trans)
-# print('\n[PDDL DOMAIN]:\n{0}\n\n[PDDL PROBLEM]:\n{1}\n'.format(new_domain, new_problem))
 
-subprocess.call("./ff -o new-dom.pddl -f new-prob.pddl", shell=True)
+try:
+    with open("./new-dom.pddl", 'w+') as dom:
+        dom.write(str(new_domain))
+        dom.close()
+    with open("./new-prob.pddl", 'w+') as prob:
+        prob.write(str(new_problem))
+        prob.close()
+except:
+    raise IOError('[ERROR]: Something wrong occurred while writing new problem and domain.')
+# print('\n[PDDL DOMAIN]:\n{0}\n\n[PDDL PROBLEM]:\n{1}\n'.format(new_domain, new_problem))
+try:
+    cmd = "./ff -o new-dom.pddl -f new-prob.pddl"
+    subprocess.call(cmd, shell=True)
+except:
+    raise OSError('[ERROR]: Something wrong occurred during adl2strips execution.')
+
+try:
+    with open("domain.pddl", 'r') as dom:
+        lines = dom.read().splitlines()
+        dom.close()
+
+
+
+except:
+    raise IOError('[ERROR]: Something wrong occurred when reading adl2strips domain')
 

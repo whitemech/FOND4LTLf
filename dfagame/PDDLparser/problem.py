@@ -68,4 +68,4 @@ class Problem(object):
     def get_new_problem(self, final_states):
         self.make_new_init()
         self.make_new_goal(final_states)
-        return self.__str__()
+        return self
