@@ -15,6 +15,9 @@ class Literal:
     def negative(cls, predicate):
         return Literal(predicate, False)
 
+    def get_vars(self):
+        return self.predicate.args
+
     def __repr__(self):
         return str(self)
 
