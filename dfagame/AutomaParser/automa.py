@@ -110,7 +110,7 @@ class Automa:
         negated_states = []
         for state in self.states:
             if state != destination:
-                negated_states.append('(not q{0})'.format(state))
+                negated_states.append('(not (q{0}))'.format(state))
             else:
                 pass
         formula_statement = '(and (q{0}) {1} (turnDomain))'.format(destination, ' '.join(negated_states))

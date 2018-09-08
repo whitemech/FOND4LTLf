@@ -15,6 +15,13 @@ class FormulaAnd:
         else:
             self.andList.append(Literal.negative(Predicate('turnDomain')))
 
+    def get_variables(self):
+        vars = []
+        for literal in self.andList:
+            vars += literal.get_vars()
+            # vars.append(literal.get_vars())
+        return vars
+
 class FormulaOr:
 
     def __init__(self, orList):
@@ -67,12 +74,37 @@ class FormulaWhen:
     def __str__(self):
         return '(when {0} {1})'.format(self.condition, self.formula)
 
+    def get_variables(self):
+        # it works only for literals for the moment
+        vars = []
+        vars += self.condition.get_vars()
+        print(vars)
+        vars += self.formula.get_vars()
+        print(vars)
+        return vars
+
 class FormulaOneOf:
 
-    def __init__(self, oneofList):
+    def __init__(self, id, oneofList):
+        self.id = id
         self.oneofList = oneofList
+        self.variables = []
+        self.variables_order = []
 
     def __str__(self):
-        intermediate_str = '(A (oneof {0}))'.format(' '.join(map(str, self.oneofList)))
-        final_str = intermediate_str.replace(' ', '_')
-        return final_str
+        vars = self.get_set_variables()
+        # return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
+        return '(oneof-{0} {1})'.format(self.id, ' '.join(map(str, vars)))
+        # str_1= 'A (oneof {0})'.format(' '.join(map(str, self.oneofList)))
+        # str_2 = str_1.replace(' ', '_') # A_(oneof_(tizio)_(caio)_(sempronio))
+        # str_3 = str_2.replace('(','-l-') # A_-l-oneof_-l-tizio)_-l-caio)_-l-sempronio))
+        # str_4 = str_3.replace(')', '-r-') # A_-l-oneof_-l-tizio-r-_-l-caio-r-_-l-sempronio-r--r-
+        # return '({0})'.format(str_4) # (A_-l-oneof_-l-tizio-r-_-l-caio-r-_-l-sempronio-r--r-)
+
+    def get_set_variables(self):
+        variables = set()
+        for formula in self.oneofList:
+            self.variables += formula.get_variables()
+            variables.update(self.variables)
+        self.variables_order = list(variables)
+        return variables

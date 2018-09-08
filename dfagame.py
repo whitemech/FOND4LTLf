@@ -2,7 +2,7 @@ from dfagame.PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
 from dfagame.AutomaParser.aparser import parse_dot
-import argparse, os
+import argparse, os, subprocess
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D, a planning'
                                                   ' problem P and a goal formula G and returns a new planning domain D\'')
@@ -47,7 +47,16 @@ except:
 
 new_domain = parsed_domain.get_new_domain(dfa_automaton.used_alpha, dfa_automaton.states, operator_trans)
 new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states))
-#print('[TRANSITIONS]: '+str(dfa_automaton.transitions)+'\n')
-#print('[TRANSITIONS_BY_DESTINATION]: '+str(dfa_automaton.transitions_by_destination)+'\n')
-#print('[OPERATOR_TRANS]:\n'+operator_trans)
-print(new_domain)
+with open("./new-dom.pddl", 'w+') as dom:
+    dom.write(new_domain)
+    dom.close()
+with open("./new-prob.pddl", 'w+') as prob:
+    prob.write(new_problem)
+    prob.close()
+# print('[TRANSITIONS]: '+str(dfa_automaton.transitions)+'\n')
+# print('[TRANSITIONS_BY_DESTINATION]: '+str(dfa_automaton.transitions_by_destination)+'\n')
+# print('[OPERATOR_TRANS]:\n'+operator_trans)
+# print('\n[PDDL DOMAIN]:\n{0}\n\n[PDDL PROBLEM]:\n{1}\n'.format(new_domain, new_problem))
+
+subprocess.call("./ff -o new-dom.pddl -f new-prob.pddl", shell=True)
+
