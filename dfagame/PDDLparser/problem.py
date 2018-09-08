@@ -1,7 +1,8 @@
 from dfagame.PDDLparser.formula import FormulaOr
-import itertools
 
 class Problem(object):
+
+    new_goal = set()
 
     def __init__(self, name, domain, objects, init, goal):
         self._name = name
@@ -41,25 +42,28 @@ class Problem(object):
             problem_str += '{0} - {1}'.format(' '.join(sorted(objects)), type)
         problem_str += ')\n'
         problem_str += '\t(:init {0})\n'.format(' '.join(sorted(self._init)))
-        problem_str += '(:goal (and {0}))\n'.format(' '.join(sorted(self._goal)))
+        problem_str += '(:goal (and {0}))\n'.format(' '.join(sorted(self.new_goal)))
         problem_str += ')'
         return problem_str
 
     def make_new_init(self):
         self._init.add('(turnDomain)')
-        self._init.add('(= q 1)')
+        self._init.add('(q1)')
         return self._init
 
     def make_new_goal(self, final_states):
-        self._goal.add('(turnDomain)')
+        self.new_goal.add('(turnDomain)')
+        # self._goal.add('(turnDomain)')
         if len(final_states) > 1:
             or_list = []
             for state in final_states:
-                or_list.append('(= q {0})'.format(str(state)))
+                or_list.append('(q{0})'.format(str(state)))
             new_formula = FormulaOr(or_list)
-            self._goal.add(str(new_formula))
+            # self._goal.add(str(new_formula))
+            self.new_goal.add(str(new_formula))
         else:
-            self._goal.add('(= q {0})'.format(final_states[0]))
+            # self._goal.add('(= q {0})'.format(final_states[0]))
+            self.new_goal.add('(q{0})'.format(final_states[0]))
 
     def get_new_problem(self, final_states):
         self.make_new_init()
