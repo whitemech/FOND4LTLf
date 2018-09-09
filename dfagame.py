@@ -2,7 +2,9 @@ from dfagame.PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
 from dfagame.AutomaParser.aparser import parse_dot
-import argparse, os, subprocess
+from fileinput import FileInput
+import argparse, os, subprocess, copy
+
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D, a planning'
                                                   ' problem P and a goal formula G and returns a new planning domain D\'')
@@ -34,8 +36,8 @@ try:
     translator.formula_parser()
     translator.translate()
     translator.createMonafile(False)
-    translator.invoke_mona("automa.mona")
-    dot_handler = DotHandler("inter-automa.dot")
+    translator.invoke_mona()
+    dot_handler = DotHandler()
     dot_handler.modify_dot()
     dot_handler.output_dot()
     dfa_automaton = parse_dot("automa.dot")
@@ -44,6 +46,8 @@ try:
     os.remove('automa.dot')
 except:
     raise ValueError('[ERROR]: Could not create DFA')
+
+old_domain = copy.deepcopy(parsed_domain)
 
 new_domain = parsed_domain.get_new_domain(dfa_automaton.used_alpha, dfa_automaton.states, operator_trans)
 new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states))
@@ -65,12 +69,25 @@ except:
     raise OSError('[ERROR]: Something wrong occurred during adl2strips execution.')
 
 try:
-    with open("domain.pddl", 'r') as dom:
-        lines = dom.read().splitlines()
+    with open("domain.pddl", 'r+') as dom:
+        last_domain = dom.read()
         dom.close()
 
-
+    parsed_last = pddl_parser(last_domain)
+    # for i in parsed_last.predicates:
+    #     print(i)
+    parsed_last.delete_oneofs_placeholder()
+    parsed_last.replace_oneofs(old_domain.get_oneofs())
 
 except:
     raise IOError('[ERROR]: Something wrong occurred when reading adl2strips domain')
 
+try:
+    if parsed_last:
+        with open("./last_domain.pddl", 'w+') as f:
+            f.write(str(parsed_last))
+            f.close()
+    else:
+        raise ValueError('[ERROR]: Error while parsing adl2strips output')
+except:
+    raise IOError('[ERROR]: Something wrong occurred when writing the last domain')

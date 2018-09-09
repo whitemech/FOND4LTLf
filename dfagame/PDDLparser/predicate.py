@@ -23,3 +23,6 @@ class Predicate:
             return '('+self.name+')'
         else:
             return '({0} {1})'.format(self.name, ' '.join(map(str, self._args)))
+
+    def __eq__(self, other):
+        return self._name == other._name

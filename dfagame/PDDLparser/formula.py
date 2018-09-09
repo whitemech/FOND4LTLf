@@ -85,16 +85,20 @@ class FormulaWhen:
 
 class FormulaOneOf:
 
-    def __init__(self, id, oneofList):
+    def __init__(self, id, oneofList, flag=True):
         self.id = id
         self.oneofList = oneofList
         self.variables = []
         self.variables_order = []
+        self.vars_set = self.get_set_variables()
+        self.flag = flag
 
     def __str__(self):
-        vars = self.get_set_variables()
         # return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
-        return '(oneof-{0} {1})'.format(self.id, ' '.join(map(str, vars)))
+        if self.flag:
+            return '(oneof-{0} {1})'.format(self.id, ' '.join(map(str, self.vars_set)))
+        else:
+            return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
         # str_1= 'A (oneof {0})'.format(' '.join(map(str, self.oneofList)))
         # str_2 = str_1.replace(' ', '_') # A_(oneof_(tizio)_(caio)_(sempronio))
         # str_3 = str_2.replace('(','-l-') # A_-l-oneof_-l-tizio)_-l-caio)_-l-sempronio))
