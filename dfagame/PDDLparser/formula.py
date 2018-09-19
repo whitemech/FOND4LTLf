@@ -85,8 +85,8 @@ class FormulaWhen:
 
 class FormulaOneOf:
 
-    def __init__(self, id, oneofList, flag=True):
-        self.id = id
+    def __init__(self, oneofList, flag=True):
+        #self.id = id
         self.oneofList = oneofList
         self.variables = []
         self.variables_order = []

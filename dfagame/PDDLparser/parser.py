@@ -276,12 +276,12 @@ class MyParser(object):
         elif len(p) == 3:
             if p[1] == 'and':
                 p[0] = FormulaAnd(p[2])
-            else: p[0] = FormulaOneOf(id_generator(), p[2])
+            else: p[0] = FormulaOneOf(p[2])
         elif len(p) == 4:
             if p[1] == 'when':
                 p[0] = FormulaWhen(p[2], p[3])
         elif len(p) == 5:
-            p[0] = FormulaOneOf(id_generator(), p[3])
+            p[0] = FormulaOneOf(p[3])
         elif len(p) == 6:
             p[0] = FormulaWhen(p[3], p[4])
         elif len(p) == 8:
@@ -391,8 +391,8 @@ class MyParser(object):
         print("Error: syntax error when parsing '{}'".format(p))
 
 
-def id_generator():
-    return ''.join(random.choices(string.digits, k=4))
+# def id_generator():
+#     return ''.join(random.choices(string.digits, k=4))
 
 
 if __name__ == '__main__':
