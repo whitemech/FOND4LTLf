@@ -22,14 +22,15 @@ def get_final_label(label):
     s1 = label.replace(" ", "")
     s2 = s1.replace('"','')
 
-    if len(s2) < 2:
+    if s2 == '':
+        return ['X']
+    elif len(s2) < 2:
         return [s2]
-        #return _split_dont_care(list(s2))
     else:
         s3 = s2.replace(",","")
         s4 = s3.split('\\n') # now s4 should be a list like ['01', '0X', '00']
 
-        leng_elem = len(s4[0])#length of elements in s4
+        leng_elem = len(s4[0]) # length of elements in s4
         temp = ''
         inter_label = []
         for i in range(leng_elem):
@@ -39,30 +40,6 @@ def get_final_label(label):
             temp = ''
 
         return inter_label
-
-        # inter_label should be like ['000','1X0']
-        # final_label = []
-        # for lab in inter_label:
-        #     final_label += _split_dont_care(list(lab))
-        #
-        # return final_label
-
-# def _split_dont_care(label_list):
-#     final = []
-#     return split_dont_care(label_list, final)
-#
-# def split_dont_care(label_list, splitted):
-#     if 'X' in label_list:
-#         lowest_index = label_list.index('X')
-#         label_list[lowest_index] = '0'
-#         split_dont_care(label_list, splitted)
-#         label_list[lowest_index] = '1'
-#         split_dont_care(label_list, splitted)
-#         label_list[lowest_index] = 'X'
-#     else:
-#         splitted += [''.join(label_list)]
-#         print('[SPLITTED]: '+str(splitted))
-#     return splitted
 
 def parse_dot(path):
 
@@ -85,7 +62,7 @@ def parse_dot(path):
     lines = get_file(path)
     accepting_states = set() #set containing all accepting states of the automaton
     for line in lines[7:]:
-        if line.strip() != 'node [shape=circle];':
+        if line.strip() != 'node [shape = circle];':
             temp = line.replace(";\n", "")
             accepting_states.add(temp.strip())
         else:
