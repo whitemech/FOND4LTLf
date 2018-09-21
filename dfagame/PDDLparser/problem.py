@@ -77,7 +77,6 @@ class Problem(object):
     def get_new_problem(self, final_states, symbols_list):
         obj_list = self.extract_object_list(symbols_list)
         self.objects_are_upper(obj_list)
-        print(obj_list)
         self.make_new_init(obj_list)
         self.make_new_goal(final_states, obj_list)
         return self

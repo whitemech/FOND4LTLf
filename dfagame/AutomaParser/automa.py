@@ -29,7 +29,6 @@ class Automa:
         self.accepting_states = accepting_states
         self.transitions = transitions
         self.transitions_by_destination = self.group_conditions_by_consequence()
-        print(self.transitions_by_destination)
         self.validate()
 
     def valide_transition_start_states(self):
