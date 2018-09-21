@@ -67,8 +67,12 @@ class MyParser(object):
             p[0] = p[5]
 
     def p_goal_def(self, p):
-        '''goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN'''
-        p[0] = p[5]
+        '''goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
+                    | LPAREN GOAL_KEY ground_predicates_lst RPAREN'''
+        if len(p) == 7:
+            p[0] = p[5]
+        else:
+            p[0] = p[3]
 
     def p_require_def(self, p):
         '''require_def : LPAREN REQUIREMENTS_KEY require_key_lst RPAREN'''
