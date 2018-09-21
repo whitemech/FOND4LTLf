@@ -95,10 +95,10 @@ class FormulaOneOf:
 
     def __str__(self):
         # return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
-        if self.flag:
-            return '(oneof-{0} {1})'.format(self.id, ' '.join(map(str, self.vars_set)))
-        else:
-            return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
+        # if self.flag:
+        #     return '(oneof-{0} {1})'.format(self.id, ' '.join(map(str, self.vars_set)))
+        # else:
+        return '(oneof {0})'.format(' '.join(map(str, self.oneofList)))
         # str_1= 'A (oneof {0})'.format(' '.join(map(str, self.oneofList)))
         # str_2 = str_1.replace(' ', '_') # A_(oneof_(tizio)_(caio)_(sempronio))
         # str_3 = str_2.replace('(','-l-') # A_-l-oneof_-l-tizio)_-l-caio)_-l-sempronio))

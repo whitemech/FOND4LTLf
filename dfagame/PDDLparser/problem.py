@@ -46,26 +46,58 @@ class Problem(object):
         problem_str += ')'
         return problem_str
 
-    def make_new_init(self):
+    def make_new_init(self, obj_list):
         self._init.add('(turnDomain)')
-        self._init.add('(q1)')
+        self._init.add('(q1 {0})'.format(' '.join(obj_list)))
         return self._init
 
-    def make_new_goal(self, final_states):
+    def make_new_goal(self, final_states, obj_list):
         self.new_goal.add('(turnDomain)')
         # self._goal.add('(turnDomain)')
         if len(final_states) > 1:
             or_list = []
             for state in final_states:
-                or_list.append('(q{0})'.format(str(state)))
+                if obj_list:
+                    or_list.append('(q{0} {1})'.format(str(state), ' '.join(obj_list)))
+                else:
+                    or_list.append('(q{0})'.format(str(state)))
             new_formula = FormulaOr(or_list)
             # self._goal.add(str(new_formula))
             self.new_goal.add(str(new_formula))
         else:
             # self._goal.add('(= q {0})'.format(final_states[0]))
-            self.new_goal.add('(q{0})'.format(final_states[0]))
+            if obj_list:
+                self.new_goal.add('(q{0} {1})'.format(final_states[0], ' '.join(obj_list)))
+            else:
+                self.new_goal.add('(q{0})'.format(final_states[0]))
 
-    def get_new_problem(self, final_states):
-        self.make_new_init()
-        self.make_new_goal(final_states)
+    def get_new_problem(self, final_states, symbols_list):
+        obj_list = self.extract_object_list(symbols_list)
+        self.objects_are_upper(obj_list)
+        print(obj_list)
+        self.make_new_init(obj_list)
+        self.make_new_goal(final_states, obj_list)
         return self
+
+    def extract_object_list(self, symbols_list):
+        already_seen = set()
+        obj_list = []
+        for symbol in symbols_list:
+            if symbol.objects:
+                for obj in symbol.objects:
+                    if obj not in already_seen:
+                        already_seen.add(obj)
+                        obj_list.append(obj)
+                    else:
+                        pass
+            else:
+                continue
+        return obj_list
+
+    def objects_are_upper(self, objects):
+        for value_list in self.objects.values():
+            for val in value_list:
+                if val.isupper() and val.lower() in objects:
+                    objects[objects.index(val.lower())] = objects[objects.index(val.lower())].upper()
+                else:
+                    pass

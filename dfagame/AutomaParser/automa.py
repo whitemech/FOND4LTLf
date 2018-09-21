@@ -100,7 +100,7 @@ class Automa:
                 pass
             counter += 1
 
-        return new_operators
+        return (new_operators, parameters)
 
 
     def compute_type(self, all_predicates, name, position):

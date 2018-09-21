@@ -28,15 +28,14 @@ class Domain:
         domain_str += ')'
         return domain_str
 
-    def add_operator_trans(self, transition_operator):
-        self.operators.append(transition_operator)
+    def add_operators_trans(self, transition_operators):
+        for operator in transition_operators:
+            self.operators.append(operator)
 
-    def add_predicates(self, fluents, states):
+    def add_predicates(self, parameters, states):
         self.predicates.append('(turnDomain)')
         for state in states:
-            self.predicates.append('(q{0})'.format(str(state)))
-        for fluent in fluents:
-            self.predicates.append('({0})'.format(fluent))
+            self.predicates.append('(q{0} {1})'.format(str(state), ' '.join(map(str, parameters))))
 
     def add_constants(self, states):
         for state in states:
@@ -54,11 +53,11 @@ class Domain:
                     pass
             op.add_turn_domain()
 
-    def get_new_domain(self, fluents, states, transition_operator):
+    def get_new_domain(self, parameters, states, transition_operators):
         #self.add_constants(states)
-        self.add_predicates(fluents, states)
+        self.add_predicates(parameters, states)
         self.add_precond_effect()
-        self.add_operator_trans(transition_operator)
+        self.add_operators_trans(transition_operators)
         return self
 
     def get_oneofs(self):
