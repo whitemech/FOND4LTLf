@@ -48,7 +48,10 @@ class Problem(object):
 
     def make_new_init(self, obj_list):
         self._init.add('(turnDomain)')
-        self._init.add('(q1 {0})'.format(' '.join(obj_list)))
+        if obj_list:
+            self._init.add('(q1 {0})'.format(' '.join(obj_list)))
+        else:
+            self._init.add('(q1)')
         return self._init
 
     def make_new_goal(self, final_states, obj_list):
