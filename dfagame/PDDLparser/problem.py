@@ -37,9 +37,9 @@ class Problem(object):
     def __str__(self):
         problem_str  = '(define (problem {0})\n'.format(self._name)
         problem_str += '\t(:domain {0})\n'.format(self._domain)
-        problem_str += '\t(:objects '
+        problem_str += '\t(:objects'
         for type, objects in self._objects.items():
-            problem_str += '{0} - {1}'.format(' '.join(sorted(objects)), type)
+            problem_str += ' {0} - {1}'.format(' '.join(sorted(objects)), type)
         problem_str += ')\n'
         problem_str += '\t(:init {0})\n'.format(' '.join(sorted(self._init)))
         problem_str += '(:goal (and {0}))\n'.format(' '.join(sorted(self.new_goal)))

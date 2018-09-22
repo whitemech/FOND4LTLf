@@ -43,76 +43,91 @@ class Domain:
 
     def add_precond_effect(self):
         for op in self.operators:
-            if isinstance(op, str):
-                pass
-            else:
-                if op.isOneOf():
-                    oneof_fluent = str(op.effects)
-                    self.predicates.append(oneof_fluent)
-                else:
-                    pass
+            # if isinstance(op, str):
+            #     pass
+            # else:
+            #     if op.isOneOf():
+            #         oneof_fluent = str(op.effects)
+            #         self.predicates.append(oneof_fluent)
+            #     else:
+            #         pass
             op.add_turn_domain()
 
     def get_new_domain(self, parameters, states, transition_operators):
         #self.add_constants(states)
+        self.compile_simple_adl()
         self.add_predicates(parameters, states)
         self.add_precond_effect()
         self.add_operators_trans(transition_operators)
         return self
 
-    def get_oneofs(self):
-        oneofs = []
-        for operator in self.operators:
-            if isinstance(operator.effects, FormulaOneOf):
-                oneofs.append(operator.effects)
-        return oneofs
-
-    def delete_oneofs_placeholder(self):
-        temp = copy.deepcopy(self.predicates)
-        for predicate in temp:
-            if predicate._name.startswith('ONEOF'):
-                if predicate in self.predicates:
-                    self.predicates.remove(predicate)
+    def compile_simple_adl(self):
+        for op in self.operators:
+            if isinstance(op.effects, (FormulaAnd, FormulaOneOf)):
+                if op.effects.inside_when():
+                    resultig_operators = self.split_operator(op)
+                else:
+                    continue
             else:
                 pass
 
-    def replace_oneofs(self, oneof_list):
-        for operator in self.operators:
-            if isinstance(operator.effects, FormulaAnd):
-                for predicate in operator.effects.andList:
-                    if predicate.predicate.name.startswith('ONEOF'):
-                        # print(operator.effects.andList.index(predicate))
-                        oneof_item = predicate.predicate.name.split('-')
-                        id = oneof_item[1]
-                        variables_ = oneof_item[2:]
-                        new_formula = change_oneof(id, variables_, oneof_list)
-                        operator.effects.andList[operator.effects.andList.index(predicate)] = new_formula
-            else:
-                pass
-        return self
+    def split_operator(self, op):
+        pass
 
-def change_oneof(id, _variables, original_oneof_list):
-    for oneof_formula in original_oneof_list:
-        if oneof_formula.id == id:
-            # substitute variables inside oneof items
-            legend = dict(zip(oneof_formula.variables_order, _variables))
-            new = substitute_variables(oneof_formula, legend)
-            # oneof_formula.flag = False
-            # print(oneof_formula)
-            return new
 
-def substitute_variables(formula, legend):
-    # print(legend)
-    subformulas_list = []
-    for subformula in formula.oneofList:
-        temp = copy.deepcopy(subformula)
-        for item in temp.andList:
-            grounded_var = ''
-            for arg in item.predicate._args:
-                grounded_var += '-'+str(legend[arg])
-            item.predicate._name = item.predicate._name.upper()+grounded_var
-            # print(item.predicate._name)
-            item.predicate._args = []
-        subformula = copy.deepcopy(temp)
-        subformulas_list.append(subformula)
-    return FormulaOneOf('new', subformulas_list, False)
+#     def get_oneofs(self):
+#         oneofs = []
+#         for operator in self.operators:
+#             if isinstance(operator.effects, FormulaOneOf):
+#                 oneofs.append(operator.effects)
+#         return oneofs
+#
+#     def delete_oneofs_placeholder(self):
+#         temp = copy.deepcopy(self.predicates)
+#         for predicate in temp:
+#             if predicate._name.startswith('ONEOF'):
+#                 if predicate in self.predicates:
+#                     self.predicates.remove(predicate)
+#             else:
+#                 pass
+#
+#     def replace_oneofs(self, oneof_list):
+#         for operator in self.operators:
+#             if isinstance(operator.effects, FormulaAnd):
+#                 for predicate in operator.effects.andList:
+#                     if predicate.predicate.name.startswith('ONEOF'):
+#                         # print(operator.effects.andList.index(predicate))
+#                         oneof_item = predicate.predicate.name.split('-')
+#                         id = oneof_item[1]
+#                         variables_ = oneof_item[2:]
+#                         new_formula = change_oneof(id, variables_, oneof_list)
+#                         operator.effects.andList[operator.effects.andList.index(predicate)] = new_formula
+#             else:
+#                 pass
+#         return self
+#
+# def change_oneof(id, _variables, original_oneof_list):
+#     for oneof_formula in original_oneof_list:
+#         if oneof_formula.id == id:
+#             # substitute variables inside oneof items
+#             legend = dict(zip(oneof_formula.variables_order, _variables))
+#             new = substitute_variables(oneof_formula, legend)
+#             # oneof_formula.flag = False
+#             # print(oneof_formula)
+#             return new
+#
+# def substitute_variables(formula, legend):
+#     # print(legend)
+#     subformulas_list = []
+#     for subformula in formula.oneofList:
+#         temp = copy.deepcopy(subformula)
+#         for item in temp.andList:
+#             grounded_var = ''
+#             for arg in item.predicate._args:
+#                 grounded_var += '-'+str(legend[arg])
+#             item.predicate._name = item.predicate._name.upper()+grounded_var
+#             # print(item.predicate._name)
+#             item.predicate._args = []
+#         subformula = copy.deepcopy(temp)
+#         subformulas_list.append(subformula)
+#     return FormulaOneOf('new', subformulas_list, False)
