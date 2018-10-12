@@ -1,4 +1,5 @@
-from dfagame.PDDLparser.formula import FormulaOneOf, FormulaAnd
+from dfagame.PDDLparser.formula import FormulaOneOf, FormulaAnd, FormulaWhen, FormulaOr
+from dfagame.PDDLparser.action import Action
 import copy
 
 class Domain:
@@ -12,8 +13,8 @@ class Domain:
         self.operators = operators #list
 
     def __str__(self):
-        if ':non-deterministic' in self.requirements:
-            self.requirements.remove(':non-deterministic')
+        # if ':non-deterministic' in self.requirements:
+        #     self.requirements.remove(':non-deterministic')
         domain_str = '(define (domain {0})\n'.format(self.name)
         domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
         if self.types:
@@ -61,20 +62,67 @@ class Domain:
         self.add_operators_trans(transition_operators)
         return self
 
+    def modify_operator(self, op_copy, condition, formula):
+        if isinstance(op_copy.preconditions, FormulaAnd):
+            op_copy.preconditions.andList.append(condition)
+            new_preconditions = op_copy.preconditions.andList
+            new_effects = formula
+        else:
+            new_preconditions = FormulaAnd([op_copy.preconditions,condition])
+            new_effects = formula
+        new_op = Action(op_copy.name, op_copy.parameters, new_preconditions, new_effects)
+        return new_op
+
     def compile_simple_adl(self):
+        i = 0
         for op in self.operators:
-            if isinstance(op.effects, (FormulaAnd, FormulaOneOf)):
-                if op.effects.inside_when():
-                    resultig_operators = self.split_operator(op)
-                else:
+            if isinstance(op.effects, FormulaWhen):
+                # it remains only one operator, but we need to modify it
+                condition_formula = op.effects.condition
+                statement_formula = op.effects.formula
+                new_op = self.modify_operator(copy.deepcopy(op),condition_formula, statement_formula)
+                self.operators[i] = new_op
+                continue
+            elif isinstance(op.effects, FormulaAnd):
+                no_of_whens = op.effects.count_whens()
+                if no_of_whens == 0:
                     continue
+                else:
+                    pos = self.operators.index(op)
+                    new_op_list = self.split_operator(copy.deepcopy(op),no_of_whens)
+                    self.operators[pos:pos+1] = new_op_list
+            i +=1
+
+    def split_operator(self, op, number):
+        '''
+        given a simple adl operator it returns
+        a list of operators without adl
+        '''
+        new_op_list = []
+        pair_precond_effect = []
+        additionals = []
+        formula = op.effects
+
+        for item in formula.andList:
+            if isinstance(item, FormulaWhen):
+                formula_condition = item.condition
+                formula_statement = item.formula
+                pair_precond_effect.append([FormulaAnd([op.preconditions,formula_condition]), formula_statement])
             else:
-                pass
-
-    def split_operator(self, op):
-        pass
+                additionals.append(item)
 
 
+        k = 1
+        for j in range(len(pair_precond_effect)):
+            pair_precond_effect[j][k] = FormulaAnd([pair_precond_effect[j][k]]+additionals)
+
+        for u in range(number):
+            new_op = Action(op.name+'-'+str(u), op.parameters, pair_precond_effect[u][0], pair_precond_effect[u][1])
+            new_op_list.append(new_op)
+
+        return new_op_list
+
+##############################################################
 #     def get_oneofs(self):
 #         oneofs = []
 #         for operator in self.operators:

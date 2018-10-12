@@ -22,6 +22,13 @@ class FormulaAnd:
             # vars.append(literal.get_vars())
         return vars
 
+    def count_whens(self):
+        count = 0
+        for item in self.andList:
+            if isinstance(item, FormulaWhen):
+                count +=1
+        return count
+
     def inside_when(self):
         for item in self.andList:
             if isinstance(item, FormulaWhen):
@@ -89,12 +96,6 @@ class FormulaWhen:
         print(vars)
         return vars
 
-    def inside_when(self):
-        for item in self.formula:
-            if isinstance(item, FormulaWhen):
-                return True
-        return False
-
 class FormulaOneOf:
 
     def __init__(self, oneofList, flag=True):
@@ -125,8 +126,8 @@ class FormulaOneOf:
         self.variables_order = list(variables)
         return variables
 
-    def inside_when(self):
-        for item in self.oneofList:
-            if isinstance(item, FormulaWhen):
-                return True
-        return False
+    # def inside_when(self):
+    #     for item in self.oneofList:
+    #         if isinstance(item, FormulaWhen):
+    #             return True
+    #     return False
