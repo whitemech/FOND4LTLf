@@ -1,10 +1,10 @@
 from dfagame.PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
+from dfagame.AutomaParser.symbol import Symbol
 from dfagame.AutomaParser.aparser import parse_dot
 from fileinput import FileInput
-import argparse, os, subprocess, copy
-
+import argparse, os, subprocess, copy, re
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D, a planning'
                                                   ' problem P and a goal formula G and returns a new planning domain D\'')
@@ -31,6 +31,30 @@ try:
 except:
     raise ValueError('[ERROR]: Could not parse problem')
 
+def compute_symb_vars(formula):
+    ground_predicates = re.findall('(?<![a-z])(?!true|false)[_a-z0-9]+', str(params['<goal_formula>']))
+    symb_vars_list = []
+    for predicate in ground_predicates:
+        temp = predicate.split('_')
+        if len(temp) == 1:
+            symb_vars_list.append(Symbol(temp[0]))
+        else:
+            symb_vars_list.append(Symbol(temp[0], temp[1:]))
+    return symb_vars_list
+
+def check_symbols(symbols):
+    names = []
+    for predicate in parsed_domain.predicates:
+        names.append(predicate.name)
+    for sym in symbols:
+        if sym.name not in names:
+            return False
+    return True
+
+symbols = compute_symb_vars(params['<goal_formula>'])
+if not check_symbols(symbols):
+    raise ValueError('[ERROR]: Formula symbols not in the domain.')
+
 try:
     translator = Translator(params['<goal_formula>'])
     translator.formula_parser()
@@ -41,16 +65,18 @@ try:
     dot_handler.modify_dot()
     dot_handler.output_dot()
     dfa_automaton = parse_dot("automa.dot")
-    operator_trans = dfa_automaton.create_operator_trans()
+    operators_trans, parameters = dfa_automaton.create_operators_trans(parsed_domain.predicates, set(symbols))
     os.remove('automa.mona')
     os.remove('automa.dot')
 except:
+    os.remove('automa.mona')
+    os.remove('automa.dot')
     raise ValueError('[ERROR]: Could not create DFA')
 
 old_domain = copy.deepcopy(parsed_domain)
 
-new_domain = parsed_domain.get_new_domain(dfa_automaton.used_alpha, dfa_automaton.states, operator_trans)
-new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states))
+new_domain = parsed_domain.get_new_domain(parameters, dfa_automaton.states, operators_trans)
+new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states), symbols)
 
 try:
     with open("./new-dom.pddl", 'w+') as dom:
@@ -61,33 +87,3 @@ try:
         prob.close()
 except:
     raise IOError('[ERROR]: Something wrong occurred while writing new problem and domain.')
-# print('\n[PDDL DOMAIN]:\n{0}\n\n[PDDL PROBLEM]:\n{1}\n'.format(new_domain, new_problem))
-try:
-    cmd = "./ff -o new-dom.pddl -f new-prob.pddl"
-    subprocess.call(cmd, shell=True)
-except:
-    raise OSError('[ERROR]: Something wrong occurred during adl2strips execution.')
-
-try:
-    with open("domain.pddl", 'r+') as dom:
-        last_domain = dom.read()
-        dom.close()
-
-    parsed_last = pddl_parser(last_domain)
-    # for i in parsed_last.predicates:
-    #     print(i)
-    parsed_last.delete_oneofs_placeholder()
-    parsed_last.replace_oneofs(old_domain.get_oneofs())
-
-except:
-    raise IOError('[ERROR]: Something wrong occurred when reading adl2strips domain')
-
-try:
-    if parsed_last:
-        with open("./last_domain.pddl", 'w+') as f:
-            f.write(str(parsed_last))
-            f.close()
-    else:
-        raise ValueError('[ERROR]: Error while parsing adl2strips output')
-except:
-    raise IOError('[ERROR]: Something wrong occurred when writing the last domain')

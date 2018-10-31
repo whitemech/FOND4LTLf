@@ -110,8 +110,6 @@ class Domain:
                 pair_precond_effect.append([FormulaAnd([op.preconditions,formula_condition]), formula_statement])
             else:
                 additionals.append(item)
-
-
         k = 1
         for j in range(len(pair_precond_effect)):
             pair_precond_effect[j][k] = FormulaAnd([pair_precond_effect[j][k]]+additionals)

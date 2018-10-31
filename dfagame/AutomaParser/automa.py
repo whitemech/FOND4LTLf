@@ -17,10 +17,6 @@ class Automa:
         **key**: *source* ∈ states
         **value**: {*action*: *destination*)
     """
-    # MAX_ALPHABET = 26
-    # en_alphabet = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-    #                'u', 'v', 'w', 'x', 'y', 'z')
-    # used_alpha = None
 
     def __init__(self, alphabet, states, initial_state, accepting_states, transitions):
         self.alphabet = alphabet
@@ -28,7 +24,7 @@ class Automa:
         self.initial_state = initial_state
         self.accepting_states = accepting_states
         self.transitions = transitions
-        self.transitions_by_destination = self.group_conditions_by_consequence()
+        self.trans_by_dest = self.group_conditions_by_consequence()
         self.validate()
 
     def valide_transition_start_states(self):
@@ -86,7 +82,7 @@ class Automa:
         # print(vars_mapping)
         my_variables = self.compute_variables(parameters)
         counter = 0
-        for destination, source_action in self.transitions_by_destination.items():
+        for destination, source_action in self.trans_by_dest.items():
             if source_action:
                 fluents_list_precond = self.compute_preconditions(source_action, vars_mapping, my_predicates, my_variables)
                 if isinstance(fluents_list_precond, FormulaAnd):
@@ -122,9 +118,9 @@ class Automa:
                 for obj in symbol.objects:
                     if obj not in objs_set:
                         objs_set.add(obj)
-                        (name_var, type) = self.compute_type(domain_predicates, symbol.name, i)
-                        obj_mapping[obj] = [name_var, type]
-                        parameters.append(Term.variable(name_var, type))
+                        (name_var, type_) = self.compute_type(domain_predicates, symbol.name, i)
+                        obj_mapping[obj] = [name_var, type_]
+                        parameters.append(Term.variable(name_var, type_))
                     else:
                         pass
                     i += 1
@@ -260,7 +256,7 @@ class Automa:
     #
     # def get_whens(self):
     #     whens = []
-    #     for destination, source_action in self.transitions_by_destination.items():
+    #     for destination, source_action in self.trans_by_dest.items():
     #         if source_action == []:
     #             pass
     #         else:
