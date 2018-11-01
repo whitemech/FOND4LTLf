@@ -1,8 +1,8 @@
-from dfagame.PDDLparser.parser import MyParser
+from fond4ltlfpltl.PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
-from dfagame.AutomaParser.symbol import Symbol
-from dfagame.AutomaParser.aparser import parse_dot
+from fond4ltlfpltl.AutomaParser.symbol import Symbol
+from fond4ltlfpltl.AutomaParser.aparser import parse_dot
 from fileinput import FileInput
 import argparse, os, subprocess, copy, re
 

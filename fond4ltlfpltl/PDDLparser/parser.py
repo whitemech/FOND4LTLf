@@ -1,12 +1,12 @@
 import ply.yacc as yacc
-from dfagame.PDDLparser.lexer import MyLexer
-from dfagame.PDDLparser.domain import Domain
-from dfagame.PDDLparser.problem import Problem
-from dfagame.PDDLparser.action import Action
-from dfagame.PDDLparser.literal import Literal
-from dfagame.PDDLparser.predicate import Predicate
-from dfagame.PDDLparser.term import Term
-from dfagame.PDDLparser.formula import *
+from fond4ltlfpltl.PDDLparser.lexer import MyLexer
+from fond4ltlfpltl.PDDLparser.domain import Domain
+from fond4ltlfpltl.PDDLparser.problem import Problem
+from fond4ltlfpltl.PDDLparser.action import Action
+from fond4ltlfpltl.PDDLparser.literal import Literal
+from fond4ltlfpltl.PDDLparser.predicate import Predicate
+from fond4ltlfpltl.PDDLparser.term import Term
+from fond4ltlfpltl.PDDLparser.formula import *
 
 import string, random
 

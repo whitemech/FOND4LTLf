@@ -1,6 +1,6 @@
-from dfagame.PDDLparser.formula import FormulaAnd, FormulaOneOf
-from dfagame.PDDLparser.literal import Literal
-from dfagame.PDDLparser.predicate import Predicate
+from fond4ltlfpltl.PDDLparser.formula import FormulaAnd, FormulaOneOf
+from fond4ltlfpltl.PDDLparser.literal import Literal
+from fond4ltlfpltl.PDDLparser.predicate import Predicate
 
 class Action:
 

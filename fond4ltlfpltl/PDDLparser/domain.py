@@ -1,5 +1,5 @@
-from dfagame.PDDLparser.formula import FormulaOneOf, FormulaAnd, FormulaWhen, FormulaOr
-from dfagame.PDDLparser.action import Action
+from fond4ltlfpltl.PDDLparser.formula import FormulaOneOf, FormulaAnd, FormulaWhen, FormulaOr
+from fond4ltlfpltl.PDDLparser.action import Action
 import copy
 
 class Domain:

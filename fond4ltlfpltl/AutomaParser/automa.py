@@ -1,9 +1,9 @@
-from dfagame.PDDLparser.action import Action
-from dfagame.PDDLparser.literal import Literal
-from dfagame.PDDLparser.predicate import Predicate
-from dfagame.PDDLparser.term import Term
-from dfagame.PDDLparser.formula import *
-from dfagame.AutomaParser.symbol import Symbol
+from fond4ltlfpltl.PDDLparser.action import Action
+from fond4ltlfpltl.PDDLparser.literal import Literal
+from fond4ltlfpltl.PDDLparser.predicate import Predicate
+from fond4ltlfpltl.PDDLparser.term import Term
+from fond4ltlfpltl.PDDLparser.formula import *
+from fond4ltlfpltl.AutomaParser.symbol import Symbol
 import re, string, random
 
 class Automa:

@@ -1,4 +1,4 @@
-from dfagame.PDDLparser.formula import FormulaOr
+from fond4ltlfpltl.PDDLparser.formula import FormulaOr
 
 class Problem(object):
 

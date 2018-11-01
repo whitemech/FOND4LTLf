@@ -1,5 +1,5 @@
 import pydot
-from dfagame.AutomaParser.automa import Automa
+from fond4ltlfpltl.AutomaParser.automa import Automa
 
 def get_file(path):
     try:
