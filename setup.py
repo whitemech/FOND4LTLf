@@ -19,8 +19,7 @@ with open(os.path.join(here, 'fond4ltlfpltl', '__version__.py'), 'r') as f:
 
 
 install_requires = [
-    "click",
-    "ltlf2dfa==0.3.0"
+    "click"
 ]
 
 setup(
