@@ -15,7 +15,7 @@ class Automa:
         - accepting_states => set() ;
         - transitions      => dict(), where
         **key**: *source* ∈ states
-        **value**: {*action*: *destination*)
+        **value**: {*action*: *destination*}
     """
 
     def __init__(self, alphabet, states, initial_state, accepting_states, transitions):

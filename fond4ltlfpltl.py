@@ -3,7 +3,7 @@ from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
 from fond4ltlfpltl.AutomaParser.symbol import Symbol
 from fond4ltlfpltl.AutomaParser.aparser import parse_dot
-from fileinput import FileInput
+# from fileinput import FileInput
 import argparse, os, subprocess, copy, re
 
 args_parser = argparse.ArgumentParser(description='DFAgame is a tool that takes as input a planning domain D, a planning'
@@ -30,6 +30,7 @@ try:
     parsed_problem = pddl_parser(problem)
 except:
     raise ValueError('[ERROR]: Could not parse problem')
+
 
 def compute_symb_vars(formula):
     ground_predicates = re.findall('(?<![a-z])(?!true|false)[_a-z0-9]+', str(params['<goal_formula>']))
@@ -79,10 +80,10 @@ new_domain = parsed_domain.get_new_domain(parameters, dfa_automaton.states, oper
 new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states), symbols)
 
 try:
-    with open("./new-dom.pddl", 'w+') as dom:
+    with open("dom-prime.pddl", 'w+') as dom:
         dom.write(str(new_domain))
         dom.close()
-    with open("./new-prob.pddl", 'w+') as prob:
+    with open("prob-prime.pddl", 'w+') as prob:
         prob.write(str(new_problem))
         prob.close()
 except:
