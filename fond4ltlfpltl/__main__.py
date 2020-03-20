@@ -16,18 +16,16 @@ def main(domain, problem, temporal_goal):
     pddl_problem = open(problem).read()
     domain_prime, problem_prime = execute(pddl_domain, pddl_problem, temporal_goal)
 
-    return domain_prime, problem_prime
+    print("======== Domain File ========\n{}\n\n======== Problem File ========\n{}".format(domain_prime, problem_prime))
 
-
-# def main(infile, output):
-#     """From HOA to DOT format."""
-#     input_string = open(infile).read()
-#     parser = HOAParser()
-#     hoa = parser(input_string)  # type: HOA
-#     print(hoa.dumps(), file=open(output, "w") if output is not None else None)
+    # try:
+    #     with open("dom-prime.pddl", 'w+') as dom:
+    #         dom.write(str(domain_prime))
+    #     with open("prob-prime.pddl", 'w+') as prob:
+    #         prob.write(str(problem_prime))
+    # except:
+    #     raise IOError('[ERROR]: Something wrong occurred while writing new problem and domain.')
 
 
 if __name__ == '__main__':
     main()  # pragma: no cover
-
-# domain_prime, problem_prime = execute(domain, problem, goal)
