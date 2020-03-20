@@ -107,6 +107,9 @@ PDDLParser/*.pddl
 *.dot
 AutomaParser/*.dot
 
+#
+*.mona
+
 # C extensions
 *.so
 

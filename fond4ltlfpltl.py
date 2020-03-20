@@ -1,6 +1,6 @@
 from fond4ltlfpltl.PDDLparser.parser import MyParser
 from ltlf2dfa.Translator import Translator
-from ltlf2dfa.DotHandler import DotHandler
+# from ltlf2dfa.DotHandler import DotHandler
 from fond4ltlfpltl.AutomaParser.symbol import Symbol
 from fond4ltlfpltl.AutomaParser.aparser import parse_dot
 # from fileinput import FileInput
@@ -57,21 +57,30 @@ if not check_symbols(symbols):
     raise ValueError('[ERROR]: Formula symbols not in the domain.')
 
 try:
-    translator = Translator(params['<goal_formula>'])
-    translator.formula_parser()
-    translator.translate()
-    translator.createMonafile(False)
-    translator.invoke_mona()
-    dot_handler = DotHandler()
-    dot_handler.modify_dot()
-    dot_handler.output_dot()
-    dfa_automaton = parse_dot("automa.dot")
+    t = Translator(params['<goal_formula>'])
+    t.formula_parser()
+    t.translate()
+    t.createMonafile(False)  # it creates automa.mona file
+    result = t.invoke_mona()
+    dfa_automaton = parse_dot(result)
     operators_trans, parameters = dfa_automaton.create_operators_trans(parsed_domain.predicates, set(symbols))
     os.remove('automa.mona')
-    os.remove('automa.dot')
+
+    # translator = Translator(params['<goal_formula>'])
+    # translator.formula_parser()
+    # translator.translate()
+    # translator.createMonafile(False)
+    # translator.invoke_mona()
+    # dot_handler = DotHandler()
+    # dot_handler.modify_dot()
+    # dot_handler.output_dot()
+    # dfa_automaton = parse_dot("automa.dot")
+    # operators_trans, parameters = dfa_automaton.create_operators_trans(parsed_domain.predicates, set(symbols))
+    # os.remove('automa.mona')
+    # os.remove('automa.dot')
 except:
     os.remove('automa.mona')
-    os.remove('automa.dot')
+    # os.remove('automa.dot')
     raise ValueError('[ERROR]: Could not create DFA')
 
 old_domain = copy.deepcopy(parsed_domain)
