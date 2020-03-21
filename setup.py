@@ -19,7 +19,8 @@ with open(os.path.join(here, 'fond4ltlfpltl', '__version__.py'), 'r') as f:
 
 
 install_requires = [
-    "click"
+    "click",
+    "ply"
 ]
 
 setup(

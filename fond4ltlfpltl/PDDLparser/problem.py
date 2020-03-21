@@ -1,8 +1,7 @@
 from fond4ltlfpltl.PDDLparser.formula import FormulaOr
 
-class Problem(object):
 
-    new_goal = set()
+class Problem(object):
 
     def __init__(self, name, domain, objects, init, goal):
         self._name = name
@@ -13,6 +12,7 @@ class Problem(object):
             self._objects[obj.type].append(str(obj.value))
         self._init = set(map(str, init))
         self._goal = set(map(str, goal))
+        self.new_goal = set()
 
     @property
     def name(self):
