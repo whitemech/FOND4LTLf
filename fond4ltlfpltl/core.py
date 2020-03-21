@@ -66,7 +66,7 @@ def execute(planning_domain, planning_problem, goal_formula):
         # os.remove('automa.mona')
         raise ValueError('[ERROR]: Could not create DFA')
 
-    old_domain = copy.deepcopy(parsed_domain)
+    # old_domain = copy.deepcopy(parsed_domain)
 
     new_domain = parsed_domain.get_new_domain(parameters, dfa_automaton.states, operators_trans)
     new_problem = parsed_problem.get_new_problem(list(dfa_automaton.accepting_states), symbols)

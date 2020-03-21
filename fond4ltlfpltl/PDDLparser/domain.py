@@ -5,12 +5,12 @@ import copy
 class Domain:
 
     def __init__(self, name, requirements, types, constants, predicates, operators):
-        self.name = name #string
-        self.requirements = requirements #list
-        self.types = types #list
-        self.constants = constants #list
-        self.predicates = predicates #list
-        self.operators = operators #list
+        self.name = name  # string
+        self.requirements = requirements  # list
+        self.types = types  # list
+        self.constants = constants  # list
+        self.predicates = predicates  # list
+        self.operators = operators  # list
 
     def __str__(self):
         # if ':non-deterministic' in self.requirements:
