@@ -1,9 +1,8 @@
 class Term:
-
     def __init__(self, **kwargs):
-        self._name  = kwargs.get('name',  None)
-        self._type  = kwargs.get('type',  None)
-        self._value = kwargs.get('value', None)
+        self._name = kwargs.get("name", None)
+        self._type = kwargs.get("type", None)
+        self._value = kwargs.get("value", None)
 
     @property
     def name(self):
@@ -36,10 +35,10 @@ class Term:
 
     def __str__(self):
         if self.is_variable() and self.is_typed():
-            return '{0} - {1}'.format(self._name, self._type)
+            return "{0} - {1}".format(self._name, self._type)
         if self.is_variable():
-            return '{0}'.format(self._name)
+            return "{0}".format(self._name)
         if self.is_constant() and self.is_typed():
-            return '{0} - {1}'.format(self._value, self._type)
+            return "{0} - {1}".format(self._value, self._type)
         if self.is_constant():
-            return '{0}'.format(self._value)
+            return "{0}".format(self._value)

@@ -7,16 +7,20 @@ from fond4ltlfpltl.core import execute
 
 
 @click.command()
-@click.argument('domain', type=str)
-@click.argument('problem', type=str)
-@click.argument('temporal_goal', type=str)
+@click.argument("domain", type=str)
+@click.argument("problem", type=str)
+@click.argument("temporal_goal", type=str)
 def main(domain, problem, temporal_goal):
     """main function for cli."""
     pddl_domain = open(domain).read()
     pddl_problem = open(problem).read()
     domain_prime, problem_prime = execute(pddl_domain, pddl_problem, temporal_goal)
 
-    print("======== Domain File ========\n{}\n\n======== Problem File ========\n{}".format(domain_prime, problem_prime))
+    print(
+        "======== Domain File ========\n{}\n\n======== Problem File ========\n{}".format(
+            domain_prime, problem_prime
+        )
+    )
 
     # try:
     #     with open("dom-prime.pddl", 'w+') as dom:
@@ -27,5 +31,5 @@ def main(domain, problem, temporal_goal):
     #     raise IOError('[ERROR]: Something wrong occurred while writing new problem and domain.')
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()  # pragma: no cover

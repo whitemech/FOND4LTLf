@@ -1,9 +1,9 @@
-from fond4ltlfpltl.PDDLparser.formula import FormulaOneOf, FormulaAnd, FormulaWhen, FormulaOr
-from fond4ltlfpltl.PDDLparser.action import Action
+from fond4ltlfpltl.pddl.formulas import FormulaOneOf, FormulaAnd, FormulaWhen, FormulaOr
+from fond4ltlfpltl.pddl.action import Action
 import copy
 
-class Domain:
 
+class Domain:
     def __init__(self, name, requirements, types, constants, predicates, operators):
         self.name = name  # string
         self.requirements = requirements  # list
@@ -15,18 +15,22 @@ class Domain:
     def __str__(self):
         # if ':non-deterministic' in self.requirements:
         #     self.requirements.remove(':non-deterministic')
-        domain_str = '(define (domain {0})\n'.format(self.name)
-        domain_str += '\t(:requirements {0})\n'.format(' '.join(self.requirements))
+        domain_str = "(define (domain {0})\n".format(self.name)
+        domain_str += "\t(:requirements {0})\n".format(" ".join(self.requirements))
         if self.types:
-            domain_str += '\t(:types {0})\n'.format(' '.join(self.types))
+            domain_str += "\t(:types {0})\n".format(" ".join(self.types))
         if self.constants:
-            domain_str += '\t(:constants {0})\n'.format(' '.join(map(str, self.constants)))
-        domain_str += '\t(:predicates {0})\n'.format(' '.join(map(str, self.predicates)))
+            domain_str += "\t(:constants {0})\n".format(
+                " ".join(map(str, self.constants))
+            )
+        domain_str += "\t(:predicates {0})\n".format(
+            " ".join(map(str, self.predicates))
+        )
 
         for op in self.operators:
-            domain_str += '\t(:action {0})\n'.format(str(op).replace('\n', '\n\t'))
+            domain_str += "\t(:action {0})\n".format(str(op).replace("\n", "\n\t"))
 
-        domain_str += ')'
+        domain_str += ")"
         return domain_str
 
     def add_operators_trans(self, transition_operators):
@@ -34,13 +38,15 @@ class Domain:
             self.operators.append(operator)
 
     def add_predicates(self, parameters, states):
-        self.predicates.append('(turnDomain)')
+        self.predicates.append("(turnDomain)")
         for state in states:
-            self.predicates.append('(q{0} {1})'.format(str(state), ' '.join(map(str, parameters))))
+            self.predicates.append(
+                "(q{0} {1})".format(str(state), " ".join(map(str, parameters)))
+            )
 
     def add_constants(self, states):
         for state in states:
-            self.constants.append('{0}'.format(str(state)))
+            self.constants.append("{0}".format(str(state)))
 
     def add_precond_effect(self):
         for op in self.operators:
@@ -55,7 +61,7 @@ class Domain:
             op.add_turn_domain()
 
     def get_new_domain(self, parameters, states, transition_operators):
-        #self.add_constants(states)
+        # self.add_constants(states)
         self.compile_simple_adl()
         self.add_predicates(parameters, states)
         self.add_precond_effect()
@@ -68,9 +74,11 @@ class Domain:
             new_preconditions = op_copy.preconditions.andList
             new_effects = formula
         else:
-            new_preconditions = FormulaAnd([op_copy.preconditions,condition])
+            new_preconditions = FormulaAnd([op_copy.preconditions, condition])
             new_effects = formula
-        new_op = Action(op_copy.name, op_copy.parameters, new_preconditions, new_effects)
+        new_op = Action(
+            op_copy.name, op_copy.parameters, new_preconditions, new_effects
+        )
         return new_op
 
     def compile_simple_adl(self):
@@ -80,7 +88,9 @@ class Domain:
                 # it remains only one operator, but we need to modify it
                 condition_formula = op.effects.condition
                 statement_formula = op.effects.formula
-                new_op = self.modify_operator(copy.deepcopy(op),condition_formula, statement_formula)
+                new_op = self.modify_operator(
+                    copy.deepcopy(op), condition_formula, statement_formula
+                )
                 self.operators[i] = new_op
                 continue
             elif isinstance(op.effects, FormulaAnd):
@@ -89,15 +99,15 @@ class Domain:
                     continue
                 else:
                     pos = self.operators.index(op)
-                    new_op_list = self.split_operator(copy.deepcopy(op),no_of_whens)
-                    self.operators[pos:pos+1] = new_op_list
-            i +=1
+                    new_op_list = self.split_operator(copy.deepcopy(op), no_of_whens)
+                    self.operators[pos : pos + 1] = new_op_list
+            i += 1
 
     def split_operator(self, op, number):
-        '''
+        """
         given a simple adl operator it returns
         a list of operators without adl
-        '''
+        """
         new_op_list = []
         pair_precond_effect = []
         additionals = []
@@ -107,18 +117,31 @@ class Domain:
             if isinstance(item, FormulaWhen):
                 formula_condition = item.condition
                 formula_statement = item.formula
-                pair_precond_effect.append([FormulaAnd([op.preconditions,formula_condition]), formula_statement])
+                pair_precond_effect.append(
+                    [
+                        FormulaAnd([op.preconditions, formula_condition]),
+                        formula_statement,
+                    ]
+                )
             else:
                 additionals.append(item)
         k = 1
         for j in range(len(pair_precond_effect)):
-            pair_precond_effect[j][k] = FormulaAnd([pair_precond_effect[j][k]]+additionals)
+            pair_precond_effect[j][k] = FormulaAnd(
+                [pair_precond_effect[j][k]] + additionals
+            )
 
         for u in range(number):
-            new_op = Action(op.name+'-'+str(u), op.parameters, pair_precond_effect[u][0], pair_precond_effect[u][1])
+            new_op = Action(
+                op.name + "-" + str(u),
+                op.parameters,
+                pair_precond_effect[u][0],
+                pair_precond_effect[u][1],
+            )
             new_op_list.append(new_op)
 
         return new_op_list
+
 
 ##############################################################
 #     def get_oneofs(self):

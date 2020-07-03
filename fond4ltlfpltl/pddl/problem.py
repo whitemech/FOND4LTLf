@@ -1,8 +1,7 @@
-from fond4ltlfpltl.PDDLparser.formula import FormulaOr
+from fond4ltlfpltl.pddl.formulas import FormulaOr
 
 
 class Problem(object):
-
     def __init__(self, name, domain, objects, init, goal):
         self._name = name
         self._domain = domain
@@ -35,44 +34,46 @@ class Problem(object):
         return self._goal.copy()
 
     def __str__(self):
-        problem_str  = '(define (problem {0})\n'.format(self._name)
-        problem_str += '\t(:domain {0})\n'.format(self._domain)
-        problem_str += '\t(:objects'
+        problem_str = "(define (problem {0})\n".format(self._name)
+        problem_str += "\t(:domain {0})\n".format(self._domain)
+        problem_str += "\t(:objects"
         for type, objects in self._objects.items():
-            problem_str += ' {0} - {1}'.format(' '.join(sorted(objects)), type)
-        problem_str += ')\n'
-        problem_str += '\t(:init {0})\n'.format(' '.join(sorted(self._init)))
-        problem_str += '(:goal (and {0}))\n'.format(' '.join(sorted(self.new_goal)))
-        problem_str += ')'
+            problem_str += " {0} - {1}".format(" ".join(sorted(objects)), type)
+        problem_str += ")\n"
+        problem_str += "\t(:init {0})\n".format(" ".join(sorted(self._init)))
+        problem_str += "(:goal (and {0}))\n".format(" ".join(sorted(self.new_goal)))
+        problem_str += ")"
         return problem_str
 
     def make_new_init(self, obj_list):
-        self._init.add('(turnDomain)')
+        self._init.add("(turnDomain)")
         if obj_list:
-            self._init.add('(q1 {0})'.format(' '.join(obj_list)))
+            self._init.add("(q1 {0})".format(" ".join(obj_list)))
         else:
-            self._init.add('(q1)')
+            self._init.add("(q1)")
         return self._init
 
     def make_new_goal(self, final_states, obj_list):
-        self.new_goal.add('(turnDomain)')
+        self.new_goal.add("(turnDomain)")
         # self._goal.add('(turnDomain)')
         if len(final_states) > 1:
             or_list = []
             for state in final_states:
                 if obj_list:
-                    or_list.append('(q{0} {1})'.format(str(state), ' '.join(obj_list)))
+                    or_list.append("(q{0} {1})".format(str(state), " ".join(obj_list)))
                 else:
-                    or_list.append('(q{0})'.format(str(state)))
+                    or_list.append("(q{0})".format(str(state)))
             new_formula = FormulaOr(or_list)
             # self._goal.add(str(new_formula))
             self.new_goal.add(str(new_formula))
         else:
             # self._goal.add('(= q {0})'.format(final_states[0]))
             if obj_list:
-                self.new_goal.add('(q{0} {1})'.format(final_states[0], ' '.join(obj_list)))
+                self.new_goal.add(
+                    "(q{0} {1})".format(final_states[0], " ".join(obj_list))
+                )
             else:
-                self.new_goal.add('(q{0})'.format(final_states[0]))
+                self.new_goal.add("(q{0})".format(final_states[0]))
 
     def get_new_problem(self, final_states, symbols_list):
         obj_list = self.extract_object_list(symbols_list)
@@ -100,6 +101,8 @@ class Problem(object):
         for value_list in self.objects.values():
             for val in value_list:
                 if val.isupper() and val.lower() in objects:
-                    objects[objects.index(val.lower())] = objects[objects.index(val.lower())].upper()
+                    objects[objects.index(val.lower())] = objects[
+                        objects.index(val.lower())
+                    ].upper()
                 else:
                     pass

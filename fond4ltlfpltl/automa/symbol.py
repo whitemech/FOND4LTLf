@@ -1,15 +1,14 @@
 class Symbol:
-
     def __init__(self, name, objects_list=[]):
         self.name = name
         self.objects = objects_list
 
     def __str__(self):
-        return '{0} - {1}'.format(self.name, ','.join(self.objects))
+        return "{0} - {1}".format(self.name, ",".join(self.objects))
 
     def __hash__(self):
         if self.objects:
-            return hash(self.name+str('_'.join(self.objects)))
+            return hash(self.name + str("_".join(self.objects)))
         else:
             return hash(self.name)
 

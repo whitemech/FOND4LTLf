@@ -1,4 +1,4 @@
-from fond4ltlfpltl.AutomaParser.automa import Automa
+from fond4ltlfpltl.automa.automa import Automa
 import re
 
 # UNSAT_DOT = '''digraph MONA_DFA {
@@ -133,36 +133,38 @@ def get_value(text, regex, value_type=float):
 def parse_dot(mona_output):
     """Parse mona output and initialize the Automaton."""
     # initial_state = get_value(mona_output, '.*Initial state:[\s]*(\d+)\n.*', int)
-    accepting_states = get_value(mona_output, r'.*Accepting states:[\s]*(.*?)\n.*', str)
-    accepting_states = set(str(x.strip()) for x in accepting_states.split() if len(x.strip()) > 0)
-    num_states = get_value(mona_output, '.*Automaton has[\s]*(\d+)[\s]states.*', int)
+    accepting_states = get_value(mona_output, r".*Accepting states:[\s]*(.*?)\n.*", str)
+    accepting_states = set(
+        str(x.strip()) for x in accepting_states.split() if len(x.strip()) > 0
+    )
+    num_states = get_value(mona_output, ".*Automaton has[\s]*(\d+)[\s]states.*", int)
 
     transitions = {str(k): {} for k in range(1, num_states)}
     for line in mona_output.splitlines():
         if line.startswith("State "):
-            orig_state = get_value(line, r'.*State[\s]*(\d+):\s.*', str)
-            if orig_state == '0':
+            orig_state = get_value(line, r".*State[\s]*(\d+):\s.*", str)
+            if orig_state == "0":
                 continue
-            guard = get_value(line, r'.*:[\s](.*?)[\s]->.*', str)
-            dest_state = get_value(line, r'.*state[\s]*(\d+)[\s]*.*', str)
+            guard = get_value(line, r".*:[\s](.*?)[\s]->.*", str)
+            dest_state = get_value(line, r".*state[\s]*(\d+)[\s]*.*", str)
 
             transitions[orig_state][guard] = dest_state
 
     automaton = Automa(
-        alphabet={'0', '1', 'X'},
+        alphabet={"0", "1", "X"},
         states=set(transitions.keys()),
-        initial_state='1',
+        initial_state="1",
         accepting_states=accepting_states,
-        transitions=transitions
+        transitions=transitions,
     )
 
     return automaton
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # path = "automa.dot"
 
-    path = '''
+    path = """
 DFA for formula with free variables: A B 
 Initial state: 0
 Accepting states: 2 
@@ -192,7 +194,7 @@ A               X 0
 B               X X
 
 A = {}
-B = {}'''
+B = {}"""
     result = parse_dot(path)
-    #print(result.create_operator_trans()+'\n')
+    # print(result.create_operator_trans()+'\n')
     print(result)
