@@ -14,13 +14,14 @@ with open('HISTORY.md') as history_file:
 
 here = os.path.abspath(os.path.dirname(__file__))
 about = {}
-with open(os.path.join(here, 'fond4ltlfpltl', '__version__.py'), 'r') as f:
+with open(os.path.join(here, 'fond4ltlfpltlf', '__version__.py'), 'r') as f:
     exec(f.read(), about)
 
 
 install_requires = [
     "click",
-    "ply"
+    "ply",
+    "ltlf2dfa"
 ]
 
 setup(
@@ -44,10 +45,10 @@ setup(
     ],
     install_requires=install_requires,
     license=about["__license__"],
-    keywords='fond4ltlfpltl',
-    packages=find_packages(include=['fond4ltlfpltl*']),
+    keywords='fond4ltlfpltlf',
+    packages=find_packages(include=['fond4ltlfpltlf*']),
     entry_points={
-        'console_scripts': ["fond4ltlfpltl=fond4ltlfpltl.__main__:main"],
+        'console_scripts': ["fond4ltlfpltlf=fond4ltlfpltlf.__main__:main"],
     },
     test_suite='tests',
     zip_safe=False,

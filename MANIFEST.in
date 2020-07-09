@@ -6,10 +6,8 @@ include README.md
 include Pipfile
 include Pipfile.lock
 
-recursive-include fond4ltlfpltl *
 recursive-include tests *
+recursive-include docs *
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
-
-recursive-include docs *.md conf.py Makefile make.bat *.jpg *.png *.gif
