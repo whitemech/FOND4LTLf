@@ -39,8 +39,12 @@ cd fond4ltlfpltlf
 pip install .
 ```
 ## How To Use
-
-TBA
+Use the command line interface:
+```bash
+fond4ltlfpltlf -d <path/to/domain.pddl> -p <path/to/problem.pddl> -g "formula"
+```
+You can also specify custom output paths for the new domain and the new problem 
+using `--out-domain` or `-outd` and `--out-problem` or `-outp`.
 
 ## Features
 
