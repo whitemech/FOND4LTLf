@@ -21,9 +21,3 @@ def test_check_symbols():
 #     in_problem = open("../tests/data/triangle-tireworld/p01.pddl").read()
 #
 #     domain_prime, problem_prime = fond4ltlfpltlf.core.execute(in_domain, in_problem, formula_1)
-
-# print(
-#     "======== Domain File ========\n{}\n\n======== Problem File ========\n{}".format(
-#         domain_prime, problem_prime
-#     )
-# )

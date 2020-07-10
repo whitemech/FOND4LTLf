@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Core module of the fonod4ltlfpltlf tool."""
 
-from fond4ltlfpltlf.parser.parser import MyParser
+from fond4ltlfpltlf.parser.parser import PDDLParser
 from ltlf2dfa.parser.ltlf import LTLfParser
 from ltlf2dfa.parser.pltlf import PLTLfParser, ParsingError
 from fond4ltlfpltlf.automa.symbol import Symbol

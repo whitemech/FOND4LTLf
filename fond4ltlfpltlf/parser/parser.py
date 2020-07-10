@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 
-from fond4ltlfpltlf.parser.lexer import MyLexer
+from fond4ltlfpltlf.parser.lexer import PDDLLexer
 from fond4ltlfpltlf.pddl.domain import Domain
 from fond4ltlfpltlf.pddl.predicate import Predicate
 from fond4ltlfpltlf.pddl.literal import Literal
@@ -19,9 +19,9 @@ from fond4ltlfpltlf.pddl.formulas import (
 )
 
 
-class MyParser(object):
+class PDDLParser(object):
     def __init__(self):
-        self.lexer = MyLexer()
+        self.lexer = PDDLLexer()
         self.lexer.build()
         self.tokens = self.lexer.tokens
         self.symbols = self.lexer.reserved
@@ -426,7 +426,7 @@ class MyParser(object):
 
 
 if __name__ == "__main__":
-    par = MyParser()
+    par = PDDLParser()
     with open("../../tests/dom.pddl", "r") as f:
         domain = f.read()
 

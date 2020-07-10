@@ -1,7 +1,7 @@
 import ply.lex as lex
 
 
-class MyLexer(object):
+class PDDLLexer(object):
 
     reserved = {
         "define": "DEFINE_KEY",
@@ -93,6 +93,6 @@ class MyLexer(object):
 
 if __name__ == "__main__":
     # Build the lexer and try it out
-    m = MyLexer()
+    m = PDDLLexer()
     m.build()  # Build the lexer
     m.test("(and (and) (oneof (ciao) (come) ))")  # Test it
