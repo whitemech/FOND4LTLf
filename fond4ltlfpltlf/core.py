@@ -38,7 +38,7 @@ def check_symbols(symbols, parsed_domain):
 
 def execute(planning_domain, planning_problem, goal_formula):
     """Execute the compilation."""
-    pddl_parser = MyParser()
+    pddl_parser = PDDLParser()
     parsed_domain = pddl_parser(planning_domain)
     parsed_problem = pddl_parser(planning_problem)
 

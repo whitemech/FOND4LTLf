@@ -59,3 +59,23 @@ class Term:
             return "{0} - {1}".format(self._value, self._type)
         if self.is_constant():
             return "{0}".format(self._value)
+
+    def __eq__(self, other):
+        """Check equality between two Terms."""
+        if self.is_variable():
+            return (
+                isinstance(other, Term)
+                and self.name == other.name
+                and self.type == other.type
+            )
+        else:
+            assert self.is_constant()
+            return (
+                isinstance(other, Term)
+                and self.value == other.value
+                and self.type == other.type
+            )
+
+    def __hash__(self):
+        """Get the hash of a Term."""
+        return id(self)

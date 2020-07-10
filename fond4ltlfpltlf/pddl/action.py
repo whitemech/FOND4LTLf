@@ -28,6 +28,16 @@ class Action:
         operator_str += "\t:effect {0}\n".format(self.effects)
         return operator_str
 
+    def __eq__(self, other):
+        """Check equality between two Actions."""
+        return (
+            isinstance(other, Action)
+            and self.name == other.name
+            and self.parameters == other.parameters
+            and self.preconditions == other.preconditions
+            and self.effects == other.effects
+        )
+
     def add_to_precond(self):
         """Modify action preconditions."""
         if isinstance(self.preconditions, FormulaAnd):

@@ -43,3 +43,15 @@ class Literal:
             return "(not (= {0} {1}))".format(lhs, rhs)
         if not self.is_positive():
             return "(not {})".format(str(self.predicate))
+
+    def __eq__(self, other):
+        """Check the equality between two Literals."""
+        return (
+            isinstance(other, Literal)
+            and self.predicate == other.predicate
+            and self.positiveness == other.positiveness
+        )
+
+    def __hash__(self):
+        """Get the has of a Literal."""
+        return id(self)

@@ -33,17 +33,17 @@ class Problem(object):
     @property
     def objects(self):
         """Get the objects."""
-        return self._objects.copy()
+        return self._objects
 
     @property
     def init(self):
         """Get the initial state."""
-        return self._init.copy()
+        return self._init
 
     @property
     def goal(self):
         """Get the goal state."""
-        return self._goal.copy()
+        return self._goal
 
     def __str__(self):
         """Get the string."""

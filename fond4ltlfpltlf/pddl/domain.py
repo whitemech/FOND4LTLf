@@ -42,6 +42,18 @@ class Domain:
         domain_str += ")"
         return domain_str
 
+    def __eq__(self, other):
+        """Check equality between two Domains."""
+        return (
+            isinstance(other, Domain)
+            and self.name == other.name
+            and self.requirements == other.requirements
+            and self.types == other.types
+            and self.constants == other.constants
+            and self.predicates == other.predicates
+            and self.operators == other.operators
+        )
+
     def add_operators_trans(self, transition_operators):
         """Add trans actions."""
         for operator in transition_operators:

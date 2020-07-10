@@ -22,6 +22,14 @@ class FormulaAnd:
         else:
             return "(and)"
 
+    def __eq__(self, other):
+        """Check the equality between two And formulas."""
+        return isinstance(other, FormulaAnd) and self.andList == other.andList
+
+    def __iter__(self):
+        """Override the iterator of an And Formula."""
+        return self.andList.__iter__()
+
     def complete_domain_turn(self, flag):
         """Add domain turn predicate."""
         if flag:
@@ -167,6 +175,18 @@ class FormulaOneOf:
         # str_3 = str_2.replace('(','-l-') # A_-l-oneof_-l-tizio)_-l-caio)_-l-sempronio))
         # str_4 = str_3.replace(')', '-r-') # A_-l-oneof_-l-tizio-r-_-l-caio-r-_-l-sempronio-r--r-
         # return '({0})'.format(str_4) # (A_-l-oneof_-l-tizio-r-_-l-caio-r-_-l-sempronio-r--r-)
+
+    def __eq__(self, other):
+        """Check the equality between two OneOf formulas."""
+        return (
+            isinstance(other, FormulaOneOf)
+            and self.oneofList == other.oneofList
+            and self.flag == other.flag
+        )
+
+    def __iter__(self):
+        """Override the iterator of an OneOf Formula."""
+        return self.oneofList.__iter__()
 
     def get_set_variables(self):
         """Get variables as set."""

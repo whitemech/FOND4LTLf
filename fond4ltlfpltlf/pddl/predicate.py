@@ -39,4 +39,8 @@ class Predicate:
 
     def __eq__(self, other):
         """Override equal operator."""
-        return self.name == other.name
+        return isinstance(other, Predicate) and self.name == other.name
+
+    def __hash__(self):
+        """Get the has of a Predicate."""
+        return id(self)

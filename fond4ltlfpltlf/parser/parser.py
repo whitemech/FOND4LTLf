@@ -82,12 +82,8 @@ class PDDLParser(object):
             p[0] = p[5]
 
     def p_goal_def(self, p):
-        """goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
-                    | LPAREN GOAL_KEY ground_predicates_lst RPAREN"""
-        if len(p) == 7:
-            p[0] = p[5]
-        else:
-            p[0] = p[3]
+        """goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN"""
+        p[0] = FormulaAnd(p[5])
 
     def p_require_def(self, p):
         """require_def : LPAREN REQUIREMENTS_KEY require_key_lst RPAREN"""
@@ -164,8 +160,8 @@ class PDDLParser(object):
             p[0] = [p[1]] + p[2]
 
     def p_ground_predicate(self, p):
-        """ground_predicate : LPAREN NAME constants_lst RPAREN
-                            | LPAREN NAME RPAREN"""
+        """ground_predicate : LPAREN NAME RPAREN
+                            | LPAREN NAME constants_lst RPAREN"""
         if len(p) == 4:
             p[0] = Predicate(p[2])
         elif len(p) == 5:
