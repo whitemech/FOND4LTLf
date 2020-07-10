@@ -1,6 +1,6 @@
 # History
 
-## 0.0.2 (2020-07-09)
+## 0.0.2 (2020-07-10)
 - structure refactoring
 - enhance parsing
 - introduce testing
