@@ -384,3 +384,170 @@ class TestParsingProblem1:
     def test_problem_goal(self):
         """Test that the goal condition is correct."""
         assert self.pddl_goal == {"(up)", "(position p1)"}
+
+
+class TestParsingDomain2:
+    """Test parsing for tests/data/triangle-tireworld/domain.pddl."""
+
+    @classmethod
+    def setup_class(cls):
+        """Set the test up."""
+        parser = PDDLParser()
+        cls.pddl_obj = parser(
+            open(str(Path(TEST_ROOT_DIR, "data", "triangle-tireworld", "domain.pddl"))).read()
+        )  # type: Domain
+        cls.pddl_name = cls.pddl_obj.name
+        cls.pddl_requirements = cls.pddl_obj.requirements
+        cls.pddl_types = cls.pddl_obj.types
+        cls.pddl_constants = cls.pddl_obj.constants
+        cls.pddl_predicates = cls.pddl_obj.predicates
+        cls.pddl_operators = cls.pddl_obj.operators
+
+    def test_domain_name(self):
+        """Test that the name is correct."""
+        assert self.pddl_name == "triangle-tire"
+
+    def test_domain_requirements(self):
+        """Test that the domain requirements are correct."""
+        assert self.pddl_requirements == [":typing", ":strips", ":non-deterministic"]
+
+    def test_domain_types(self):
+        """Test that the domain types are correct."""
+        assert self.pddl_types == ["location"]
+
+    def test_domain_constants(self):
+        """Test that the domain constants are correct."""
+        assert self.pddl_constants == []
+
+    def test_domain_predicates(self):
+        """Test that the domain predicates are correct."""
+        assert self.pddl_predicates == [
+            Predicate("vehicleat", [Term.variable("loc", "location")]),
+            Predicate("spare-in", [Term.variable("loc", "location")]),
+            Predicate("road", [Term.variable("from", "location"), Term.variable("to", "location")]),
+            Predicate("not-flattire"),
+        ]
+
+    def test_domain_operators(self):
+        """Test that the domain operators are correct."""
+        op1 = Action(
+            name="move-car",
+            parameters=[
+                Term.variable("?from", "location"),
+                Term.variable("?to", "location"),
+            ],
+            preconditions=FormulaAnd(
+                [
+                    Literal.positive(Predicate("vehicleat", [Term.variable("?from")])),
+                    Literal.positive(
+                        Predicate(
+                            "road", [Term.variable("?from"), Term.variable("?to")]
+                        )
+                    ),
+                    Literal.positive(Predicate("not-flattire")),
+                ]
+            ),
+            effects=FormulaAnd(
+                [
+                    FormulaOneOf(
+                        [
+                            FormulaAnd(
+                                [
+                                    Literal.positive(
+                                        Predicate("vehicleat", [Term.variable("?to")])
+                                    ),
+                                    Literal.negative(
+                                        Predicate("vehicleat", [Term.variable("?from")])
+                                    ),
+                                ]
+                            ),
+                            FormulaAnd(
+                                [
+                                    Literal.positive(
+                                        Predicate("vehicleat", [Term.variable("?to")])
+                                    ),
+                                    Literal.negative(
+                                        Predicate("vehicleat", [Term.variable("?from")])
+                                    ),
+                                    Literal.negative(
+                                        Predicate("not-flattire")
+                                    ),
+                                ]
+                            ),
+                        ]
+                    ),
+                ]
+            ),
+        )
+        op2 = Action(
+            name="changetire",
+            parameters=[
+                Term.variable("?loc", "location"),
+            ],
+            preconditions=FormulaAnd(
+                [
+                    Literal.positive(Predicate("spare-in", [Term.variable("?loc")])),
+                    Literal.positive(Predicate("vehicleat", [Term.variable("?loc")])),
+                ]
+            ),
+            effects=FormulaAnd(
+                [
+                    Literal.negative(Predicate("spare-in", [Term.variable("?loc")])),
+                    Literal.positive(Predicate("not-flattire")),
+                ]
+            ),
+        )
+
+        assert self.pddl_operators == [op1, op2,]
+
+
+class TestParsingProblem2:
+    """Test parsing for tests/data/triangle-tireworld/p01.pddl."""
+
+    @classmethod
+    def setup_class(cls):
+        """Set the test up."""
+        parser = PDDLParser()
+        cls.pddl_obj = parser(
+            open(str(Path(TEST_ROOT_DIR, "data", "triangle-tireworld", "p01.pddl"))).read()
+        )  # type: Problem
+        cls.pddl_name = cls.pddl_obj.name
+        cls.pddl_domain = cls.pddl_obj.domain
+        cls.pddl_objects = cls.pddl_obj.objects
+        cls.pddl_init = cls.pddl_obj.init
+        cls.pddl_goal = cls.pddl_obj.goal
+
+    def test_problem_name(self):
+        """Test that the name is correct."""
+        assert self.pddl_name == "triangle-tire-1"
+
+    def test_problem_domain(self):
+        """Test that the domain name is correct."""
+        assert self.pddl_domain == "triangle-tire"
+
+    def test_problem_objects(self):
+        """Test that the objects are correct."""
+        assert self.pddl_objects == {"location": ["l-1-1", "l-1-2", "l-1-3", "l-2-1", "l-2-2", "l-2-3", "l-3-1", "l-3-2", "l-3-3"]}
+
+    def test_problem_init(self):
+        """Test that the initial condition is correct."""
+        assert self.pddl_init == {
+            "(vehicleat l-1-1)",
+            "(road l-1-1 l-1-2)",
+            "(road l-1-2 l-1-3)",
+            "(road l-1-1 l-2-1)",
+            "(road l-1-2 l-2-2)",
+            "(road l-2-1 l-1-2)",
+            "(road l-2-2 l-1-3)",
+            "(spare-in l-2-1)",
+            "(spare-in l-2-2)",
+            "(road l-2-1 l-3-1)",
+            "(road l-3-1 l-2-2)",
+            "(spare-in l-3-1)",
+            "(spare-in l-3-1)",
+            "(not-flattire)",
+        }
+
+    def test_problem_goal(self):
+        """Test that the goal condition is correct."""
+        assert self.pddl_goal == {"(vehicleat l-1-3)"}

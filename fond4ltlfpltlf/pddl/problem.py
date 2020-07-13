@@ -3,6 +3,7 @@
 """This module contains the implementations of a PDDL Problem."""
 
 from fond4ltlfpltlf.pddl.formulas import FormulaOr
+from collections.abc import Iterable
 
 
 class Problem(object):
@@ -17,7 +18,11 @@ class Problem(object):
             self._objects[obj.type] = self._objects.get(obj.type, [])
             self._objects[obj.type].append(str(obj.value))
         self._init = set(map(str, init))
-        self._goal = set(map(str, goal))
+        if isinstance(goal, Iterable):
+            self._goal = set(map(str, goal))
+        else:
+            assert not isinstance(goal, Iterable)
+            self._goal = {str(goal)}
         self.new_goal = set()
 
     @property
