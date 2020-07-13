@@ -82,8 +82,13 @@ class PDDLParser(object):
             p[0] = p[5]
 
     def p_goal_def(self, p):
-        """goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN"""
-        p[0] = FormulaAnd(p[5])
+        """goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
+                    | LPAREN GOAL_KEY ground_predicate RPAREN"""
+        if len(p) == 8:
+            p[0] = FormulaAnd(p[5])
+        else:
+            assert len(p) == 5
+            p[0] = p[3]
 
     def p_require_def(self, p):
         """require_def : LPAREN REQUIREMENTS_KEY require_key_lst RPAREN"""
@@ -423,7 +428,7 @@ class PDDLParser(object):
 
 if __name__ == "__main__":
     par = PDDLParser()
-    with open("../../tests/dom.pddl", "r") as f:
+    with open("../../tests/data/triangle-tireworld/p01.pddl", "r") as f:
         domain = f.read()
 
     result = par(domain)
