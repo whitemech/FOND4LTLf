@@ -2,6 +2,8 @@ name: FOND4LTLfPLTLf CI pipeline.
 
 on:
   push:
+    paths:
+      - 'tests/data/**'
     branches:
       - develop
       - master
