@@ -21,7 +21,7 @@ with open(os.path.join(here, 'fond4ltlfpltlf', '__version__.py'), 'r') as f:
 install_requires = [
     "click",
     "ply",
-    "ltlf2dfa"
+    "ltlf2dfa @ git+https://github.com/whitemech/LTLf2DFA.git@develop#egg=ltlf2dfa"
 ]
 
 setup(
@@ -36,9 +36,8 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Education',
-        'License :: OSI Approved :: Apache Software License',
+        'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'

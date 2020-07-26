@@ -34,7 +34,7 @@ pip install git+https://github.com/whitemech/FOND4LTLfPLTLf.git
 
 - or, clone the repository and install:
 ```
-git clone htts://github.com/whitemech/FOND4LTLfPLTLf.git
+git clone https://github.com/whitemech/FOND4LTLfPLTLf.git
 cd fond4ltlfpltlf
 pip install .
 ```

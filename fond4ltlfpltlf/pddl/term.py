@@ -65,15 +65,15 @@ class Term:
         if self.is_variable():
             return (
                 isinstance(other, Term)
-                and self.name == other.name
-                and self.type == other.type
+                and self._name == other._name
+                and self._type == other._type
             )
         else:
             assert self.is_constant()
             return (
                 isinstance(other, Term)
-                and self.value == other.value
-                and self.type == other.type
+                and self._value == other._value
+                and self._type == other._type
             )
 
     def __hash__(self):
