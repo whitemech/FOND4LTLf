@@ -26,7 +26,4 @@ class Symbol:
 
     def __eq__(self, other):
         """Override the equal operator."""
-        if self.name == other.name and self.objects == other.objects:
-            return True
-        else:
-            return False
+        return self.name == other.name and self.objects == other.objects

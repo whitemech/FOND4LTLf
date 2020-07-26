@@ -176,9 +176,9 @@ class PDDLParser(object):
         """constants_lst : constant constants_lst
                          | constant"""
         if len(p) == 2:
-            p[0] = [Term.constant(p[1])]
+            p[0] = [p[1]]
         elif len(p) == 3:
-            p[0] = [Term.constant(p[1])] + p[2]
+            p[0] = [p[1]] + p[2]
 
     def p_typed_constants_lst(self, p):
         """typed_constants_lst : constants_lst HYPHEN type typed_constants_lst

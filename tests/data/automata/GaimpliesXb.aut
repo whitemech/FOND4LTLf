@@ -1,0 +1,32 @@
+
+DFA for formula with free variables: A B
+Initial state: 0
+Accepting states: 2
+Rejecting states: 3 4
+Don't-care states: 0 1
+
+Automaton has 5 states and 8 BDD-nodes
+Transitions:
+State 0: XX -> state 1
+State 1: 0X -> state 2
+State 1: 1X -> state 3
+State 2: 0X -> state 2
+State 2: 1X -> state 3
+State 3: 00 -> state 4
+State 3: 01 -> state 2
+State 3: 10 -> state 4
+State 3: 11 -> state 3
+State 4: XX -> state 4
+A counter-example of least length (1) is:
+A               X 1
+B               X X
+
+A = {0}
+B = {}
+
+A satisfying example of least length (1) is:
+A               X 0
+B               X X
+
+A = {}
+B = {}

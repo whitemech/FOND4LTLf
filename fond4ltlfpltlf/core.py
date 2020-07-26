@@ -5,16 +5,16 @@ from fond4ltlfpltlf.parser.parser import PDDLParser
 from ltlf2dfa.parser.ltlf import LTLfParser
 from ltlf2dfa.parser.pltlf import PLTLfParser, ParsingError
 from fond4ltlfpltlf.automa.symbol import Symbol
-from fond4ltlfpltlf.automa.aparser import parse_dot
+from fond4ltlfpltlf.automa.aparser import parse_dfa
 import re
 
-FUTURE_OPS = {"X", "F", "U", "G", "WX", "R"}
+FUTURE_OPS = {"X", "F", "U", "G", "W", "R"}
 PAST_OPS = {"Y", "O", "S", "H"}
 
 
 def compute_symb_vars(formula):
     """Compute Symbols from the temporal formula."""
-    ground_predicates = re.findall("(?!true|false)[_a-z0-9]+", str(formula))
+    ground_predicates = re.findall(r"(?!true|false)[_a-z0-9]+", str(formula))
     symb_vars_list = []
     for predicate in ground_predicates:
         temp = predicate.split("_")
@@ -64,7 +64,7 @@ def execute(planning_domain, planning_problem, goal_formula):
             raise ParsingError()
 
     mona_output = formula.to_dfa(mona_dfa_out=True)
-    dfa = parse_dot(mona_output)
+    dfa = parse_dfa(mona_output)
     operators_trans, parameters = dfa.create_operators_trans(
         parsed_domain.predicates, set(symbols)
     )
