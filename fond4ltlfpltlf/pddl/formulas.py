@@ -232,8 +232,11 @@ class FormulaOneOf:
         """Get variables as set."""
         variables = set()
         for formula in self.oneofList:
-            self.variables += formula.get_variables()
-            variables.update(self.variables)
+            if isinstance(formula, Literal):
+                self.variables += formula.get_vars()
+            else:
+                self.variables += formula.get_variables()
+                variables.update(self.variables)
         self.variables_order = list(variables)
         return variables
 
