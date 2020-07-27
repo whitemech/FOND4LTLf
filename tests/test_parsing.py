@@ -71,8 +71,12 @@ from fond4ltlfpltlf.parser.parser import PDDLParser
                 "domain.pddl",
             ),
         ),
-        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
-        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"
+            ),
+        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"
@@ -97,7 +101,11 @@ from fond4ltlfpltlf.parser.parser import PDDLParser
                 "domain.pddl",
             ),
         ),
-        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"),),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"
+            ),
+        ),
     ],
 )
 def test_domain_parsing_is_deterministic(domain):

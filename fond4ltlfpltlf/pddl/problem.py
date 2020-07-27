@@ -131,12 +131,12 @@ class Problem(object):
                 and_list.append(Predicate("q{0}".format(final_states[0])))
                 # self.new_goal.add("(q{0})".format(final_states[0]))
 
-            self._goal = FormulaAnd([and_list] + [turn_domain])
+            self._goal = FormulaAnd(and_list + [turn_domain])
 
     def get_new_problem(self, final_states, symbols_list):
         """Return the modified problem."""
         obj_list = self.extract_object_list(symbols_list)
-        self.objects_are_upper(obj_list)
+        # self.objects_are_upper(obj_list)
         self.make_new_init(obj_list)
         self.make_new_goal(final_states, obj_list)
         return self
