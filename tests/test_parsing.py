@@ -23,89 +23,89 @@ from fond4ltlfpltlf.parser.parser import PDDLParser
 @pytest.mark.parametrize(
     ["domain"],
     [
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR,
-        #         "data",
-        #         "pddl-domains",
-        #         "blocksworld-ipc08",
-        #         "domain.pddl",
-        #     ),
-        # ),
-        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "doors", "domain.pddl"),),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR,
-        #         "data",
-        #         "pddl-domains",
-        #         "earth_observation",
-        #         "domain.pddl",
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "domain.pddl"
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "d01.pddl"
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR,
-        #         "data",
-        #         "pddl-domains",
-        #         "first-responders-ipc08",
-        #         "domain.pddl",
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"
-        #     ),
-        # ),
-        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"
-        #     ),
-        # ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "doors", "domain.pddl"),),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "earth_observation",
+                "domain.pddl",
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "domain.pddl"
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "d01.pddl"
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "first-responders-ipc08",
+                "domain.pddl",
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"
+            ),
+        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"
+            ),
+        ),
         (
             os.path.join(
                 TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "domain.pddl"
             ),
         ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "domain.pddl"
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR,
-        #         "data",
-        #         "pddl-domains",
-        #         "triangle-tireworld",
-        #         "domain.pddl",
-        #     ),
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"
-        #     ),
-        # ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "domain.pddl"
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "triangle-tireworld",
+                "domain.pddl",
+            ),
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"
+            ),
+        ),
     ],
 )
 def test_domain_parsing_is_deterministic(domain):
