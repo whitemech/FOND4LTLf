@@ -3,16 +3,16 @@
 """Test the fonod4ltlfpltlf tool."""
 
 import os
-import tempfile
+
+# import tempfile
 import pytest
 
 from .conftest import TEST_ROOT_DIR
 
-import copy
 import fond4ltlfpltlf.core
 from fond4ltlfpltlf.automa.symbol import Symbol
 
-from fond4ltlfpltlf.parser.parser import PDDLParser
+# from fond4ltlfpltlf.parser.parser import PDDLParser
 
 
 def test_check_symbols():
@@ -57,6 +57,19 @@ def test_check_symbols():
             ),
             "F(emptyhand & on_b1_b2 & on_b2_b5)",
         ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p00.pddl",
+            ),
+            "F(emptyhand & on_b_e & ontable_e)",
+        ),
         # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
         # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
         (
@@ -77,14 +90,13 @@ def test_check_symbols():
 )
 def test_execute(domain, problem, formula):
     """Test that execute's output is deterministic."""
-    parser = PDDLParser()
     temp_d = domain
     temp_p = problem
 
-    in_domain_1 = parser(open(domain).read())  # type: Domain
-    in_problem_1 = parser(open(problem).read())  # type: Problem
-    in_domain_2 = parser(open(temp_d).read())  # type: Domain
-    in_problem_2 = parser(open(temp_p).read())  # type: Problem
+    in_domain_1 = open(domain).read()  # type: Domain
+    in_problem_1 = open(problem).read()  # type: Problem
+    in_domain_2 = open(temp_d).read()  # type: Domain
+    in_problem_2 = open(temp_p).read()  # type: Problem
 
     out_domain_1, out_problem_1 = fond4ltlfpltlf.core.execute(
         in_domain_1, in_problem_1, formula
