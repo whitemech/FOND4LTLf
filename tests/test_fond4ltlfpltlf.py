@@ -3,6 +3,7 @@
 """Test the fonod4ltlfpltlf tool."""
 
 import os
+
 # import tempfile
 import pytest
 
@@ -57,17 +58,17 @@ def test_check_symbols():
             "F(emptyhand & on_b1_b2 & on_b2_b5)",
         ),
         (
-                os.path.join(
-                    TEST_ROOT_DIR,
-                    "data",
-                    "pddl-domains",
-                    "blocksworld-ipc08",
-                    "domain.pddl",
-                ),
-                os.path.join(
-                    TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p00.pddl",
-                ),
-                "F(emptyhand & on_b_e & ontable_e)",
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p00.pddl",
+            ),
+            "F(emptyhand & on_b_e & ontable_e)",
         ),
         # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
         # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
