@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Core module of the fonod4ltlfpltlf tool."""
 
-from fond4ltlfpltlf.parser.parser import PDDLParser
+# from fond4ltlfpltlf.parser.parser import PDDLParser
 from ltlf2dfa.parser.ltlf import LTLfParser
 from ltlf2dfa.parser.pltlf import PLTLfParser, ParsingError
 from fond4ltlfpltlf.automa.symbol import Symbol
@@ -38,9 +38,11 @@ def check_symbols(symbols, parsed_domain):
 
 def execute(planning_domain, planning_problem, goal_formula):
     """Execute the compilation."""
-    pddl_parser = PDDLParser()
-    parsed_domain = pddl_parser(planning_domain)
-    parsed_problem = pddl_parser(planning_problem)
+    # pddl_parser = PDDLParser()
+    # parsed_domain = pddl_parser(planning_domain)
+    # parsed_problem = pddl_parser(planning_problem)
+    parsed_domain = planning_domain
+    parsed_problem = planning_problem
 
     symbols = compute_symb_vars(goal_formula)
     if not check_symbols(

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contains the implementations of a PDDL Predicate."""
+"""This module contains the implementations of MONA output parser."""
 
 
 from fond4ltlfpltlf.automa.automaton import Automaton

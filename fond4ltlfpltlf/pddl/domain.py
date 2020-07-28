@@ -7,6 +7,10 @@ from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaWhen
 from fond4ltlfpltlf.pddl.action import Action
 import copy
 
+# from fond4ltlfpltlf.pddl.literal import Literal
+# from fond4ltlfpltlf.pddl.predicate import Predicate
+# from fond4ltlfpltlf.pddl.term import Term
+
 
 class Domain:
     """A class for the PDDL Domain."""
@@ -61,8 +65,17 @@ class Domain:
 
     def add_predicates(self, parameters, states):
         """Add DFA predicates."""
+        # self.predicates.append(Literal.positive(Predicate("turnDomain")))
         self.predicates.append("(turnDomain)")
         for state in states:
+            # self.predicates.append(
+            #     Literal.positive(
+            #         Predicate(
+            #             "q{0} {1}".format(str(state),
+            #                               " ".join([par for par in parameters]))
+            #         )
+            #     )
+            # )
             self.predicates.append(
                 "(q{0} {1})".format(str(state), " ".join(map(str, parameters)))
             )

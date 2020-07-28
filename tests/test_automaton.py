@@ -165,25 +165,17 @@ class TestParsingAutomaton1:
                             [
                                 FormulaAnd(
                                     [
-                                        Literal.positive(
-                                            Predicate("q1", [Term.variable("?loc-00")])
-                                        ),
+                                        Literal.positive(Predicate("q1", ["?loc-00"])),
                                         Literal.negative(
-                                            Predicate(
-                                                "vehicleat", [Term.variable("?loc-00")]
-                                            )
+                                            Predicate("vehicleat", ["?loc-00"])
                                         ),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
-                                        Literal.positive(
-                                            Predicate("q2", [Term.variable("?loc-00")])
-                                        ),
+                                        Literal.positive(Predicate("q2", ["?loc-00"])),
                                         Literal.negative(
-                                            Predicate(
-                                                "vehicleat", [Term.variable("?loc-00")]
-                                            )
+                                            Predicate("vehicleat", ["?loc-00"])
                                         ),
                                     ]
                                 ),
@@ -194,9 +186,9 @@ class TestParsingAutomaton1:
                 ),
                 effects=FormulaAnd(
                     [
-                        Literal.positive(Predicate("q2", [Term.variable("?loc-00")])),
-                        Literal.negative(Predicate("q1", [Term.variable("?loc-00")])),
-                        Literal.negative(Predicate("q3", [Term.variable("?loc-00")])),
+                        Literal.positive(Predicate("q2", ["?loc-00"])),
+                        Literal.negative(Predicate("q1", ["?loc-00"])),
+                        Literal.negative(Predicate("q3", ["?loc-00"])),
                         Literal.positive(Predicate("turnDomain")),
                     ]
                 ),
@@ -210,31 +202,21 @@ class TestParsingAutomaton1:
                             [
                                 FormulaAnd(
                                     [
+                                        Literal.positive(Predicate("q1", ["?loc-00"])),
                                         Literal.positive(
-                                            Predicate("q1", [Term.variable("?loc-00")])
-                                        ),
-                                        Literal.positive(
-                                            Predicate(
-                                                "vehicleat", [Term.variable("?loc-00")]
-                                            )
+                                            Predicate("vehicleat", ["?loc-00"])
                                         ),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
+                                        Literal.positive(Predicate("q2", ["?loc-00"])),
                                         Literal.positive(
-                                            Predicate("q2", [Term.variable("?loc-00")])
-                                        ),
-                                        Literal.positive(
-                                            Predicate(
-                                                "vehicleat", [Term.variable("?loc-00")]
-                                            )
+                                            Predicate("vehicleat", ["?loc-00"])
                                         ),
                                     ]
                                 ),
-                                Literal.positive(
-                                    Predicate("q3", [Term.variable("?loc-00")])
-                                ),
+                                Literal.positive(Predicate("q3", ["?loc-00"])),
                             ]
                         ),
                         Literal.negative(Predicate("turnDomain")),
@@ -242,9 +224,9 @@ class TestParsingAutomaton1:
                 ),
                 effects=FormulaAnd(
                     [
-                        Literal.positive(Predicate("q3", [Term.variable("?loc-00")])),
-                        Literal.negative(Predicate("q1", [Term.variable("?loc-00")])),
-                        Literal.negative(Predicate("q2", [Term.variable("?loc-00")])),
+                        Literal.positive(Predicate("q3", ["?loc-00"])),
+                        Literal.negative(Predicate("q1", ["?loc-00"])),
+                        Literal.negative(Predicate("q2", ["?loc-00"])),
                         Literal.positive(Predicate("turnDomain")),
                     ]
                 ),
@@ -422,7 +404,7 @@ class TestParsingAutomaton2:
         }
         assert actual_vars_map == expected_vars_map
 
-    def test_automaton_create_trans_op(self):
+    def test_automaton_create_trans_op_1(self):
         """Test that the created trans operator is correct."""
         pddl_domain = self.parser(
             open(
@@ -461,22 +443,11 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.negative(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                     ]
                                 ),
@@ -484,31 +455,14 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                         Literal.negative(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b2-01", "?b2-02"],)
                                         ),
                                     ]
                                 ),
@@ -516,31 +470,14 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b2-01", "?b2-02"],)
                                         ),
                                         Literal.negative(Predicate("emptyhand")),
                                     ]
@@ -549,22 +486,11 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.negative(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                     ]
                                 ),
@@ -572,31 +498,14 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                         Literal.negative(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b2-01", "?b2-02"],)
                                         ),
                                     ]
                                 ),
@@ -604,31 +513,14 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b2-01", "?b2-02"],)
                                         ),
                                         Literal.negative(Predicate("emptyhand")),
                                     ]
@@ -641,34 +533,13 @@ class TestParsingAutomaton2:
                 effects=FormulaAnd(
                     [
                         Literal.positive(
-                            Predicate(
-                                "q2",
-                                [
-                                    Term.variable("?b1-00"),
-                                    Term.variable("?b2-01"),
-                                    Term.variable("?b2-02"),
-                                ],
-                            )
+                            Predicate("q2", ["?b1-00", "?b2-01", "?b2-02"],)
                         ),
                         Literal.negative(
-                            Predicate(
-                                "q1",
-                                [
-                                    Term.variable("?b1-00"),
-                                    Term.variable("?b2-01"),
-                                    Term.variable("?b2-02"),
-                                ],
-                            )
+                            Predicate("q1", ["?b1-00", "?b2-01", "?b2-02"],)
                         ),
                         Literal.negative(
-                            Predicate(
-                                "q3",
-                                [
-                                    Term.variable("?b1-00"),
-                                    Term.variable("?b2-01"),
-                                    Term.variable("?b2-02"),
-                                ],
-                            )
+                            Predicate("q3", ["?b1-00", "?b2-01", "?b2-02"],)
                         ),
                         Literal.positive(Predicate("turnDomain")),
                     ]
@@ -689,31 +560,14 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b2-01", "?b2-02"],)
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                     ]
@@ -722,37 +576,20 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
+                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b1-00"),
-                                                    Term.variable("?b2-01"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
                                         ),
                                         Literal.positive(
-                                            Predicate(
-                                                "on",
-                                                [
-                                                    Term.variable("?b2-01"),
-                                                    Term.variable("?b2-02"),
-                                                ],
-                                            )
+                                            Predicate("on", ["?b2-01", "?b2-02"],)
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                     ]
                                 ),
                                 Literal.positive(
-                                    Predicate("q3", [Term.variable("?loc-00")])
+                                    Predicate("q3", ["?b1-00", "?b2-01", "?b2-02"],)
                                 ),
                             ]
                         ),
@@ -762,34 +599,13 @@ class TestParsingAutomaton2:
                 effects=FormulaAnd(
                     [
                         Literal.positive(
-                            Predicate(
-                                "q3",
-                                [
-                                    Term.variable("?b1-00"),
-                                    Term.variable("?b2-01"),
-                                    Term.variable("?b2-02"),
-                                ],
-                            )
+                            Predicate("q3", ["?b1-00", "?b2-01", "?b2-02"],)
                         ),
                         Literal.negative(
-                            Predicate(
-                                "q1",
-                                [
-                                    Term.variable("?b1-00"),
-                                    Term.variable("?b2-01"),
-                                    Term.variable("?b2-02"),
-                                ],
-                            )
+                            Predicate("q1", ["?b1-00", "?b2-01", "?b2-02"],)
                         ),
                         Literal.negative(
-                            Predicate(
-                                "q2",
-                                [
-                                    Term.variable("?b1-00"),
-                                    Term.variable("?b2-01"),
-                                    Term.variable("?b2-02"),
-                                ],
-                            )
+                            Predicate("q2", ["?b1-00", "?b2-01", "?b2-02"],)
                         ),
                         Literal.positive(Predicate("turnDomain")),
                     ]
@@ -800,6 +616,183 @@ class TestParsingAutomaton2:
             Term.variable("?b1-00", "block"),
             Term.variable("?b2-01", "block"),
             Term.variable("?b2-02", "block"),
+        ]
+        assert actual_trans_ops == expected_trans_ops
+        assert actual_params == expected_params
+
+    def test_automaton_create_trans_op_2(self):
+        """Test that the created trans operator is correct."""
+        pddl_domain = self.parser(
+            open(
+                str(
+                    Path(
+                        TEST_ROOT_DIR,
+                        "data",
+                        "pddl-domains",
+                        "blocksworld-ipc08",
+                        "domain.pddl",
+                    )
+                )
+            ).read()
+        )
+        grounded_symbols = [
+            Symbol("emptyhand"),
+            Symbol("on", ["b", "e"]),
+            Symbol("ontable", ["e"]),
+        ]
+        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(
+            pddl_domain.predicates, grounded_symbols
+        )
+        expected_trans_ops = [
+            Action(
+                name="trans-0",
+                parameters=[
+                    Term.variable("?b1-00", "block"),
+                    Term.variable("?b2-01", "block"),
+                ],
+                preconditions=FormulaAnd(
+                    [
+                        FormulaOr(
+                            [
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.negative(Predicate("emptyhand")),
+                                    ]
+                                ),
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(Predicate("emptyhand")),
+                                        Literal.negative(
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                        ),
+                                    ]
+                                ),
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(Predicate("emptyhand")),
+                                        Literal.positive(
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.negative(
+                                            Predicate("ontable", ["?b2-01"],)
+                                        ),
+                                    ]
+                                ),
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.negative(Predicate("emptyhand")),
+                                    ]
+                                ),
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(Predicate("emptyhand")),
+                                        Literal.negative(
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                        ),
+                                    ]
+                                ),
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(Predicate("emptyhand")),
+                                        Literal.positive(
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.negative(
+                                            Predicate("ontable", ["?b2-01"],)
+                                        ),
+                                    ]
+                                ),
+                            ]
+                        ),
+                        Literal.negative(Predicate("turnDomain")),
+                    ]
+                ),
+                effects=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q2", ["?b1-00", "?b2-01"],)),
+                        Literal.negative(Predicate("q1", ["?b1-00", "?b2-01"],)),
+                        Literal.negative(Predicate("q3", ["?b1-00", "?b2-01"],)),
+                        Literal.positive(Predicate("turnDomain")),
+                    ]
+                ),
+            ),
+            Action(
+                name="trans-1",
+                parameters=[
+                    Term.variable("?b1-00", "block"),
+                    Term.variable("?b2-01", "block"),
+                ],
+                preconditions=FormulaAnd(
+                    [
+                        FormulaOr(
+                            [
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(Predicate("emptyhand")),
+                                        Literal.positive(
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(
+                                            Predicate("ontable", ["?b2-01"],)
+                                        ),
+                                    ]
+                                ),
+                                FormulaAnd(
+                                    [
+                                        Literal.positive(
+                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(Predicate("emptyhand")),
+                                        Literal.positive(
+                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                        ),
+                                        Literal.positive(
+                                            Predicate("ontable", ["?b2-01"],)
+                                        ),
+                                    ]
+                                ),
+                                Literal.positive(
+                                    Predicate("q3", ["?b1-00", "?b2-01"],)
+                                ),
+                            ]
+                        ),
+                        Literal.negative(Predicate("turnDomain")),
+                    ]
+                ),
+                effects=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q3", ["?b1-00", "?b2-01"],)),
+                        Literal.negative(Predicate("q1", ["?b1-00", "?b2-01"],)),
+                        Literal.negative(Predicate("q2", ["?b1-00", "?b2-01"],)),
+                        Literal.positive(Predicate("turnDomain")),
+                    ]
+                ),
+            ),
+        ]
+        expected_params = [
+            Term.variable("?b1-00", "block"),
+            Term.variable("?b2-01", "block"),
         ]
         assert actual_trans_ops == expected_trans_ops
         assert actual_params == expected_params
