@@ -847,3 +847,71 @@ class TestParsingAutomaton3:
             "3": [("1", "1X"), ("2", "1X"), ("3", "11")],
             "4": [("3", "00"), ("3", "10"), ("4", "XX")],
         }
+
+
+class TestParsingAutomaton4:
+    """Test parsing for tests/data/automata/sequence-ab.aut."""
+
+    @classmethod
+    def setup_class(cls):
+        """Set the test up."""
+        cls.aut_obj = parse_dfa(
+            open(str(Path(TEST_ROOT_DIR, "data", "automata", "sequence-ab.aut"))).read()
+        )  # type: Automaton
+        cls.aut_alphabet = cls.aut_obj.alphabet
+        cls.aut_states = cls.aut_obj.states
+        cls.aut_initial_state = cls.aut_obj.initial_state
+        cls.aut_accepting_states = cls.aut_obj.accepting_states
+        cls.aut_transitions = cls.aut_obj.transitions
+        cls.aut_trans_by_dest = cls.aut_obj.trans_by_dest
+
+    def test_automaton_alphabet(self):
+        """Test that the alphabet is correct."""
+        assert self.aut_alphabet == {"0", "1", "X"}
+
+    def test_automaton_states(self):
+        """Test that the states are correct."""
+        assert self.aut_states == {"1", "2", "3", "4"}
+
+    def test_automaton_initial_state(self):
+        """Test that the initial state is correct."""
+        assert self.aut_initial_state == "1"
+
+    def test_automaton_accepting_states(self):
+        """Test that the accepting states are correct."""
+        assert self.aut_accepting_states == {"4"}
+
+    def test_automaton_transitions(self):
+        """Test that the transitions are correct."""
+        assert self.aut_transitions == {
+            "1": {"0X": "2", "1X": "3"},
+            "2": {"0X": "2", "1X": "3"},
+            "3": {"X0": "3", "X1": "4"},
+            "4": {"XX": "4"},
+        }
+
+    def test_automaton_trans_by_dest(self):
+        """Test that the transitions by destination are correct."""
+        assert self.aut_trans_by_dest == {
+            "1": [],
+            "2": [("1", "0X"), ("2", "0X")],
+            "3": [("1", "1X"), ("2", "1X"), ("3", "X0")],
+            "4": [("3", "X1"), ("4", "XX")],
+        }
+
+    def test_automaton_compute_vars_mapping_1(self):
+        """Test that the vars mapping is correct."""
+        grounded_symbols = [
+            Symbol("vehicleat", ["l22"]),
+            Symbol("vehicleat", ["l33"]),
+        ]
+        objmap = {
+            "l22": ["?loc-00", "location"],
+            "l33": ["?loc-01", "location"],
+        }
+        actual_vars_map = self.aut_obj.compute_varsMapping(grounded_symbols, objmap)
+        expected_vars_map = {
+            Symbol("vehicleat", ["l22"]): [("?loc-00", "location")],
+            Symbol("vehicleat", ["l33"]): [("?loc-01", "location")],
+        }
+        assert actual_vars_map == expected_vars_map

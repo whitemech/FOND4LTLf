@@ -26,8 +26,6 @@ class Domain:
 
     def __str__(self):
         """Get the string."""
-        # if ':non-deterministic' in self.requirements:
-        #     self.requirements.remove(':non-deterministic')
         domain_str = "(define (domain {0})\n".format(self.name)
         domain_str += "\t(:requirements {0})\n".format(" ".join(self.requirements))
         if self.types:

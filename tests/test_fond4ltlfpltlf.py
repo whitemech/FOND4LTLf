@@ -4,15 +4,12 @@
 
 import os
 
-# import tempfile
 import pytest
 
 from .conftest import TEST_ROOT_DIR
 
 import fond4ltlfpltlf.core
 from fond4ltlfpltlf.automa.symbol import Symbol
-
-# from fond4ltlfpltlf.parser.parser import PDDLParser
 
 
 def test_compute_formula_symbols():
