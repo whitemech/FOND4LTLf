@@ -49,50 +49,50 @@ def test_compute_formula_symbols():
 @pytest.mark.parametrize(
     ["domain", "problem", "formula"],
     [
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
-        #     ),
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
-        #     ),
-        #     "F(up & position_p1)",
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
-        #     ),
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "p01.pddl"
-        #     ),
-        #     "F(up & position_p3)",
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR,
-        #         "data",
-        #         "pddl-domains",
-        #         "blocksworld-ipc08",
-        #         "domain.pddl",
-        #     ),
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl",
-        #     ),
-        #     "F(emptyhand & on_b1_b2 & on_b2_b5)",
-        # ),
-        # (
-        #     os.path.join(
-        #         TEST_ROOT_DIR,
-        #         "data",
-        #         "pddl-domains",
-        #         "blocksworld-ipc08",
-        #         "domain.pddl",
-        #     ),
-        #     os.path.join(
-        #         TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p00.pddl",
-        #     ),
-        #     "F(emptyhand & on_b_e & ontable_e)",
-        # ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
+            ),
+            "F(up & position_p1)",
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "p01.pddl"
+            ),
+            "F(up & position_p3)",
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl",
+            ),
+            "F(emptyhand & on_b1_b2 & on_b2_b5)",
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p00.pddl",
+            ),
+            "F(emptyhand & on_b_e & ontable_e)",
+        ),
         # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
         # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
         (
