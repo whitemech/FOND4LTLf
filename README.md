@@ -1,12 +1,15 @@
 # FOND 4 LTL<sub>f</sub>/PLTL<sub>f</sub>
-[![](https://img.shields.io/pypi/pyversions/fond4ltlfpltlf.svg)](https://pypi.python.org/pypi/fond4ltlfpltlf)
-[![FOND4LTLfPLTLf CI pipeline](
-  https://github.com/whitemech/FOND4LTLfPLTLf/workflows/FOND4LTLfPLTLf%20CI%20pipeline./badge.svg)](
-  https://github.com/whitemech/FOND4LTLfPLTLf/actions?query=workflow%3A%22FOND4LTLfPLTLf+CI+pipeline.%22)
 [![](https://img.shields.io/badge/status-development-orange.svg)](https://img.shields.io/badge/status-development-orange.svg)
 [![codecov](https://codecov.io/gh/whitemech/FOND4LTLfPLTLf/branch/master/graph/badge.svg)](https://codecov.io/gh/whitemech/FOND4LTLfPLTLf)
+
+![test](https://github.com/whitemech/FOND4LTLfPLTLf/workflows/test/badge.svg)
+![lint](https://github.com/whitemech/FOND4LTLfPLTLf/workflows/lint/badge.svg)
+![docs](https://github.com/whitemech/FOND4LTLfPLTLf/workflows/docs/badge.svg)
+
 [![](https://img.shields.io/badge/flake8-checked-blueviolet)](https://img.shields.io/badge/flake8-checked-blueviolet)
 [![](https://img.shields.io/badge/mypy-checked-blue)](https://img.shields.io/badge/mypy-checked-blue)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 [![](https://img.shields.io/badge/license-LGPLv3%2B-blue)](https://img.shields.io/badge/license-LGPLv3%2B-blue)
 
 FOND 4 LTL<sub>f</sub>/PLTL<sub>f</sub> is a tool that compiles Fully Observable Non-Deterministic (FOND) planning 
