@@ -1,4 +1,21 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 
 """Test the automaton part of tool."""
 
@@ -8,14 +25,11 @@ from fond4ltlfpltlf.automa.aparser import parse_dfa
 from fond4ltlfpltlf.automa.symbol import Symbol
 from fond4ltlfpltlf.parser.parser import PDDLParser
 from fond4ltlfpltlf.pddl.action import Action
-from fond4ltlfpltlf.pddl.formulas import (
-    FormulaAnd,
-    FormulaOneOf,
-    FormulaOr,
-)
+from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaOneOf, FormulaOr
 from fond4ltlfpltlf.pddl.literal import Literal
 from fond4ltlfpltlf.pddl.predicate import Predicate
 from fond4ltlfpltlf.pddl.term import Term
+
 from .conftest import TEST_ROOT_DIR
 
 
