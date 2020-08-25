@@ -1,0 +1,15 @@
+site_name: fond4ltlfpltlf
+repo_name: 'whitemech/fond4ltlfpltlf'
+repo_url: https://github.com/whitemech/fond4ltlfpltlf
+
+nav:
+    - Home: index.md
+    - Credits: authors.md
+    - How to contribute: contributing.md
+    - Change Log: history.md
+
+theme:
+  name: "material"
+markdown_extensions:
+    - markdown_include.include:
+        base_path: docs
