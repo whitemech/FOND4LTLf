@@ -1,4 +1,21 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 
 """Test the fonod4ltlfpltlf tool."""
 
@@ -6,10 +23,10 @@ import os
 
 import pytest
 
-from .conftest import TEST_ROOT_DIR
-
 import fond4ltlfpltlf.core
 from fond4ltlfpltlf.automa.symbol import Symbol
+
+from .conftest import TEST_ROOT_DIR
 
 
 def test_compute_formula_symbols():

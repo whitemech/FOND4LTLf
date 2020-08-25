@@ -6,23 +6,20 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
-pytest-randomly = "*"
+tox = "*"
+ipython = "*"
+codecov = "*"
+tox-travis = "*"
+black = "==19.10b0"
+mypy = "*"
 flake8 = "*"
 flake8-docstrings = "*"
-flake8-bugbear = "*"
-pydocstyle = "*"
-mypy = "*"
-tox = "*"
-coverage = "*"
-black = "==19.10b0"
 mkdocs = "*"
 markdown-include = "*"
-pymdown-extensions = "*"
+isort = "*"
+mkdocs-material = "*"
 
 [packages]
-ltlf2dfa = {editable = true, git = "https://github.com/whitemech/ltlf2dfa.git", ref = "develop"}
-ply = "*"
-click = "*"
 
 [requires]
 python_version = "3.8"
