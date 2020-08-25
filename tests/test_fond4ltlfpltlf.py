@@ -4,7 +4,6 @@
 
 import os
 
-# import tempfile
 import pytest
 
 from .conftest import TEST_ROOT_DIR
@@ -12,14 +11,21 @@ from .conftest import TEST_ROOT_DIR
 import fond4ltlfpltlf.core
 from fond4ltlfpltlf.automa.symbol import Symbol
 
-# from fond4ltlfpltlf.parser.parser import PDDLParser
 
-
-def test_check_symbols():
+def test_compute_formula_symbols():
     """Test symbols check."""
     formula = "vehicleat_l31 & O(vehicleat_l12)"
     syms = fond4ltlfpltlf.core.compute_symb_vars(formula)
     true_syms = [Symbol("vehicleat", ["l31"]), Symbol("vehicleat", ["l12"])]
+    assert true_syms == syms
+
+    formula = "F(emptyhand & on_b_e & ontable_e)"
+    syms = fond4ltlfpltlf.core.compute_symb_vars(formula)
+    true_syms = [
+        Symbol("emptyhand"),
+        Symbol("on", ["b", "e"]),
+        Symbol("ontable", ["e"]),
+    ]
     assert true_syms == syms
 
 

@@ -68,7 +68,7 @@ def execute(planning_domain, planning_problem, goal_formula):
     mona_output = formula.to_dfa(mona_dfa_out=True)
     dfa = parse_dfa(mona_output)
     operators_trans, parameters = dfa.create_operators_trans(
-        parsed_domain.predicates, set(symbols)
+        parsed_domain.predicates, symbols
     )
 
     new_domain = parsed_domain.get_new_domain(parameters, dfa.states, operators_trans)

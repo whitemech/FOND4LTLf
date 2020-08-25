@@ -26,8 +26,6 @@ class Domain:
 
     def __str__(self):
         """Get the string."""
-        # if ':non-deterministic' in self.requirements:
-        #     self.requirements.remove(':non-deterministic')
         domain_str = "(define (domain {0})\n".format(self.name)
         domain_str += "\t(:requirements {0})\n".format(" ".join(self.requirements))
         if self.types:
@@ -66,8 +64,7 @@ class Domain:
     def add_predicates(self, parameters, states):
         """Add DFA predicates."""
         # self.predicates.append(Literal.positive(Predicate("turnDomain")))
-        self.predicates.append("(turnDomain)")
-        for state in states:
+        for state in sorted(states):
             # self.predicates.append(
             #     Literal.positive(
             #         Predicate(
@@ -79,6 +76,7 @@ class Domain:
             self.predicates.append(
                 "(q{0} {1})".format(str(state), " ".join(map(str, parameters)))
             )
+        self.predicates.append("(turnDomain)")
 
     def add_constants(self, states):
         """Add constants."""

@@ -1,7 +1,5 @@
-
 (define (problem triangle-tire-1)
   (:domain triangle-tire)
-  (:objects l-1-1 l-1-2 l-1-3 l-2-1 l-2-2 l-2-3 l-3-1 l-3-2 l-3-3 - location)
-  (:init (vehicleat l-1-1)(road l-1-1 l-1-2)(road l-1-2 l-1-3)(road l-1-1 l-2-1)(road l-1-2 l-2-2)(road l-2-1 l-1-2)(road l-2-2 l-1-3)(spare-in l-2-1)(spare-in l-2-2)(road l-2-1 l-3-1)(road l-3-1 l-2-2)(spare-in l-3-1)(spare-in l-3-1)(not-flattire))
-  (:goal (vehicleat l-1-3)))
-
+  (:objects l11 l12 l13 l21 l22 l23 l31 l32 l33 - location)
+  (:init (vehicleat l11)(road l11 l12)(road l12 l13)(road l11 l21)(road l12 l22)(road l21 l12)(road l22 l13)(spare-in l21)(spare-in l22)(road l21 l31)(road l31 l22)(spare-in l31)(spare-in l31)(not-flattire))
+  (:goal (vehicleat l13)))
