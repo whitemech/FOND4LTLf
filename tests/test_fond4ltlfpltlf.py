@@ -1,23 +1,141 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 
 """Test the fonod4ltlfpltlf tool."""
+
+import os
+
+import pytest
 
 import fond4ltlfpltlf.core
 from fond4ltlfpltlf.automa.symbol import Symbol
 
+from .conftest import TEST_ROOT_DIR
 
-def test_check_symbols():
+
+def test_compute_formula_symbols():
     """Test symbols check."""
     formula = "vehicleat_l31 & O(vehicleat_l12)"
     syms = fond4ltlfpltlf.core.compute_symb_vars(formula)
     true_syms = [Symbol("vehicleat", ["l31"]), Symbol("vehicleat", ["l12"])]
     assert true_syms == syms
 
+    formula = "F(emptyhand & on_b_e & ontable_e)"
+    syms = fond4ltlfpltlf.core.compute_symb_vars(formula)
+    true_syms = [
+        Symbol("emptyhand"),
+        Symbol("on", ["b", "e"]),
+        Symbol("ontable", ["e"]),
+    ]
+    assert true_syms == syms
 
-# def test_execute():
-#     # formula_1 = "F(atperson_p0_c3 & atperson_p1_c4)" # zenotravel
-#     formula_1 = "vehicleat_l31 & O(vehicleat_l12)"
-#     in_domain = open("../tests/data/triangle-tireworld/domain.pddl").read()
-#     in_problem = open("../tests/data/triangle-tireworld/p01.pddl").read()
-#
-#     domain_prime, problem_prime = fond4ltlfpltlf.core.execute(in_domain, in_problem, formula_1)
+
+@pytest.mark.parametrize(
+    ["domain", "problem", "formula"],
+    [
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
+            ),
+            "F(up & position_p1)",
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "p01.pddl"
+            ),
+            "F(up & position_p3)",
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl",
+            ),
+            "F(emptyhand & on_b1_b2 & on_b2_b5)",
+        ),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "blocksworld-ipc08",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p00.pddl",
+            ),
+            "F(emptyhand & on_b_e & ontable_e)",
+        ),
+        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
+        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
+        (
+            os.path.join(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "triangle-tireworld",
+                "domain.pddl",
+            ),
+            os.path.join(
+                TEST_ROOT_DIR, "data", "pddl-domains", "triangle-tireworld", "p01.pddl"
+            ),
+            "vehicleat_l31 & O(vehicleat_l12)",
+        ),
+        # (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"),),
+    ],
+)
+def test_execute(domain, problem, formula):
+    """Test that execute's output is deterministic."""
+    temp_d = domain
+    temp_p = problem
+
+    in_domain_1 = open(domain).read()  # type: Domain
+    in_problem_1 = open(problem).read()  # type: Problem
+    in_domain_2 = open(temp_d).read()  # type: Domain
+    in_problem_2 = open(temp_p).read()  # type: Problem
+
+    out_domain_1, out_problem_1 = fond4ltlfpltlf.core.execute(
+        in_domain_1, in_problem_1, formula
+    )
+
+    # temp_d = tempfile.mktemp()
+    # temp_p = tempfile.mktemp()
+    # with open(temp_d, "w") as t_1, open(temp_p, "w") as t_2:
+    #     t_1.write(str(in_domain_1))
+    #     t_2.write(str(in_problem_1))
+    # in_domain_2 = parser(open(temp_d).read())  # type: Domain
+    # in_problem_2 = parser(open(temp_p).read())  # type: Problem
+
+    out_domain_2, out_problem_2 = fond4ltlfpltlf.core.execute(
+        in_domain_2, in_problem_2, formula
+    )
+
+    assert out_domain_1 == out_domain_2
+    assert out_problem_1 == out_problem_2

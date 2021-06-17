@@ -1,22 +1,40 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 import ply.yacc as yacc
 
 from fond4ltlfpltlf.parser.lexer import PDDLLexer
-from fond4ltlfpltlf.pddl.domain import Domain
-from fond4ltlfpltlf.pddl.predicate import Predicate
-from fond4ltlfpltlf.pddl.literal import Literal
-from fond4ltlfpltlf.pddl.problem import Problem
 from fond4ltlfpltlf.pddl.action import Action
-from fond4ltlfpltlf.pddl.term import Term
+from fond4ltlfpltlf.pddl.domain import Domain
 from fond4ltlfpltlf.pddl.formulas import (
     FormulaAnd,
-    FormulaOr,
-    FormulaNot,
     FormulaExists,
     FormulaForall,
     FormulaImply,
-    FormulaWhen,
+    FormulaNot,
     FormulaOneOf,
+    FormulaOr,
+    FormulaWhen,
 )
+from fond4ltlfpltlf.pddl.literal import Literal
+from fond4ltlfpltlf.pddl.predicate import Predicate
+from fond4ltlfpltlf.pddl.problem import Problem
+from fond4ltlfpltlf.pddl.term import Term
 
 
 class PDDLParser(object):
@@ -176,9 +194,9 @@ class PDDLParser(object):
         """constants_lst : constant constants_lst
                          | constant"""
         if len(p) == 2:
-            p[0] = [Term.constant(p[1])]
+            p[0] = [p[1]]
         elif len(p) == 3:
-            p[0] = [Term.constant(p[1])] + p[2]
+            p[0] = [p[1]] + p[2]
 
     def p_typed_constants_lst(self, p):
         """typed_constants_lst : constants_lst HYPHEN type typed_constants_lst

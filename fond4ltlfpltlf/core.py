@@ -1,20 +1,39 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 """Core module of the fonod4ltlfpltlf tool."""
 
-from fond4ltlfpltlf.parser.parser import PDDLParser
-from ltlf2dfa.parser.ltlf import LTLfParser
-from ltlf2dfa.parser.pltlf import PLTLfParser, ParsingError
-from fond4ltlfpltlf.automa.symbol import Symbol
-from fond4ltlfpltlf.automa.aparser import parse_dot
 import re
 
-FUTURE_OPS = {"X", "F", "U", "G", "WX", "R"}
+from ltlf2dfa.parser.ltlf import LTLfParser
+from ltlf2dfa.parser.pltlf import ParsingError, PLTLfParser
+
+from fond4ltlfpltlf.automa.aparser import parse_dfa
+from fond4ltlfpltlf.automa.symbol import Symbol
+from fond4ltlfpltlf.parser.parser import PDDLParser
+
+FUTURE_OPS = {"X", "F", "U", "G", "W", "R"}
 PAST_OPS = {"Y", "O", "S", "H"}
 
 
 def compute_symb_vars(formula):
     """Compute Symbols from the temporal formula."""
-    ground_predicates = re.findall("(?!true|false)[_a-z0-9]+", str(formula))
+    ground_predicates = re.findall(r"(?!true|false)[_a-z0-9]+", str(formula))
     symb_vars_list = []
     for predicate in ground_predicates:
         temp = predicate.split("_")
@@ -41,6 +60,8 @@ def execute(planning_domain, planning_problem, goal_formula):
     pddl_parser = PDDLParser()
     parsed_domain = pddl_parser(planning_domain)
     parsed_problem = pddl_parser(planning_problem)
+    # parsed_domain = planning_domain
+    # parsed_problem = planning_problem
 
     symbols = compute_symb_vars(goal_formula)
     if not check_symbols(
@@ -64,9 +85,9 @@ def execute(planning_domain, planning_problem, goal_formula):
             raise ParsingError()
 
     mona_output = formula.to_dfa(mona_dfa_out=True)
-    dfa = parse_dot(mona_output)
+    dfa = parse_dfa(mona_output)
     operators_trans, parameters = dfa.create_operators_trans(
-        parsed_domain.predicates, set(symbols)
+        parsed_domain.predicates, symbols
     )
 
     new_domain = parsed_domain.get_new_domain(parameters, dfa.states, operators_trans)

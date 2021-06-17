@@ -100,7 +100,6 @@ __pycache__/
 *$py.class
 
 # PDDL documents
-*.pddl
 PDDLParser/*.pddl
 
 # DOT files

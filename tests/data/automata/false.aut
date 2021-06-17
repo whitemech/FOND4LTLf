@@ -1,0 +1,15 @@
+
+DFA for formula with free variables:
+Initial state: 0
+Accepting states:
+Rejecting states: 1
+Don't-care states: 0
+
+Automaton has 2 states and 1 BDD-node
+Transitions:
+State 0:  -> state 1
+State 1:  -> state 1
+Formula is unsatisfiable
+
+A counter-example of least length (0) is:
+

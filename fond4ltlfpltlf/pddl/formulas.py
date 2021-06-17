@@ -1,4 +1,21 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 
 """This module contains the implementations of PDDL formulas."""
 
@@ -72,6 +89,10 @@ class FormulaOr:
         """Represent the formula."""
         return "(or {0})".format(" ".join(map(str, self.orList)))
 
+    def __eq__(self, other):
+        """Check equality between two Or formulas."""
+        return isinstance(other, FormulaOr) and self.orList == other.orList
+
 
 class FormulaNot:
     """A class for the Not formula."""
@@ -83,6 +104,10 @@ class FormulaNot:
     def __str__(self):
         """Represent the formula."""
         return "(not {0})".format(self.formula)
+
+    def __eq__(self, other):
+        """Check equality between two Not formulas."""
+        return isinstance(other, FormulaNot) and self.formula == other.formula
 
 
 class FormulaImply:
@@ -96,6 +121,14 @@ class FormulaImply:
     def __str__(self):
         """Represent the formula."""
         return "(imply {0} {1})".format(self.formula1, self.formula2)
+
+    def __eq__(self, other):
+        """Check equality between two Imply formulas."""
+        return (
+            isinstance(other, FormulaImply)
+            and self.formula1 == other.formula1
+            and self.formula2 == other.formula2
+        )
 
 
 class FormulaExists:
@@ -112,6 +145,14 @@ class FormulaExists:
             " ".join(map(str, self.variables)), self.formula
         )
 
+    def __eq__(self, other):
+        """Check equality between two Exists formulas."""
+        return (
+            isinstance(other, FormulaExists)
+            and self.variables == other.variables
+            and self.formula == other.formula
+        )
+
 
 class FormulaForall:
     """A class for the Forall formula."""
@@ -125,6 +166,14 @@ class FormulaForall:
         """Represent the formula."""
         return "(forall ({0}) {1})".format(
             " ".join(map(str, self.variables)), self.formula
+        )
+
+    def __eq__(self, other):
+        """Check equality between two Forall formulas."""
+        return (
+            isinstance(other, FormulaForall)
+            and self.variables == other.variables
+            and self.formula == other.formula
         )
 
 
@@ -149,6 +198,14 @@ class FormulaWhen:
         vars += self.formula.get_vars()
         print(vars)
         return vars
+
+    def __eq__(self, other):
+        """Check equality between two When formulas."""
+        return (
+            isinstance(other, FormulaWhen)
+            and self.condition == other.condition
+            and self.formula == other.formula
+        )
 
 
 class FormulaOneOf:
@@ -192,8 +249,11 @@ class FormulaOneOf:
         """Get variables as set."""
         variables = set()
         for formula in self.oneofList:
-            self.variables += formula.get_variables()
-            variables.update(self.variables)
+            if isinstance(formula, Literal):
+                self.variables += formula.get_vars()
+            else:
+                self.variables += formula.get_variables()
+                variables.update(self.variables)
         self.variables_order = list(variables)
         return variables
 

@@ -1,17 +1,30 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 """This module contains the implementations of the automaton DFA."""
 
-
-import random
 import re
-import string
 
 from fond4ltlfpltlf.pddl.action import Action
 from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaOr
-from fond4ltlfpltlf.pddl.term import Term
 from fond4ltlfpltlf.pddl.literal import Literal
 from fond4ltlfpltlf.pddl.predicate import Predicate
+from fond4ltlfpltlf.pddl.term import Term
 
 
 class Automaton:
@@ -83,24 +96,14 @@ class Automaton:
         return automa
 
     def create_operators_trans(self, domain_predicates, grounded_symbols):
-        """Create operator corresponding to the automaton."""
+        """Create operators corresponding to the automaton."""
         new_operators = []
-        my_predicates = []
-        for symbol in grounded_symbols:
-            my_predicates.append(symbol.name)
-            # if vars:
-            #     my_predicates.append(name)
-            # else:
-            #     pass
+        my_predicates = [symbol.name for symbol in grounded_symbols]
         (parameters, obj_mapping) = self.compute_parameters(
             domain_predicates, grounded_symbols
         )
         vars_mapping = self.compute_varsMapping(grounded_symbols, obj_mapping)
-        # vars_mapping, parameters = self.compute_parameters(grounded_symbols,
-        #                                                    domain_predicates,
-        #                                                    multiplicity_predicates)
-        # print(vars_mapping)
-        my_variables = self.compute_variables(parameters)
+        my_variables = [param.name for param in parameters]
         counter = 0
         for destination, source_action in self.trans_by_dest.items():
             if source_action:
@@ -123,20 +126,19 @@ class Automaton:
                         new_effects,
                     )
                 )
+                counter += 1
             else:
                 pass
-            counter += 1
 
-        return (new_operators, parameters)
+        return new_operators, parameters
 
-    def compute_type(self, all_predicates, name, position):
+    def compute_type(self, all_predicates, name, position, counter):
         """Compute types."""
         for predicate in all_predicates:
             if predicate.name == name:
                 if predicate.args:
                     return (
-                        predicate.args[position].name
-                        + "".join(random.choices(string.digits, k=2)),
+                        predicate.args[position].name + "-{:02}".format(counter),
                         predicate.args[position].type,
                     )
                 else:
@@ -151,6 +153,7 @@ class Automaton:
         objs_set = set()
         obj_mapping = {}
         parameters = []
+        counter = 0
         for symbol in grounded_symbols:
             if symbol.objects:
                 i = 0
@@ -158,10 +161,11 @@ class Automaton:
                     if obj not in objs_set:
                         objs_set.add(obj)
                         (name_var, type_) = self.compute_type(
-                            domain_predicates, symbol.name, i
+                            domain_predicates, symbol.name, i, counter
                         )
                         obj_mapping[obj] = [name_var, type_]
                         parameters.append(Term.variable(name_var, type_))
+                        counter += 1
                     else:
                         pass
                     i += 1
@@ -180,43 +184,6 @@ class Automaton:
             vars_mapping[symbol] = temp
             temp = []
         return vars_mapping
-
-    # def compute_parameters(self, symbols, all_predicates, multiplicity):
-    #     params_list = []
-    #     variables_mapping = {}
-    #     viewed = set()
-    #     vars_set = set()
-    #     counter = 0
-    #     for predicate in all_predicates:
-    #         for my_predicate in symbols:
-    #             if predicate.name == my_predicate.name and predicate.args:
-    #                 if my_predicate.name not in viewed:
-    #                     # vars = []
-    #                     temp = []
-    #                     variables_mapping[my_predicate] = []
-    #                     for arg in predicate.args:
-    #                         # vars.append(arg.name)
-    #                         params_list.append(Term.variable(arg.name, arg.type))
-    #                         temp.append((arg.name, arg.type))
-    #                     variables_mapping[my_predicate] = temp
-    #                     viewed.add(my_predicate.name)
-    #                 else:
-    #                     # qua l'ho già visto
-    #                     variables_mapping[my_predicate] = []
-    #                     temp = []
-    #                     for arg in predicate.args:
-    #                         # vars.append(arg.name)
-    #                         params_list.append(Term.variable(arg.name+str(counter), arg.type))
-    #                         temp.append((arg.name+str(counter), arg.type))
-    #                     variables_mapping[my_predicate] = temp
-    #                     counter += 1
-    #             elif predicate.name == my_predicate.name:
-    #                 variables_mapping[my_predicate] = []
-    #             else:
-    #                 pass
-    #                     #raise ValueError('[ERROR]: Please check the instantiation on the formula')
-    #
-    #     return (variables_mapping, params_list)
 
     def compute_preconditions(
         self, source_action, vars_mapping, predicates_name, variables
@@ -256,7 +223,7 @@ class Automaton:
     def compute_effects(self, destination, variables):
         """Compute new effects."""
         negated_states = []
-        for state in self.states:
+        for state in sorted(self.states):
             if state != destination:
                 negated_states.append(
                     Literal.negative(Predicate("q" + str(state), variables))
@@ -277,7 +244,7 @@ class Automaton:
         items = []
         for source, action in source_action_list:
             formula = self.get_automaton_formula(vars_mapping, predicates_name, action)
-            if formula == []:
+            if not formula:
                 items.append(Literal.positive(Predicate("q" + str(source), variables)))
             else:
                 automaton_state = [
@@ -329,96 +296,10 @@ class Automaton:
             i += 1
         return temp
 
-    def compute_variables(self, parameters_list):
-        """Compute variables."""
-        my_variables = []
-        for param in parameters_list:
-            my_variables.append(param.name)
-        return my_variables
-
-    # def create_operator_trans(self):
-    #     '''create operator trans as a string'''
-    #     operator  = 'trans\n'
-    #     operator += '\t:parameters ()\n'
-    #     operator += '\t:precondition (not (turnDomain))\n'
-    #     operator += '\t:effect (and {0}\t)\n'.format(' '.join(self.get_whens()))
-    #     return operator
-    #
-    # def get_whens(self):
-    #     whens = []
-    #     for destination, source_action in self.trans_by_dest.items():
-    #         if source_action == []:
-    #             pass
-    #         else:
-    #             whens.append(self.get_formula_when(destination, source_action))
-    #     return whens
-    #
-    # def get_formula_when(self, destination, source_action_list):
-    #     formula_when  = '(when {0} {1})\n'.format(self.get_formula_condition(source_action_list),
-    #     self.get_formula_statement(destination))
-    #     return formula_when
-    #
-    # def get_formula_condition(self, source_action_list):
-    #     if len(source_action_list) == 1:
-    #         if self.get_automaton_action(source_action_list[0][1]) == []:
-    #             formula_condition = '(q{0})'.format(source_action_list[0][0])
-    #         else:
-    #             formula_condition = '(and (q{0}) {1})'.format(source_action_list[0][0],
-    #             ' '.join(self.get_condition_action(source_action_list[0][1])))
-    #     else:
-    #         formula_condition = '(or {0})'.format(' '.join(self.get_or_conditions(source_action_list)))
-    #     return formula_condition
-    #
-    # def get_or_conditions(self, source_action_list):
-    #     items = []
-    #     for source, action in source_action_list:
-    #         formula_conditions = self.get_condition_action(action)
-    #         if formula_conditions == []:
-    #             items.append('(q{0})'.format(source))
-    #         else:
-    #             items.append( '(and (q{0}) {1})'.format(source, ' '.join(self.get_condition_action(action))))
-    #     return items
-    #
-    # def get_formula_statement(self, destination):
-    #     negated_states = []
-    #     for state in self.states:
-    #         if state != destination:
-    #             negated_states.append('(not (q{0}))'.format(state))
-    #         else:
-    #             pass
-    #     formula_statement = '(and (q{0}) {1} (turnDomain))'.format(destination, ' '.join(negated_states))
-    #     return formula_statement
-    #
-    # def get_condition_action(self, action):
-    #     temp = []
-    #     length = len(action)
-    #     self.used_alpha = self.en_alphabet[0:length]
-    #     i = 0
-    #     for char in action:
-    #         if char == '1':
-    #             temp.append('('+self.used_alpha[i]+')')
-    #         elif char == '0':
-    #             temp.append('(not ('+self.used_alpha[i]+'))')
-    #         else:
-    #             pass
-    #         i += 1
-    #         if i > self.MAX_ALPHABET:
-    #             break
-    #     return temp
-
-    def create_dict_by_destination(self):
-        """Group transitions by destination."""
-        trans_by_dest = {}
-        for state in self.states:
-            trans_by_dest[state] = []
-        return trans_by_dest
-
     def group_conditions_by_consequence(self):
         """Group conditions by consequence."""
-        group_by_dest = self.create_dict_by_destination()
+        group_by_dest = {dest: [] for dest in self.states}
         for source, trans in self.transitions.items():
-            i = 0
-            for dest in trans.values():
-                group_by_dest[dest].append((source, list(trans.keys())[i]))
-                i += 1
-        return group_by_dest
+            for key, dest in zip(trans.keys(), trans.values()):
+                group_by_dest[dest].append((source, key))
+        return dict(sorted(group_by_dest.items()))

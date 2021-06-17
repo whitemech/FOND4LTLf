@@ -1,0 +1,31 @@
+site_name: FOND4LTLfPLTLf
+site_url: "https://whitemech.github.io/fond4ltlfpltlf/"
+repo_name: 'whitemech/fond4ltlfpltlf'
+repo_url: "https://github.com/whitemech/fond4ltlfpltlf"
+
+nav:
+    - Home: index.md
+    - Credits: authors.md
+    - Change Log: history.md
+    - How to contribute: contributing.md
+    - References: references.md
+
+plugins:
+    - search
+
+theme:
+    name: material
+
+markdown_extensions:
+    - codehilite
+    - pymdownx.arithmatex
+    - pymdownx.highlight
+    - pymdownx.superfences
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
+    - markdown_include.include:
+        base_path: docs
+
+extra_javascript:
+    - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'

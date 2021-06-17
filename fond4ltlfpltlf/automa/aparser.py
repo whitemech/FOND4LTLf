@@ -1,10 +1,27 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
+"""This module contains the implementations of MONA output parser."""
 
-"""This module contains the implementations of a PDDL Predicate."""
 
+import re
 
 from fond4ltlfpltlf.automa.automaton import Automaton
-import re
 
 # UNSAT_DOT = '''digraph MONA_DFA {
 #  rankdir = LR;
@@ -32,7 +49,7 @@ def get_value(text, regex, value_type=float):
         return value_type(0.0)
 
 
-def parse_dot(mona_output):
+def parse_dfa(mona_output):
     """Parse MONA output and initialize the DFA Automaton."""
     # initial_state = get_value(mona_output, '.*Initial state:[\s]*(\d+)\n.*', int)
     accepting_states = get_value(mona_output, r".*Accepting states:[\s]*(.*?)\n.*", str)
@@ -67,36 +84,21 @@ if __name__ == "__main__":
     # path = "automa.dot"
 
     path = """
-DFA for formula with free variables: A B
+DFA for formula with free variables:
 Initial state: 0
-Accepting states: 2
-Rejecting states: 3
-Don't-care states: 0 1
+Accepting states:
+Rejecting states: 1
+Don't-care states: 0
 
-Automaton has 4 states and 5 BDD-nodes
+Automaton has 2 states and 1 BDD-node
 Transitions:
-State 0: XX -> state 1
-State 1: 0X -> state 2
-State 1: 10 -> state 3
-State 1: 11 -> state 2
-State 2: 0X -> state 2
-State 2: 10 -> state 3
-State 2: 11 -> state 2
-State 3: X0 -> state 3
-State 3: X1 -> state 2
-A counter-example of least length (1) is:
-A               X 1
-B               X 0
+State 0:  -> state 1
+State 1:  -> state 1
+Formula is unsatisfiable
 
-A = {0}
-B = {}
+A counter-example of least length (0) is:
 
-A satisfying example of least length (1) is:
-A               X 0
-B               X X
-
-A = {}
-B = {}"""
-    result = parse_dot(path)
+"""
+    result = parse_dfa(path)
     # print(result.create_operator_trans()+'\n')
     print(result)

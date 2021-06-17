@@ -1,4 +1,4 @@
-name: FOND4LTLfPLTLf CI pipeline.
+name: lint
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7]
 
     timeout-minutes: 30
 
@@ -27,21 +27,10 @@ jobs:
       run:  pip install tox
     - name: Code style check
       run: |
-        tox -e black
+        tox -e black-check
+        tox -e isort-check
         tox -e flake8
     - name: Static type check
       run: tox -e mypy
-    - name: Unit tests and coverage
-      run: |
-        tox -e py${{ matrix.python-version }}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        yml: ./codecov.yml
-        fail_ci_if_error: true
-    - name: Generate Documentation
-      run: tox -e docs
+    - name: Check copyright
+      run: tox -e check-copyright

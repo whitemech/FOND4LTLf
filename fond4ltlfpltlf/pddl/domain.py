@@ -1,11 +1,33 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# This file is part of fond4ltlfpltlf.
+#
+# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+#
 
 """This module contains the implementations of a PDDL Domain."""
 
 
-from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaWhen
-from fond4ltlfpltlf.pddl.action import Action
 import copy
+
+from fond4ltlfpltlf.pddl.action import Action
+from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaWhen
+
+# from fond4ltlfpltlf.pddl.literal import Literal
+# from fond4ltlfpltlf.pddl.predicate import Predicate
+# from fond4ltlfpltlf.pddl.term import Term
 
 
 class Domain:
@@ -22,8 +44,6 @@ class Domain:
 
     def __str__(self):
         """Get the string."""
-        # if ':non-deterministic' in self.requirements:
-        #     self.requirements.remove(':non-deterministic')
         domain_str = "(define (domain {0})\n".format(self.name)
         domain_str += "\t(:requirements {0})\n".format(" ".join(self.requirements))
         if self.types:
@@ -61,11 +81,20 @@ class Domain:
 
     def add_predicates(self, parameters, states):
         """Add DFA predicates."""
-        self.predicates.append("(turnDomain)")
-        for state in states:
+        # self.predicates.append(Literal.positive(Predicate("turnDomain")))
+        for state in sorted(states):
+            # self.predicates.append(
+            #     Literal.positive(
+            #         Predicate(
+            #             "q{0} {1}".format(str(state),
+            #                               " ".join([par for par in parameters]))
+            #         )
+            #     )
+            # )
             self.predicates.append(
                 "(q{0} {1})".format(str(state), " ".join(map(str, parameters)))
             )
+        self.predicates.append("(turnDomain)")
 
     def add_constants(self, states):
         """Add constants."""
