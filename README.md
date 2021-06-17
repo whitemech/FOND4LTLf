@@ -21,7 +21,7 @@
     <img alt="docs" src="https://github.com/whitemech/FOND4LTLfPLTLf/workflows/docs/badge.svg">
   </a>
   <a href="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf">
-    <img alt="codecov" src="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf/branch/master/graph/badge.svg">
+    <img src="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf/branch/master/graph/badge.svg?token=KKWRAH29O7"/>
   </a>
 </p>
 <p align="center">
