@@ -14,10 +14,16 @@ black = "==19.10b0"
 mypy = "*"
 flake8 = "*"
 flake8-docstrings = "*"
-mkdocs = "*"
 markdown-include = "*"
 isort = "*"
 mkdocs-material = "*"
+click = "*"
+types-click = "*"
+mkdocs = "*"
+pymdown-extensions = "*"
+markdown = "==3.2.2"
+mknotebooks = "==0.6.0.post0.dev2"
+mkdocs-bibtex = "*"
 
 [packages]
 
