@@ -17,7 +17,9 @@
 # along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
 #
 """This is the command line tool for the FOND4LTLfPLTLf tool."""
-import click
+
+
+import click  # type: ignore
 
 from fond4ltlfpltlf.core import execute
 
@@ -65,12 +67,6 @@ def main(in_domain, in_problem, goal, out_domain, out_problem):
         )
 
     domain_prime, problem_prime = execute(pddl_domain, pddl_problem, goal)
-
-    # print(
-    #     "======== Domain File ========\n{}\n\n======== Problem File ========\n{}".format(
-    #         domain_prime, problem_prime
-    #     )
-    # )
 
     try:
         with open(out_domain, "w+") as dom:

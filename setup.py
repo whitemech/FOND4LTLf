@@ -35,9 +35,9 @@ with open(os.path.join(here, 'fond4ltlfpltlf', '__version__.py'), 'r') as f:
 
 
 install_requires = [
-    "click>=7,<8",
+    "click",
     "ply",
-    "ltlf2dfa @ git+https://github.com/whitemech/LTLf2DFA.git@develop#egg=ltlf2dfa"
+    "ltlf2dfa"
 ]
 
 setup(
