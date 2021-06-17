@@ -20,7 +20,7 @@
   <a href="">
     <img alt="docs" src="https://github.com/whitemech/FOND4LTLfPLTLf/workflows/docs/badge.svg">
   </a>
-  <a href="https://codecov.io/gh/whitemech/pddl">
+  <a href="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf">
     <img alt="codecov" src="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf/branch/master/graph/badge.svg">
   </a>
 </p>
