@@ -1,4 +1,6 @@
-# FOND 4 LTL<sub>f</sub>/PLTL<sub>f</sub>
+<h1 align="center">
+  FOND 4 LTL<sub>f</sub> - PLTL<sub>f</sub>
+</h1>
 
 <p align="center">
   <a href="https://pypi.org/project/FOND4LTLfPLTLf">
