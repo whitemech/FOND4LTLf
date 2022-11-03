@@ -1,5 +1,5 @@
 <h1 align="center">
-  FOND 4 LTL<sub>f</sub> - PLTL<sub>f</sub>
+  FOND 4 LTL<sub>f</sub>
 </h1>
 
 <p align="center">
@@ -44,11 +44,11 @@
 <a href="https://doi.org/10.5281/zenodo.4876281"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4876281.svg" alt="DOI"></a>
 </p>
 
-FOND 4 LTL<sub>f</sub>/PLTL<sub>f</sub> is a tool that compiles Fully Observable Non-Deterministic (FOND) planning
+FOND 4 LTL<sub>f</sub> is a tool that compiles Fully Observable Non-Deterministic (FOND) planning
 problems with temporally extended goals, specified either in LTL<sub>f</sub> or in PLTL<sub>f</sub>, into classical FOND
 planning problems.
 
-It is also available online at [fond4ltlfpltlf.diag.uniroma1.it](https://fond4ltlf.herokuapp.com/).
+It is also available online at [https://fond4ltlf.herokuapp.com/](https://fond4ltlf.herokuapp.com/).
 
 ## Prerequisites
 
@@ -58,20 +58,20 @@ This tool is based on the following libraries:
 - [ply](https://pypi.org/project/ply/)
 - [click](https://pypi.org/project/click/)
 
-They are automatically added while installing FOND4LTL<sub>f</sub>/PLTL<sub>f</sub>.
+They are automatically added while installing FOND4LTL<sub>f</sub>.
 
 ## Install
 
 - Intall from source (`master` branch):
 
 ```
-pip install git+https://github.com/whitemech/FOND4LTLfPLTLf.git
+pip install git+https://github.com/whitemech/FOND4LTLf.git
 ```
 
 - or, clone the repository and install:
 
 ```
-git clone https://github.com/whitemech/FOND4LTLfPLTLf.git
+git clone https://github.com/whitemech/FOND4LTLf.git
 cd fond4ltlfpltlf
 pip install .
 ```
@@ -102,9 +102,9 @@ To run only the code style checks: `tox -e flake8`
 
 ## License
 
-FOND4LTL<sub>f</sub>/PLTL<sub>f</sub> is released under the GNU Lesser General Public License v3.0 or later (LGPLv3+).
+FOND4LTL<sub>f</sub> is released under the GNU Lesser General Public License v3.0 or later (LGPLv3+).
 
-Copyright 2019-2020 WhiteMech
+Copyright 2019-2022 WhiteMech
 
 ## Author
 
