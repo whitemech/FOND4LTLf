@@ -129,7 +129,8 @@ class PDDLParser(object):
         p[0] = str(p[1])
 
     def p_types_def(self, p):
-        """types_def : LPAREN TYPES_KEY typed_lst_name RPAREN"""
+        """types_def : LPAREN TYPES_KEY typed_lst_name RPAREN
+                     | LPAREN TYPES_KEY typed_constants_lst RPAREN"""
         p[0] = p[3]
 
     def p_constants_def(self, p):
