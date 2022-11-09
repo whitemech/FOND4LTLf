@@ -88,7 +88,8 @@ class PDDLParser(object):
         p[0] = p[3]
 
     def p_objects_def(self, p):
-        """objects_def : LPAREN OBJECTS_KEY typed_constants_lst RPAREN"""
+        """objects_def : LPAREN OBJECTS_KEY typed_constants_lst RPAREN
+                       | LPAREN OBJECTS_KEY typed_lst_name RPAREN """
         p[0] = p[3]
 
     def p_init_def(self, p):
@@ -209,8 +210,11 @@ class PDDLParser(object):
 
     def p_action_def_lst(self, p):
         """action_def_lst : action_def action_def_lst
-                          | action_def"""
-        if len(p) == 2:
+                          | action_def
+                          | """
+        if len(p) == 1:
+            p[0] = []
+        elif len(p) == 2:
             p[0] = [p[1]]
         else:
             p[0] = [p[1]] + p[2]
