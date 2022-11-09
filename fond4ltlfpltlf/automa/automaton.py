@@ -116,10 +116,12 @@ class Automaton:
                     # Luigi: this should be an or
                     assert isinstance(fluents_list_precond, FormulaOr)
                     # For each disjunct I create a nre precond
-                    new_preconditions = [FormulaAnd(
-                        [pre]
-                        + [Literal.negative(Predicate("turnDomain"))]
-                    ) for pre in fluents_list_precond.orList]
+                    new_preconditions = [
+                        FormulaAnd(pre.andList + [Literal.negative(Predicate("turnDomain"))])
+                        if isinstance(pre, FormulaAnd)
+                        else FormulaAnd([pre] + [Literal.negative(Predicate("turnDomain"))])
+                        for pre in fluents_list_precond.orList
+                    ]
                 subcounter = 0
                 for newpre in new_preconditions:
                     new_effects = self.compute_effects(destination, my_variables)
