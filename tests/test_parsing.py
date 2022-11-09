@@ -669,3 +669,22 @@ class TestParsingProblem2:
     def test_problem_goal(self):
         """Test that the goal condition is correct."""
         assert self.pddl_goal == Predicate("vehicleat", ["l13"])
+
+
+def test_robot_coffee():
+    planning_domain = open(str(Path(TEST_ROOT_DIR,
+                                    "data",
+                                    "pddl-domains",
+                                    "robot-coffee",
+                                    "domain-fond.pddl",))).read()
+    planning_problem = open(str(Path(TEST_ROOT_DIR,
+                                    "data",
+                                    "pddl-domains",
+                                    "robot-coffee",
+                                    "coffee2.pddl",))).read()
+    pddl_parser = PDDLParser()
+    tmp = list(planning_problem[400:])
+    parsed_domain = pddl_parser(planning_domain)
+    parsed_problem = pddl_parser(planning_problem)
+    assert parsed_domain is not None
+    assert parsed_problem is not None
