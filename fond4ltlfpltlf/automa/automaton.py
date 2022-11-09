@@ -113,7 +113,7 @@ class Automaton:
                 if isinstance(fluents_list_precond, FormulaAnd):
                     new_preconditions = [fluents_list_precond]
                 else:
-                    # Luigi: this should be an or
+                    # Luigi: this should be an Or
                     assert isinstance(fluents_list_precond, FormulaOr)
                     # For each disjunct I create a new precondition
                     new_preconditions = [
