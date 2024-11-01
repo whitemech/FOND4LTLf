@@ -47,7 +47,7 @@ class Domain:
         domain_str = "(define (domain {0})\n".format(self.name)
         domain_str += "\t(:requirements {0})\n".format(" ".join(self.requirements))
         if self.types:
-            domain_str += "\t(:types {0})\n".format(" ".join(self.types))
+            domain_str += "\t(:types {0})\n".format(" ".join(map(str, self.types)))
         if self.constants:
             domain_str += "\t(:constants {0})\n".format(
                 " ".join(map(str, self.constants))
