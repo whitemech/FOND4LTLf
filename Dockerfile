@@ -29,4 +29,4 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-CMD ["fond4ltlfpltlf"]
+CMD ["fond4ltlf"]

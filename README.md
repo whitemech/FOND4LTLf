@@ -3,25 +3,25 @@
 </h1>
 
 <p align="center">
-  <a href="https://pypi.org/project/FOND4LTLfPLTLf">
+  <a href="https://pypi.org/project/FOND4LTLf">
     <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ltlf2dfa" />
   </a>
-  <a href="https://github.com/whitemech/FOND4LTLfPLTLf/blob/master/LICENSE">
+  <a href="https://github.com/whitemech/FOND4LTLf/blob/master/LICENSE">
     <img alt="GitHub" src="https://img.shields.io/badge/license-LGPLv3%2B-blue">
   </a>
 </p>
 <p align="center">
   <a href="">
-    <img alt="test" src="https://github.com/whitemech/FOND4LTLfPLTLf/workflows/test/badge.svg">
+    <img alt="test" src="https://github.com/whitemech/FOND4LTLf/workflows/test/badge.svg">
   </a>
   <a href="">
-    <img alt="lint" src="https://github.com/whitemech/FOND4LTLfPLTLf/workflows/lint/badge.svg">
+    <img alt="lint" src="https://github.com/whitemech/FOND4LTLf/workflows/lint/badge.svg">
   </a>
   <a href="">
-    <img alt="docs" src="https://github.com/whitemech/FOND4LTLfPLTLf/workflows/docs/badge.svg">
+    <img alt="docs" src="https://github.com/whitemech/FOND4LTLf/workflows/docs/badge.svg">
   </a>
-  <a href="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf">
-    <img src="https://codecov.io/gh/whitemech/FOND4LTLfPLTLf/branch/master/graph/badge.svg?token=KKWRAH29O7"/>
+  <a href="https://codecov.io/gh/whitemech/FOND4LTLf">
+    <img src="https://codecov.io/gh/whitemech/FOND4LTLf/branch/master/graph/badge.svg?token=KKWRAH29O7"/>
   </a>
 </p>
 <p align="center">
@@ -72,7 +72,7 @@ pip install git+https://github.com/whitemech/FOND4LTLf.git
 
 ```
 git clone https://github.com/whitemech/FOND4LTLf.git
-cd fond4ltlfpltlf
+cd fond4ltlf
 pip install .
 ```
 
@@ -81,7 +81,7 @@ pip install .
 Use the command line interface:
 
 ```bash
-fond4ltlfpltlf -d <path/to/domain.pddl> -p <path/to/problem.pddl> -g "formula"
+fond4ltlf -d <path/to/domain.pddl> -p <path/to/problem.pddl> -g "formula"
 ```
 
 You can also specify custom output paths for the new domain and the new problem using `--out-domain` or `-outd`

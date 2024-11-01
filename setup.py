@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 """The setup script."""
@@ -30,7 +30,7 @@ with open('HISTORY.md') as history_file:
 
 here = os.path.abspath(os.path.dirname(__file__))
 about = {}
-with open(os.path.join(here, 'fond4ltlfpltlf', '__version__.py'), 'r') as f:
+with open(os.path.join(here, 'fond4ltlf', '__version__.py'), 'r') as f:
     exec(f.read(), about)
 
 
@@ -61,10 +61,10 @@ setup(
     ],
     install_requires=install_requires,
     license=about["__license__"],
-    keywords='fond4ltlfpltlf',
-    packages=find_packages(include=['fond4ltlfpltlf*']),
+    keywords='fond4ltlf',
+    packages=find_packages(include=['fond4ltlf*']),
     entry_points={
-        'console_scripts': ["fond4ltlfpltlf=fond4ltlfpltlf.__main__:main"],
+        'console_scripts': ["fond4ltlf=fond4ltlf.__main__:main"],
     },
     test_suite='tests',
     zip_safe=False,
