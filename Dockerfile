@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     ca-certificates \
@@ -7,13 +7,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     git             \
     libgmp3-dev     \
     make            \
-    python3         \
     wget            \
     time            \
     zlib1g-dev
 
 # Set up some environment variables.
-ENV CXX g++
+ENV CXX=g++
 
 RUN apt-get install -y mona && \
     apt-get install -y libssl-dev && \
@@ -25,8 +24,8 @@ RUN git clone https://github.com/whitemech/FOND4LTLf.git && \
     cd FOND4LTLf && \
     pip install .
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 CMD ["fond4ltlf"]

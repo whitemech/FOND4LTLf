@@ -110,7 +110,7 @@ def test_compute_formula_symbols():
     ],
 )
 def test_execute(domain, problem, formula):
-    """Test that execute's output is deterministic."""
+    """Test to check that the output is deterministic."""
     temp_d = domain
     temp_p = problem
 
