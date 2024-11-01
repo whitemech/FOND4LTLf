@@ -17,6 +17,7 @@
 # along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 """This module contains the implementation of the automaton for the PDDL formalism."""
+
 import inspect
 import os
 

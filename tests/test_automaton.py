@@ -25,7 +25,7 @@ from fond4ltlf.automa.aparser import parse_dfa
 from fond4ltlf.automa.symbol import Symbol
 from fond4ltlf.parser.parser import PDDLParser
 from fond4ltlf.pddl.action import Action
-from fond4ltlf.pddl.formulas import FormulaAnd, FormulaOneOf, FormulaOr
+from fond4ltlf.pddl.formulas import FormulaAnd, FormulaOr
 from fond4ltlf.pddl.literal import Literal
 from fond4ltlf.pddl.predicate import Predicate
 from fond4ltlf.pddl.term import Term
@@ -41,9 +41,7 @@ class TestParsingAutomaton1:
     @classmethod
     def setup_class(cls):
         """Set the test up."""
-        cls.aut_obj = parse_dfa(
-            open(str(Path(TEST_ROOT_DIR, "data", "automata", "Fa.aut"))).read()
-        )  # type: Automaton
+        cls.aut_obj = parse_dfa(open(str(Path(TEST_ROOT_DIR, "data", "automata", "Fa.aut"))).read())  # type: Automaton
         cls.aut_alphabet = cls.aut_obj.alphabet
         cls.aut_states = cls.aut_obj.states
         cls.aut_initial_state = cls.aut_obj.initial_state
@@ -99,9 +97,7 @@ class TestParsingAutomaton1:
             ).read()
         )
         grounded_symbols = [Symbol("vehicleat", ["l31"])]
-        actual_params, actual_obj_map = self.aut_obj.compute_parameters(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_params, actual_obj_map = self.aut_obj.compute_parameters(pddl_domain.predicates, grounded_symbols)
         expected_params = [Term.variable("?loc-00", "location")]
         expected_objmap = {"l31": ["?loc-00", "location"]}
         assert actual_params == expected_params and actual_obj_map == expected_objmap
@@ -130,9 +126,7 @@ class TestParsingAutomaton1:
             ).read()
         )
         grounded_symbols = [Symbol("on", ["b1", "b2"])]
-        actual_params, actual_obj_map = self.aut_obj.compute_parameters(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_params, actual_obj_map = self.aut_obj.compute_parameters(pddl_domain.predicates, grounded_symbols)
         expected_params = [
             Term.variable("?b1-00", "block"),
             Term.variable("?b2-01", "block"),
@@ -145,9 +139,7 @@ class TestParsingAutomaton1:
         grounded_symbols = [Symbol("on", ["b1", "b2"])]
         objmap = {"b1": ["?b1-00", "block"], "b2": ["?b2-01", "block"]}
         actual_vars_map = self.aut_obj.compute_varsMapping(grounded_symbols, objmap)
-        expected_vars_map = {
-            Symbol("on", ["b1", "b2"]): [("?b1-00", "block"), ("?b2-01", "block")]
-        }
+        expected_vars_map = {Symbol("on", ["b1", "b2"]): [("?b1-00", "block"), ("?b2-01", "block")]}
         assert actual_vars_map == expected_vars_map
 
     def test_automaton_create_trans_op(self):
@@ -166,9 +158,7 @@ class TestParsingAutomaton1:
             ).read()
         )
         grounded_symbols = [Symbol("vehicleat", ["l31"])]
-        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(pddl_domain.predicates, grounded_symbols)
         expected_trans_ops = [
             Action(
                 name="trans-0",
@@ -180,17 +170,13 @@ class TestParsingAutomaton1:
                                 FormulaAnd(
                                     [
                                         Literal.positive(Predicate("q1", ["?loc-00"])),
-                                        Literal.negative(
-                                            Predicate("vehicleat", ["?loc-00"])
-                                        ),
+                                        Literal.negative(Predicate("vehicleat", ["?loc-00"])),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
                                         Literal.positive(Predicate("q2", ["?loc-00"])),
-                                        Literal.negative(
-                                            Predicate("vehicleat", ["?loc-00"])
-                                        ),
+                                        Literal.negative(Predicate("vehicleat", ["?loc-00"])),
                                     ]
                                 ),
                             ]
@@ -217,17 +203,13 @@ class TestParsingAutomaton1:
                                 FormulaAnd(
                                     [
                                         Literal.positive(Predicate("q1", ["?loc-00"])),
-                                        Literal.positive(
-                                            Predicate("vehicleat", ["?loc-00"])
-                                        ),
+                                        Literal.positive(Predicate("vehicleat", ["?loc-00"])),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
                                         Literal.positive(Predicate("q2", ["?loc-00"])),
-                                        Literal.positive(
-                                            Predicate("vehicleat", ["?loc-00"])
-                                        ),
+                                        Literal.positive(Predicate("vehicleat", ["?loc-00"])),
                                     ]
                                 ),
                                 Literal.positive(Predicate("q3", ["?loc-00"])),
@@ -259,9 +241,7 @@ class TestParsingAutomaton2:
     @classmethod
     def setup_class(cls):
         """Set the test up."""
-        cls.aut_obj = parse_dfa(
-            open(str(Path(TEST_ROOT_DIR, "data", "automata", "Fabc.aut"))).read()
-        )  # type: Automaton
+        cls.aut_obj = parse_dfa(open(str(Path(TEST_ROOT_DIR, "data", "automata", "Fabc.aut"))).read())  # type: Automaton
         cls.aut_alphabet = cls.aut_obj.alphabet
         cls.aut_states = cls.aut_obj.states
         cls.aut_initial_state = cls.aut_obj.initial_state
@@ -328,9 +308,7 @@ class TestParsingAutomaton2:
             Symbol("vehicleat", ["l12"]),
             Symbol("vehicleat", ["l22"]),
         ]
-        actual_params, actual_obj_map = self.aut_obj.compute_parameters(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_params, actual_obj_map = self.aut_obj.compute_parameters(pddl_domain.predicates, grounded_symbols)
         expected_params = [
             Term.variable("?loc-00", "location"),
             Term.variable("?loc-01", "location"),
@@ -383,9 +361,7 @@ class TestParsingAutomaton2:
             Symbol("on", ["b2", "b5"]),
             Symbol("emptyhand"),
         ]
-        actual_params, actual_obj_map = self.aut_obj.compute_parameters(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_params, actual_obj_map = self.aut_obj.compute_parameters(pddl_domain.predicates, grounded_symbols)
         expected_params = [
             Term.variable("?b1-00", "block"),
             Term.variable("?b2-01", "block"),
@@ -438,9 +414,7 @@ class TestParsingAutomaton2:
             Symbol("on", ["b2", "b5"]),
             Symbol("emptyhand"),
         ]
-        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(pddl_domain.predicates, grounded_symbols)
         expected_trans_ops = [
             Action(
                 name="trans-0",
@@ -457,11 +431,15 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q1",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.negative(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
@@ -469,14 +447,21 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q1",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.negative(
-                                            Predicate("on", ["?b2-01", "?b2-02"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b2-01", "?b2-02"],
+                                            )
                                         ),
                                     ]
                                 ),
@@ -484,14 +469,21 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q1",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b2-01", "?b2-02"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b2-01", "?b2-02"],
+                                            )
                                         ),
                                         Literal.negative(Predicate("emptyhand")),
                                     ]
@@ -500,11 +492,15 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q2",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.negative(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
@@ -512,14 +508,21 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q2",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.negative(
-                                            Predicate("on", ["?b2-01", "?b2-02"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b2-01", "?b2-02"],
+                                            )
                                         ),
                                     ]
                                 ),
@@ -527,14 +530,21 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q2",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b2-01", "?b2-02"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b2-01", "?b2-02"],
+                                            )
                                         ),
                                         Literal.negative(Predicate("emptyhand")),
                                     ]
@@ -547,13 +557,22 @@ class TestParsingAutomaton2:
                 effects=FormulaAnd(
                     [
                         Literal.positive(
-                            Predicate("q2", ["?b1-00", "?b2-01", "?b2-02"],)
+                            Predicate(
+                                "q2",
+                                ["?b1-00", "?b2-01", "?b2-02"],
+                            )
                         ),
                         Literal.negative(
-                            Predicate("q1", ["?b1-00", "?b2-01", "?b2-02"],)
+                            Predicate(
+                                "q1",
+                                ["?b1-00", "?b2-01", "?b2-02"],
+                            )
                         ),
                         Literal.negative(
-                            Predicate("q3", ["?b1-00", "?b2-01", "?b2-02"],)
+                            Predicate(
+                                "q3",
+                                ["?b1-00", "?b2-01", "?b2-02"],
+                            )
                         ),
                         Literal.positive(Predicate("turnDomain")),
                     ]
@@ -574,14 +593,21 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q1", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q1",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b2-01", "?b2-02"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b2-01", "?b2-02"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                     ]
@@ -590,20 +616,30 @@ class TestParsingAutomaton2:
                                     [
                                         Literal.positive(
                                             Predicate(
-                                                "q2", ["?b1-00", "?b2-01", "?b2-02"],
+                                                "q2",
+                                                ["?b1-00", "?b2-01", "?b2-02"],
                                             )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(
-                                            Predicate("on", ["?b2-01", "?b2-02"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b2-01", "?b2-02"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                     ]
                                 ),
                                 Literal.positive(
-                                    Predicate("q3", ["?b1-00", "?b2-01", "?b2-02"],)
+                                    Predicate(
+                                        "q3",
+                                        ["?b1-00", "?b2-01", "?b2-02"],
+                                    )
                                 ),
                             ]
                         ),
@@ -613,13 +649,22 @@ class TestParsingAutomaton2:
                 effects=FormulaAnd(
                     [
                         Literal.positive(
-                            Predicate("q3", ["?b1-00", "?b2-01", "?b2-02"],)
+                            Predicate(
+                                "q3",
+                                ["?b1-00", "?b2-01", "?b2-02"],
+                            )
                         ),
                         Literal.negative(
-                            Predicate("q1", ["?b1-00", "?b2-01", "?b2-02"],)
+                            Predicate(
+                                "q1",
+                                ["?b1-00", "?b2-01", "?b2-02"],
+                            )
                         ),
                         Literal.negative(
-                            Predicate("q2", ["?b1-00", "?b2-01", "?b2-02"],)
+                            Predicate(
+                                "q2",
+                                ["?b1-00", "?b2-01", "?b2-02"],
+                            )
                         ),
                         Literal.positive(Predicate("turnDomain")),
                     ]
@@ -654,9 +699,7 @@ class TestParsingAutomaton2:
             Symbol("on", ["b", "e"]),
             Symbol("ontable", ["e"]),
         ]
-        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(
-            pddl_domain.predicates, grounded_symbols
-        )
+        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(pddl_domain.predicates, grounded_symbols)
         expected_trans_ops = [
             Action(
                 name="trans-0",
@@ -671,7 +714,10 @@ class TestParsingAutomaton2:
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q1",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.negative(Predicate("emptyhand")),
                                     ]
@@ -679,32 +725,50 @@ class TestParsingAutomaton2:
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q1",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                         Literal.negative(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q1",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.negative(
-                                            Predicate("ontable", ["?b2-01"],)
+                                            Predicate(
+                                                "ontable",
+                                                ["?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q2",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.negative(Predicate("emptyhand")),
                                     ]
@@ -712,25 +776,40 @@ class TestParsingAutomaton2:
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q2",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                         Literal.negative(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q2",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.negative(
-                                            Predicate("ontable", ["?b2-01"],)
+                                            Predicate(
+                                                "ontable",
+                                                ["?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
@@ -741,9 +820,24 @@ class TestParsingAutomaton2:
                 ),
                 effects=FormulaAnd(
                     [
-                        Literal.positive(Predicate("q2", ["?b1-00", "?b2-01"],)),
-                        Literal.negative(Predicate("q1", ["?b1-00", "?b2-01"],)),
-                        Literal.negative(Predicate("q3", ["?b1-00", "?b2-01"],)),
+                        Literal.positive(
+                            Predicate(
+                                "q2",
+                                ["?b1-00", "?b2-01"],
+                            )
+                        ),
+                        Literal.negative(
+                            Predicate(
+                                "q1",
+                                ["?b1-00", "?b2-01"],
+                            )
+                        ),
+                        Literal.negative(
+                            Predicate(
+                                "q3",
+                                ["?b1-00", "?b2-01"],
+                            )
+                        ),
                         Literal.positive(Predicate("turnDomain")),
                     ]
                 ),
@@ -761,33 +855,54 @@ class TestParsingAutomaton2:
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q1", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q1",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(
-                                            Predicate("ontable", ["?b2-01"],)
+                                            Predicate(
+                                                "ontable",
+                                                ["?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
                                 FormulaAnd(
                                     [
                                         Literal.positive(
-                                            Predicate("q2", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "q2",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(Predicate("emptyhand")),
                                         Literal.positive(
-                                            Predicate("on", ["?b1-00", "?b2-01"],)
+                                            Predicate(
+                                                "on",
+                                                ["?b1-00", "?b2-01"],
+                                            )
                                         ),
                                         Literal.positive(
-                                            Predicate("ontable", ["?b2-01"],)
+                                            Predicate(
+                                                "ontable",
+                                                ["?b2-01"],
+                                            )
                                         ),
                                     ]
                                 ),
                                 Literal.positive(
-                                    Predicate("q3", ["?b1-00", "?b2-01"],)
+                                    Predicate(
+                                        "q3",
+                                        ["?b1-00", "?b2-01"],
+                                    )
                                 ),
                             ]
                         ),
@@ -796,9 +911,24 @@ class TestParsingAutomaton2:
                 ),
                 effects=FormulaAnd(
                     [
-                        Literal.positive(Predicate("q3", ["?b1-00", "?b2-01"],)),
-                        Literal.negative(Predicate("q1", ["?b1-00", "?b2-01"],)),
-                        Literal.negative(Predicate("q2", ["?b1-00", "?b2-01"],)),
+                        Literal.positive(
+                            Predicate(
+                                "q3",
+                                ["?b1-00", "?b2-01"],
+                            )
+                        ),
+                        Literal.negative(
+                            Predicate(
+                                "q1",
+                                ["?b1-00", "?b2-01"],
+                            )
+                        ),
+                        Literal.negative(
+                            Predicate(
+                                "q2",
+                                ["?b1-00", "?b2-01"],
+                            )
+                        ),
                         Literal.positive(Predicate("turnDomain")),
                     ]
                 ),
@@ -818,9 +948,7 @@ class TestParsingAutomaton3:
     @classmethod
     def setup_class(cls):
         """Set the test up."""
-        cls.aut_obj = parse_dfa(
-            open(str(Path(TEST_ROOT_DIR, "data", "automata", "GaimpliesXb.aut"))).read()
-        )  # type: Automaton
+        cls.aut_obj = parse_dfa(open(str(Path(TEST_ROOT_DIR, "data", "automata", "GaimpliesXb.aut"))).read())  # type: Automaton
         cls.aut_alphabet = cls.aut_obj.alphabet
         cls.aut_states = cls.aut_obj.states
         cls.aut_initial_state = cls.aut_obj.initial_state
@@ -869,9 +997,7 @@ class TestParsingAutomaton4:
     @classmethod
     def setup_class(cls):
         """Set the test up."""
-        cls.aut_obj = parse_dfa(
-            open(str(Path(TEST_ROOT_DIR, "data", "automata", "sequence-ab.aut"))).read()
-        )  # type: Automaton
+        cls.aut_obj = parse_dfa(open(str(Path(TEST_ROOT_DIR, "data", "automata", "sequence-ab.aut"))).read())  # type: Automaton
         cls.aut_alphabet = cls.aut_obj.alphabet
         cls.aut_states = cls.aut_obj.states
         cls.aut_initial_state = cls.aut_obj.initial_state

@@ -99,9 +99,7 @@ class Automaton:
         """Create operators corresponding to the automaton."""
         new_operators = []
         my_predicates = [symbol.name for symbol in grounded_symbols]
-        (parameters, obj_mapping) = self.compute_parameters(
-            domain_predicates, grounded_symbols
-        )
+        (parameters, obj_mapping) = self.compute_parameters(domain_predicates, grounded_symbols)
         vars_mapping = self.compute_varsMapping(grounded_symbols, obj_mapping)
         my_variables = [param.name for param in parameters]
         counter = 0
@@ -113,10 +111,7 @@ class Automaton:
                 if isinstance(fluents_list_precond, FormulaAnd):
                     new_precondition = fluents_list_precond
                 else:
-                    new_precondition = FormulaAnd(
-                        [fluents_list_precond]
-                        + [Literal.negative(Predicate("turnDomain"))]
-                    )
+                    new_precondition = FormulaAnd([fluents_list_precond] + [Literal.negative(Predicate("turnDomain"))])
                 new_effects = self.compute_effects(destination, my_variables)
                 new_operators.append(
                     Action(
@@ -142,9 +137,7 @@ class Automaton:
                         predicate.args[position].type,
                     )
                 else:
-                    raise ValueError(
-                        "[ERROR]: Please check the instantiation on the formula"
-                    )
+                    raise ValueError("[ERROR]: Please check the instantiation on the formula")
             else:
                 pass
 
@@ -160,9 +153,7 @@ class Automaton:
                 for obj in symbol.objects:
                     if obj not in objs_set:
                         objs_set.add(obj)
-                        (name_var, type_) = self.compute_type(
-                            domain_predicates, symbol.name, i, counter
-                        )
+                        (name_var, type_) = self.compute_type(domain_predicates, symbol.name, i, counter)
                         obj_mapping[obj] = [name_var, type_]
                         parameters.append(Term.variable(name_var, type_))
                         counter += 1
@@ -185,39 +176,20 @@ class Automaton:
             temp = []
         return vars_mapping
 
-    def compute_preconditions(
-        self, source_action, vars_mapping, predicates_name, variables
-    ):
+    def compute_preconditions(self, source_action, vars_mapping, predicates_name, variables):
         """Compute new preconditions."""
         if len(source_action) == 1:
-            if (
-                self.get_automaton_formula(
-                    vars_mapping, predicates_name, source_action[0][1]
-                )
-                == []
-            ):
-                formula = Literal.positive(
-                    Predicate("q" + str(source_action[0][0]), variables)
-                )
+            if self.get_automaton_formula(vars_mapping, predicates_name, source_action[0][1]) == []:
+                formula = Literal.positive(Predicate("q" + str(source_action[0][0]), variables))
             else:
-                automaton_state = [
-                    Literal.positive(
-                        Predicate("q" + str(source_action[0][0]), variables)
-                    )
-                ]
+                automaton_state = [Literal.positive(Predicate("q" + str(source_action[0][0]), variables))]
                 formula = FormulaAnd(
                     automaton_state
-                    + self.get_automaton_formula(
-                        vars_mapping, predicates_name, source_action[0][1]
-                    )
+                    + self.get_automaton_formula(vars_mapping, predicates_name, source_action[0][1])
                     + [Literal.negative(Predicate("turnDomain"))]
                 )
         else:
-            formula = FormulaOr(
-                self.get_or_conditions(
-                    vars_mapping, predicates_name, variables, source_action
-                )
-            )
+            formula = FormulaOr(self.get_or_conditions(vars_mapping, predicates_name, variables, source_action))
         return formula
 
     def compute_effects(self, destination, variables):
@@ -225,21 +197,15 @@ class Automaton:
         negated_states = []
         for state in sorted(self.states):
             if state != destination:
-                negated_states.append(
-                    Literal.negative(Predicate("q" + str(state), variables))
-                )
+                negated_states.append(Literal.negative(Predicate("q" + str(state), variables)))
             else:
                 pass
-        automaton_destination = [
-            Literal.positive(Predicate("q" + str(destination), variables))
-        ]
+        automaton_destination = [Literal.positive(Predicate("q" + str(destination), variables))]
         turnDomain = [Literal.positive(Predicate("turnDomain"))]
         formula = FormulaAnd(automaton_destination + negated_states + turnDomain)
         return formula
 
-    def get_or_conditions(
-        self, vars_mapping, predicates_name, variables, source_action_list
-    ):
+    def get_or_conditions(self, vars_mapping, predicates_name, variables, source_action_list):
         """Get conditions with OR formulae."""
         items = []
         for source, action in source_action_list:
@@ -247,16 +213,9 @@ class Automaton:
             if not formula:
                 items.append(Literal.positive(Predicate("q" + str(source), variables)))
             else:
-                automaton_state = [
-                    Literal.positive(Predicate("q" + str(source), variables))
-                ]
+                automaton_state = [Literal.positive(Predicate("q" + str(source), variables))]
                 items.append(
-                    FormulaAnd(
-                        automaton_state
-                        + self.get_automaton_formula(
-                            vars_mapping, predicates_name, action
-                        )
-                    )
+                    FormulaAnd(automaton_state + self.get_automaton_formula(vars_mapping, predicates_name, action))
                 )
         return items
 

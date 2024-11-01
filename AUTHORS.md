@@ -2,7 +2,7 @@
 
 ## Maintainer
 
-- [Francesco Fuggitti](https://github.com/francescofuggitti) <[fuggitti@diag.uniroma1.it](mailto:fuggitti@diag.uniroma1.it)>
+- [Francesco Fuggitti](https://github.com/francescofuggitti) <[francesco.fuggitti@gmail.com](mailto:francescco.fuggitti@gmail.com)>
 
 ## Contributors
 

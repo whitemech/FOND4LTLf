@@ -18,7 +18,6 @@
 #
 """This module contains the implementations of MONA output parser."""
 
-
 import re
 
 from fond4ltlf.automa.automaton import Automaton
@@ -53,9 +52,7 @@ def parse_dfa(mona_output):
     """Parse MONA output and initialize the DFA Automaton."""
     # initial_state = get_value(mona_output, '.*Initial state:[\s]*(\d+)\n.*', int)
     accepting_states = get_value(mona_output, r".*Accepting states:[\s]*(.*?)\n.*", str)
-    accepting_states = set(
-        str(x.strip()) for x in accepting_states.split() if len(x.strip()) > 0
-    )
+    accepting_states = set(str(x.strip()) for x in accepting_states.split() if len(x.strip()) > 0)
     num_states = get_value(mona_output, r".*Automaton has[\s]*(\d+)[\s]states.*", int)
 
     transitions = {str(k): {} for k in range(1, num_states)}

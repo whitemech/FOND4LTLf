@@ -18,7 +18,6 @@
 #
 """This module contains the implementations of a PDDL Action."""
 
-
 from fond4ltlf.pddl.formulas import FormulaAnd, FormulaOneOf
 from fond4ltlf.pddl.literal import Literal
 from fond4ltlf.pddl.predicate import Predicate
@@ -37,9 +36,7 @@ class Action:
     def __str__(self):
         """Get the string."""
         operator_str = "{0}\n".format(self.name)
-        operator_str += "\t:parameters ({0})\n".format(
-            " ".join(map(str, self.parameters))
-        )
+        operator_str += "\t:parameters ({0})\n".format(" ".join(map(str, self.parameters)))
         operator_str += "\t:precondition {0}\n".format(self.preconditions)
         operator_str += "\t:effect {0}\n".format(self.effects)
         return operator_str

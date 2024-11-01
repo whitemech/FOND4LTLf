@@ -80,18 +80,10 @@ class Term:
     def __eq__(self, other):
         """Check equality between two Terms."""
         if self.is_variable():
-            return (
-                isinstance(other, Term)
-                and self._name == other._name
-                and self._type == other._type
-            )
+            return isinstance(other, Term) and self._name == other._name and self._type == other._type
         else:
             assert self.is_constant()
-            return (
-                isinstance(other, Term)
-                and self._value == other._value
-                and self._type == other._type
-            )
+            return isinstance(other, Term) and self._value == other._value and self._type == other._type
 
     def __hash__(self):
         """Get the hash of a Term."""

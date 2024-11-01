@@ -19,7 +19,6 @@
 
 """This module contains the implementations of a PDDL Domain."""
 
-
 import copy
 
 from fond4ltlf.pddl.action import Action
@@ -49,12 +48,8 @@ class Domain:
         if self.types:
             domain_str += "\t(:types {0})\n".format(" ".join(self.types))
         if self.constants:
-            domain_str += "\t(:constants {0})\n".format(
-                " ".join(map(str, self.constants))
-            )
-        domain_str += "\t(:predicates {0})\n".format(
-            " ".join(map(str, self.predicates))
-        )
+            domain_str += "\t(:constants {0})\n".format(" ".join(map(str, self.constants)))
+        domain_str += "\t(:predicates {0})\n".format(" ".join(map(str, self.predicates)))
 
         for op in self.operators:
             domain_str += "\t(:action {0})\n".format(str(op).replace("\n", "\n\t"))
@@ -91,9 +86,7 @@ class Domain:
             #         )
             #     )
             # )
-            self.predicates.append(
-                "(q{0} {1})".format(str(state), " ".join(map(str, parameters)))
-            )
+            self.predicates.append("(q{0} {1})".format(str(state), " ".join(map(str, parameters))))
         self.predicates.append("(turnDomain)")
 
     def add_constants(self, states):
@@ -132,9 +125,7 @@ class Domain:
         else:
             new_preconditions = FormulaAnd([op_copy.preconditions, condition])
             new_effects = formula
-        new_op = Action(
-            op_copy.name, op_copy.parameters, new_preconditions, new_effects
-        )
+        new_op = Action(op_copy.name, op_copy.parameters, new_preconditions, new_effects)
         return new_op
 
     def compile_simple_adl(self):
@@ -145,9 +136,7 @@ class Domain:
                 # it remains only one operator, but we need to modify it
                 condition_formula = op.effects.condition
                 statement_formula = op.effects.formula
-                new_op = self.modify_operator(
-                    copy.deepcopy(op), condition_formula, statement_formula
-                )
+                new_op = self.modify_operator(copy.deepcopy(op), condition_formula, statement_formula)
                 self.operators[i] = new_op
                 continue
             elif isinstance(op.effects, FormulaAnd):
@@ -181,9 +170,7 @@ class Domain:
                 additionals.append(item)
         k = 1
         for j in range(len(pair_precond_effect)):
-            pair_precond_effect[j][k] = FormulaAnd(
-                [pair_precond_effect[j][k]] + additionals
-            )
+            pair_precond_effect[j][k] = FormulaAnd([pair_precond_effect[j][k]] + additionals)
 
         for u in range(number):
             new_op = Action(

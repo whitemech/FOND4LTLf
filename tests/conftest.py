@@ -17,6 +17,7 @@
 # along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 """This module contains the configurations for the tests."""
+
 import inspect
 import os
 from pathlib import Path

@@ -64,9 +64,7 @@ class Literal:
     def __eq__(self, other):
         """Check the equality between two Literals."""
         return (
-            isinstance(other, Literal)
-            and self.predicate == other.predicate
-            and self.positiveness == other.positiveness
+            isinstance(other, Literal) and self.predicate == other.predicate and self.positiveness == other.positiveness
         )
 
     def __hash__(self):

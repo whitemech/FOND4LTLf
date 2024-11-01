@@ -64,9 +64,7 @@ def execute(planning_domain, planning_problem, goal_formula):
     # parsed_problem = planning_problem
 
     symbols = compute_symb_vars(goal_formula)
-    if not check_symbols(
-        symbols, parsed_domain
-    ):  # TODO: it checks symbols but not objects....
+    if not check_symbols(symbols, parsed_domain):  # TODO: it checks symbols but not objects....
         raise ValueError("[ERROR]: Formula symbols not in the domain.")
 
     if all(c in FUTURE_OPS for c in goal_formula if c.isupper()):
@@ -86,9 +84,7 @@ def execute(planning_domain, planning_problem, goal_formula):
 
     mona_output = formula.to_dfa(mona_dfa_out=True)
     dfa = parse_dfa(mona_output)
-    operators_trans, parameters = dfa.create_operators_trans(
-        parsed_domain.predicates, symbols
-    )
+    operators_trans, parameters = dfa.create_operators_trans(parsed_domain.predicates, symbols)
 
     new_domain = parsed_domain.get_new_domain(parameters, dfa.states, operators_trans)
     new_problem = parsed_problem.get_new_problem(list(dfa.accepting_states), symbols)

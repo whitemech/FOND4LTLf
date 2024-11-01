@@ -18,7 +18,6 @@
 #
 """This is the command line tool for the FOND4LTLf tool."""
 
-
 import click  # type: ignore
 
 from fond4ltlf.core import execute
@@ -62,9 +61,7 @@ def main(in_domain, in_problem, goal, out_domain, out_problem):
         with open(in_problem, "r") as p:
             pddl_problem = p.read()
     except Exception:
-        raise IOError(
-            "[ERROR]: Something wrong occurred while parsing the domain and problem."
-        )
+        raise IOError("[ERROR]: Something wrong occurred while parsing the domain and problem.")
 
     domain_prime, problem_prime = execute(pddl_domain, pddl_problem, goal)
 
@@ -74,9 +71,7 @@ def main(in_domain, in_problem, goal, out_domain, out_problem):
         with open(out_problem, "w+") as prob:
             prob.write(str(problem_prime))
     except Exception:
-        raise IOError(
-            "[ERROR]: Something wrong occurred while writing new problem and domain."
-        )
+        raise IOError("[ERROR]: Something wrong occurred while writing new problem and domain.")
 
 
 if __name__ == "__main__":

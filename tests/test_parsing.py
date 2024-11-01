@@ -38,16 +38,8 @@ from .conftest import TEST_ROOT_DIR
 @pytest.mark.parametrize(
     ["domain"],
     [
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -67,16 +59,8 @@ from .conftest import TEST_ROOT_DIR
                 "domain.pddl",
             ),
         ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "d01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "d01.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -86,27 +70,11 @@ from .conftest import TEST_ROOT_DIR
                 "domain.pddl",
             ),
         ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "domain.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -116,11 +84,7 @@ from .conftest import TEST_ROOT_DIR
                 "domain.pddl",
             ),
         ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"),),
     ],
 )
 def test_domain_parsing_is_deterministic(domain):
@@ -137,29 +101,13 @@ def test_domain_parsing_is_deterministic(domain):
 @pytest.mark.parametrize(
     ["problem"],
     [
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "doors", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "earth_observation", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "earth_observation", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "p01.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -171,27 +119,11 @@ def test_domain_parsing_is_deterministic(domain):
         ),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "p01.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "triangle-tireworld", "p01.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "p01.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "triangle-tireworld", "p01.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "p01.pddl"),),
     ],
 )
 def test_problem_parsing_is_deterministic(problem):
@@ -377,7 +309,12 @@ class TestParsingDomain1:
                     Literal.negative(Predicate("broken-leg")),
                     Literal.positive(Predicate("up")),
                     Literal.positive(Predicate("position", ["?from"])),
-                    Literal.positive(Predicate("next-fwd", ["?from", "?middle"],)),
+                    Literal.positive(
+                        Predicate(
+                            "next-fwd",
+                            ["?from", "?middle"],
+                        )
+                    ),
                     Literal.positive(Predicate("next-fwd", ["?middle", "?to"])),
                 ]
             ),
@@ -438,15 +375,7 @@ class TestParsingProblem1:
     def setup_class(cls):
         """Set the test up."""
         parser = PDDLParser()
-        cls.pddl_obj = parser(
-            open(
-                str(
-                    Path(
-                        TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
-                    )
-                )
-            ).read()
-        )  # type: Problem
+        cls.pddl_obj = parser(open(str(Path(TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"))).read())  # type: Problem
         cls.pddl_name = cls.pddl_obj.name
         cls.pddl_domain = cls.pddl_obj.domain
         cls.pddl_objects = cls.pddl_obj.objects
@@ -479,9 +408,7 @@ class TestParsingProblem1:
 
     def test_problem_goal(self):
         """Test that the goal condition is correct."""
-        assert self.pddl_goal == FormulaAnd(
-            [Predicate("up"), Predicate("position", ["p1"])]
-        )
+        assert self.pddl_goal == FormulaAnd([Predicate("up"), Predicate("position", ["p1"])])
 
 
 class TestParsingDomain2:
@@ -578,7 +505,9 @@ class TestParsingDomain2:
         )
         op2 = Action(
             name="changetire",
-            parameters=[Term.variable("?loc", "location"),],
+            parameters=[
+                Term.variable("?loc", "location"),
+            ],
             preconditions=FormulaAnd(
                 [
                     Literal.positive(Predicate("spare-in", ["?loc"])),

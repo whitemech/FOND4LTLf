@@ -178,8 +178,6 @@ class Problem(object):
         for value_list in self.objects.values():
             for val in value_list:
                 if val.isupper() and val.lower() in objects:
-                    objects[objects.index(val.lower())] = objects[
-                        objects.index(val.lower())
-                    ].upper()
+                    objects[objects.index(val.lower())] = objects[objects.index(val.lower())].upper()
                 else:
                     pass

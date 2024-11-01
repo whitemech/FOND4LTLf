@@ -124,11 +124,7 @@ class FormulaImply:
 
     def __eq__(self, other):
         """Check equality between two Imply formulas."""
-        return (
-            isinstance(other, FormulaImply)
-            and self.formula1 == other.formula1
-            and self.formula2 == other.formula2
-        )
+        return isinstance(other, FormulaImply) and self.formula1 == other.formula1 and self.formula2 == other.formula2
 
 
 class FormulaExists:
@@ -141,17 +137,11 @@ class FormulaExists:
 
     def __str__(self):
         """Represent the formula."""
-        return "(exists ({0}) {1})".format(
-            " ".join(map(str, self.variables)), self.formula
-        )
+        return "(exists ({0}) {1})".format(" ".join(map(str, self.variables)), self.formula)
 
     def __eq__(self, other):
         """Check equality between two Exists formulas."""
-        return (
-            isinstance(other, FormulaExists)
-            and self.variables == other.variables
-            and self.formula == other.formula
-        )
+        return isinstance(other, FormulaExists) and self.variables == other.variables and self.formula == other.formula
 
 
 class FormulaForall:
@@ -164,17 +154,11 @@ class FormulaForall:
 
     def __str__(self):
         """Represent the formula."""
-        return "(forall ({0}) {1})".format(
-            " ".join(map(str, self.variables)), self.formula
-        )
+        return "(forall ({0}) {1})".format(" ".join(map(str, self.variables)), self.formula)
 
     def __eq__(self, other):
         """Check equality between two Forall formulas."""
-        return (
-            isinstance(other, FormulaForall)
-            and self.variables == other.variables
-            and self.formula == other.formula
-        )
+        return isinstance(other, FormulaForall) and self.variables == other.variables and self.formula == other.formula
 
 
 class FormulaWhen:
@@ -201,11 +185,7 @@ class FormulaWhen:
 
     def __eq__(self, other):
         """Check equality between two When formulas."""
-        return (
-            isinstance(other, FormulaWhen)
-            and self.condition == other.condition
-            and self.formula == other.formula
-        )
+        return isinstance(other, FormulaWhen) and self.condition == other.condition and self.formula == other.formula
 
 
 class FormulaOneOf:
@@ -235,11 +215,7 @@ class FormulaOneOf:
 
     def __eq__(self, other):
         """Check the equality between two OneOf formulas."""
-        return (
-            isinstance(other, FormulaOneOf)
-            and self.oneofList == other.oneofList
-            and self.flag == other.flag
-        )
+        return isinstance(other, FormulaOneOf) and self.oneofList == other.oneofList and self.flag == other.flag
 
     def __iter__(self):
         """Override the iterator of an OneOf Formula."""
