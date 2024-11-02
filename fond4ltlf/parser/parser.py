@@ -43,7 +43,7 @@ class PDDLParser(object):
         self.lexer.build()
         self.tokens = self.lexer.tokens
         self.symbols = self.lexer.reserved
-        self.parser = yacc.yacc(module=self)
+        self.parser = yacc.yacc(module=self, debug=False, write_tables=False)
 
     def __call__(self, s, **kwargs):
         return self.parser.parse(s, lexer=self.lexer.lexer)
@@ -449,7 +449,7 @@ class PDDLParser(object):
 
 if __name__ == "__main__":
     par = PDDLParser()
-    with open("../../tests/data/triangle-tireworld/p01.pddl", "r") as f:
+    with open("../../tests/data/pddl-domains/triangle-tireworld/p01.pddl", "r") as f:
         domain = f.read()
 
     result = par(domain)
