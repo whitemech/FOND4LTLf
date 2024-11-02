@@ -53,6 +53,9 @@ Issues = "https://github.com/whitemech/FOND4LTLf.git/issues"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[project.scripts]
+fond4ltlf = "fond4ltlf.__main__:main"
+
 [tool.setuptools]
 include-package-data = true
 
