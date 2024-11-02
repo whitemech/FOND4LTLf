@@ -158,29 +158,17 @@ class TestParsingAutomaton1:
             ).read()
         )
         grounded_symbols = [Symbol("vehicleat", ["l31"])]
-        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(pddl_domain.predicates, grounded_symbols)
+        actual_trans_ops, actual_params = self.aut_obj.create_operators_trans(
+            pddl_domain.predicates, grounded_symbols, no_disjunctive_preconditions=True
+        )
         expected_trans_ops = [
             Action(
-                name="trans-0",
+                name="trans-00",
                 parameters=[Term.variable("?loc-00", "location")],
                 preconditions=FormulaAnd(
                     [
-                        FormulaOr(
-                            [
-                                FormulaAnd(
-                                    [
-                                        Literal.positive(Predicate("q1", ["?loc-00"])),
-                                        Literal.negative(Predicate("vehicleat", ["?loc-00"])),
-                                    ]
-                                ),
-                                FormulaAnd(
-                                    [
-                                        Literal.positive(Predicate("q2", ["?loc-00"])),
-                                        Literal.negative(Predicate("vehicleat", ["?loc-00"])),
-                                    ]
-                                ),
-                            ]
-                        ),
+                        Literal.positive(Predicate("q1", ["?loc-00"])),
+                        Literal.negative(Predicate("vehicleat", ["?loc-00"])),
                         Literal.negative(Predicate("turnDomain")),
                     ]
                 ),
@@ -194,27 +182,68 @@ class TestParsingAutomaton1:
                 ),
             ),
             Action(
-                name="trans-1",
+                name="trans-01",
                 parameters=[Term.variable("?loc-00", "location")],
                 preconditions=FormulaAnd(
                     [
-                        FormulaOr(
-                            [
-                                FormulaAnd(
-                                    [
-                                        Literal.positive(Predicate("q1", ["?loc-00"])),
-                                        Literal.positive(Predicate("vehicleat", ["?loc-00"])),
-                                    ]
-                                ),
-                                FormulaAnd(
-                                    [
-                                        Literal.positive(Predicate("q2", ["?loc-00"])),
-                                        Literal.positive(Predicate("vehicleat", ["?loc-00"])),
-                                    ]
-                                ),
-                                Literal.positive(Predicate("q3", ["?loc-00"])),
-                            ]
-                        ),
+                        Literal.positive(Predicate("q2", ["?loc-00"])),
+                        Literal.negative(Predicate("vehicleat", ["?loc-00"])),
+                        Literal.negative(Predicate("turnDomain")),
+                    ]
+                ),
+                effects=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q2", ["?loc-00"])),
+                        Literal.negative(Predicate("q1", ["?loc-00"])),
+                        Literal.negative(Predicate("q3", ["?loc-00"])),
+                        Literal.positive(Predicate("turnDomain")),
+                    ]
+                ),
+            ),
+            Action(
+                name="trans-10",
+                parameters=[Term.variable("?loc-00", "location")],
+                preconditions=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q1", ["?loc-00"])),
+                        Literal.positive(Predicate("vehicleat", ["?loc-00"])),
+                        Literal.negative(Predicate("turnDomain")),
+                    ]
+                ),
+                effects=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q3", ["?loc-00"])),
+                        Literal.negative(Predicate("q1", ["?loc-00"])),
+                        Literal.negative(Predicate("q2", ["?loc-00"])),
+                        Literal.positive(Predicate("turnDomain")),
+                    ]
+                ),
+            ),
+            Action(
+                name="trans-11",
+                parameters=[Term.variable("?loc-00", "location")],
+                preconditions=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q2", ["?loc-00"])),
+                        Literal.positive(Predicate("vehicleat", ["?loc-00"])),
+                        Literal.negative(Predicate("turnDomain")),
+                    ]
+                ),
+                effects=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q3", ["?loc-00"])),
+                        Literal.negative(Predicate("q1", ["?loc-00"])),
+                        Literal.negative(Predicate("q2", ["?loc-00"])),
+                        Literal.positive(Predicate("turnDomain")),
+                    ]
+                ),
+            ),
+            Action(
+                name="trans-12",
+                parameters=[Term.variable("?loc-00", "location")],
+                preconditions=FormulaAnd(
+                    [
+                        Literal.positive(Predicate("q3", ["?loc-00"])),
                         Literal.negative(Predicate("turnDomain")),
                     ]
                 ),

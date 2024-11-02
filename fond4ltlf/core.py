@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Core module of the fonod4ltlfpltlf tool."""
+"""Core module of the fond4ltlf tool."""
 
 import re
 
@@ -55,7 +55,7 @@ def check_symbols(symbols, parsed_domain):
     return True
 
 
-def execute(planning_domain, planning_problem, goal_formula):
+def execute(planning_domain, planning_problem, goal_formula, no_disj_preconds):
     """Execute the compilation."""
     pddl_parser = PDDLParser()
     parsed_domain = pddl_parser(planning_domain)
@@ -84,7 +84,9 @@ def execute(planning_domain, planning_problem, goal_formula):
 
     mona_output = formula.to_dfa(mona_dfa_out=True)
     dfa = parse_dfa(mona_output)
-    operators_trans, parameters = dfa.create_operators_trans(parsed_domain.predicates, symbols)
+    operators_trans, parameters = dfa.create_operators_trans(
+        parsed_domain.predicates, symbols, no_disjunctive_preconditions=no_disj_preconds
+    )
 
     new_domain = parsed_domain.get_new_domain(parameters, dfa.states, operators_trans)
     new_problem = parsed_problem.get_new_problem(list(dfa.accepting_states), symbols)

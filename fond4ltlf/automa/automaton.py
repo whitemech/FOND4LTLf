@@ -95,7 +95,7 @@ class Automaton:
         automa += "transitions: {}".format(str(self.transitions))
         return automa
 
-    def create_operators_trans(self, domain_predicates, grounded_symbols):
+    def create_operators_trans(self, domain_predicates, grounded_symbols, no_disjunctive_preconditions=False):
         """Create operators corresponding to the automaton."""
         new_operators = []
         my_predicates = [symbol.name for symbol in grounded_symbols]
@@ -103,35 +103,59 @@ class Automaton:
         vars_mapping = self.compute_varsMapping(grounded_symbols, obj_mapping)
         my_variables = [param.name for param in parameters]
         counter = 0
+
         for destination, source_action in self.trans_by_dest.items():
             if source_action:
                 fluents_list_precond = self.compute_preconditions(
                     source_action, vars_mapping, my_predicates, my_variables
                 )
-                if isinstance(fluents_list_precond, FormulaAnd):
-                    new_preconditions = [fluents_list_precond]
-                else:
-                    # this should be an Or
-                    assert isinstance(fluents_list_precond, FormulaOr)
-                    # for each disjunct, we create a new precondition
+
+                if no_disjunctive_preconditions:
+                    # Non-disjunctive mode
+                    assert isinstance(
+                        fluents_list_precond, FormulaOr
+                    ), "Expected FormulaOr for disjunctive preconditions"
+
+                    # For each disjunct, create a new precondition
                     new_preconditions = [
                         FormulaAnd(pre.andList + [Literal.negative(Predicate("turnDomain"))])
                         if isinstance(pre, FormulaAnd)
                         else FormulaAnd([pre] + [Literal.negative(Predicate("turnDomain"))])
                         for pre in fluents_list_precond.orList
                     ]
-                subcounter = 0
-                for newpre in new_preconditions:
+
+                    subcounter = 0
+                    for newpre in new_preconditions:
+                        new_effects = self.compute_effects(destination, my_variables)
+                        new_operators.append(
+                            Action(
+                                f"trans-{counter}{subcounter}",
+                                parameters,
+                                newpre,
+                                new_effects,
+                            )
+                        )
+                        subcounter += 1
+
+                else:
+                    # Disjunctive mode
+                    if isinstance(fluents_list_precond, FormulaAnd):
+                        new_precondition = fluents_list_precond
+                    else:
+                        new_precondition = FormulaAnd(
+                            [fluents_list_precond] + [Literal.negative(Predicate("turnDomain"))]
+                        )
+
                     new_effects = self.compute_effects(destination, my_variables)
                     new_operators.append(
                         Action(
-                            "trans-" + str(counter) + str(subcounter),
+                            f"trans-{counter}",
                             parameters,
-                            newpre,
+                            new_precondition,
                             new_effects,
                         )
                     )
-                    subcounter += 1
+
                 counter += 1
             else:
                 pass

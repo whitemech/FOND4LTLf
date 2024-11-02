@@ -53,7 +53,8 @@ from fond4ltlf.core import execute
     help="Path to PDDL file to store the new problem.",
     type=click.Path(dir_okay=False),
 )
-def main(in_domain, in_problem, goal, out_domain, out_problem):
+@click.option("--no-disj-preconds", "-n", is_flag=True, default=False, help="No disjunctive preconditions.")
+def main(in_domain, in_problem, goal, out_domain, out_problem, no_disj_preconds):
     """From FOND Planning for LTLf/PLTLf Goals to Classical FOND Planning."""
     try:
         with open(in_domain, "r") as d:
@@ -63,7 +64,7 @@ def main(in_domain, in_problem, goal, out_domain, out_problem):
     except Exception:
         raise IOError("[ERROR]: Something wrong occurred while parsing the domain and problem.")
 
-    domain_prime, problem_prime = execute(pddl_domain, pddl_problem, goal)
+    domain_prime, problem_prime = execute(pddl_domain, pddl_problem, goal, no_disj_preconds)
 
     try:
         with open(out_domain, "w+") as dom:

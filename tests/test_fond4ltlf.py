@@ -17,7 +17,7 @@
 # along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test the fonod4ltlfpltlf tool."""
+"""Test the fond4ltlf tool."""
 
 import os
 
