@@ -109,18 +109,29 @@ class Automaton:
                     source_action, vars_mapping, my_predicates, my_variables
                 )
                 if isinstance(fluents_list_precond, FormulaAnd):
-                    new_precondition = fluents_list_precond
+                    new_preconditions = [fluents_list_precond]
                 else:
-                    new_precondition = FormulaAnd([fluents_list_precond] + [Literal.negative(Predicate("turnDomain"))])
-                new_effects = self.compute_effects(destination, my_variables)
-                new_operators.append(
-                    Action(
-                        "trans-" + str(counter),
-                        parameters,
-                        new_precondition,
-                        new_effects,
+                    # this should be an Or
+                    assert isinstance(fluents_list_precond, FormulaOr)
+                    # for each disjunct, we create a new precondition
+                    new_preconditions = [
+                        FormulaAnd(pre.andList + [Literal.negative(Predicate("turnDomain"))])
+                        if isinstance(pre, FormulaAnd)
+                        else FormulaAnd([pre] + [Literal.negative(Predicate("turnDomain"))])
+                        for pre in fluents_list_precond.orList
+                    ]
+                subcounter = 0
+                for newpre in new_preconditions:
+                    new_effects = self.compute_effects(destination, my_variables)
+                    new_operators.append(
+                        Action(
+                            "trans-" + str(counter) + str(subcounter),
+                            parameters,
+                            newpre,
+                            new_effects,
+                        )
                     )
-                )
+                    subcounter += 1
                 counter += 1
             else:
                 pass
