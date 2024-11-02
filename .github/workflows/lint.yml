@@ -3,7 +3,6 @@ name: lint
 on:
   push:
     branches:
-      - develop
       - master
   pull_request:
 
@@ -14,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.7]
+        python-version: ["3.8", "3.10"]
 
     timeout-minutes: 30
 
@@ -27,10 +26,7 @@ jobs:
       run:  pip install tox
     - name: Code style check
       run: |
-        tox -e black-check
-        tox -e isort-check
-        tox -e flake8
-    - name: Static type check
-      run: tox -e mypy
+        tox -e ruff-format
+        tox -e ruff-check
     - name: Check copyright
       run: tox -e check-copyright
