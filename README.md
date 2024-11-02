@@ -3,14 +3,6 @@
 </h1>
 
 <p align="center">
-  <a href="https://pypi.org/project/FOND4LTLf">
-    <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/ltlf2dfa" />
-  </a>
-  <a href="https://github.com/whitemech/FOND4LTLf/blob/master/LICENSE">
-    <img alt="GitHub" src="https://img.shields.io/badge/license-LGPLv3%2B-blue">
-  </a>
-</p>
-<p align="center">
   <a href="">
     <img alt="test" src="https://github.com/whitemech/FOND4LTLf/workflows/test/badge.svg">
   </a>
@@ -20,25 +12,17 @@
   <a href="">
     <img alt="docs" src="https://github.com/whitemech/FOND4LTLf/workflows/docs/badge.svg">
   </a>
+</p>
+<p align="center">
   <a href="https://codecov.io/gh/whitemech/FOND4LTLf">
     <img src="https://codecov.io/gh/whitemech/FOND4LTLf/branch/master/graph/badge.svg?token=KKWRAH29O7"/>
   </a>
-</p>
-<p align="center">
-  <a href="https://img.shields.io/badge/flake8-checked-blueviolet">
-    <img alt="" src="https://img.shields.io/badge/flake8-checked-blueviolet">
-  </a>
-  <a href="https://img.shields.io/badge/mypy-checked-blue">
-    <img alt="" src="https://img.shields.io/badge/mypy-checked-blue">
-  </a>
-  <a href="https://img.shields.io/badge/isort-checked-yellow">
-    <img alt="isort" src="https://img.shields.io/badge/isort-checked-yellow" />
-  </a>
-  <a href="https://img.shields.io/badge/code%20style-black-black">
-    <img alt="black" src="https://img.shields.io/badge/code%20style-black-black" />
-  </a>
   <a href="https://www.mkdocs.org/">
     <img alt="" src="https://img.shields.io/badge/docs-mkdocs-9cf">
+  </a>
+  <a href="https://github.com/whitemech/FOND4LTLf/blob/master/LICENSE">
+    <img alt="GitHub" src="https://img.shields.io/badge/license-LGPLv3%2B-blue">
+  </a>
 </p>
 <p align="center">
 <a href="https://doi.org/10.5281/zenodo.4876281"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4876281.svg" alt="DOI"></a>
@@ -47,8 +31,6 @@
 FOND 4 LTL<sub>f</sub> is a tool that compiles Fully Observable Non-Deterministic (FOND) planning
 problems with temporally extended goals, specified either in LTL<sub>f</sub> or in PLTL<sub>f</sub>, into classical FOND
 planning problems.
-
-It is also available online at [https://fond4ltlf.herokuapp.com/](https://fond4ltlf.herokuapp.com/).
 
 ## Prerequisites
 
@@ -72,7 +54,7 @@ pip install git+https://github.com/whitemech/FOND4LTLf.git
 
 ```
 git clone https://github.com/whitemech/FOND4LTLf.git
-cd fond4ltlf
+cd FOND4LTLf
 pip install .
 ```
 
@@ -96,15 +78,15 @@ and `--out-problem` or `-outp`.
 
 To run tests: `tox`
 
-To run only the code tests: `tox -e py3.8`
+To run only the code tests: `tox -e py3.10`
 
-To run only the code style checks: `tox -e flake8`
+To run only the code style checks: `tox -e ruff-check`
 
 ## License
 
 FOND4LTL<sub>f</sub> is released under the GNU Lesser General Public License v3.0 or later (LGPLv3+).
 
-Copyright 2019-2022 WhiteMech
+Copyright 2019-2024 WhiteMech
 
 ## Author
 
