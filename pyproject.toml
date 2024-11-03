@@ -1,6 +1,6 @@
 [project]
 name = "fond4ltlf"
-version = "0.0.3"
+version = "0.0.4"
 license = {file = "LICENSE"}
 authors = [
     { name = "Francesco Fuggitti", email = "francesco.fuggitti@gmail.com" },

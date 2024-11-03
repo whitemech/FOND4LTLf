@@ -58,21 +58,45 @@ cd FOND4LTLf
 pip install .
 ```
 
-## How To Use
+## Usage
 
-Use the command line interface:
+The output of the CLI is the following:
+
+```bash
+user:~$ fond4ltlf --help
+Usage: fond4ltlf [OPTIONS]
+
+  From FOND Planning for LTLf/PLTLf Goals to Classical FOND Planning.
+
+Options:
+  -d, --in-domain PATH       Path to PDDL domain file.  [required]
+  -p, --in-problem PATH      Path to PDDL problem file.  [required]
+  -g, --goal TEXT            LTLf or PLTLf goal formula.
+  -outd, --out-domain FILE   Path to PDDL file to store the new domain.
+  -outp, --out-problem FILE  Path to PDDL file to store the new problem.
+  -n, --no-disj-preconds     No disjunctive preconditions.
+  --help                     Show this message and exit.
+```
+
+For instance, you can call `FOND4LTLf` as follows:
 
 ```bash
 fond4ltlf -d <path/to/domain.pddl> -p <path/to/problem.pddl> -g "formula"
 ```
 
-You can also specify custom output paths for the new domain and the new problem using `--out-domain` or `-outd`
-and `--out-problem` or `-outp`.
-
 ## Features
 
 * Syntax and parsing support FOND Planning in PDDL
 * Compilation of Deterministic Finite-state Automaton into PDDL
+
+## Development
+
+Contributions are welcome! Here's how to set up the development environment:
+- set up your preferred virtualenv environment
+- clone the repo: `git clone https://github.com/IBM/nl2ltl.git && cd nl2ltl`
+- install dependencies: `pip install -e .`
+- install dev dependencies: `pip install -e ".[dev]"`
+- install pre-commit: `pre-commit install`
 
 ## Tests
 

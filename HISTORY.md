@@ -1,5 +1,11 @@
 # History
 
+## 0.0.4 (2024-11-03)
+- change build mode with Pipenv removal
+- add feature to build transition actions without disjunctive preconditions
+- fix bug in parser for types requirement and empty actions
+- remove online version at [fond4ltlf](https://fond4ltlf.herokuapp.com/)
+
 ## 0.0.3 (2021-06-17)
 - add references
 - change docs website  
