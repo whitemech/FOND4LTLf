@@ -1,27 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""This is the command line tool for the FOND4LTLfPLTLf tool."""
-
+"""This is the command line tool for the FOND4LTLf tool."""
 
 import click  # type: ignore
 
-from fond4ltlfpltlf.core import execute
+from fond4ltlf.core import execute
 
 
 @click.command()
@@ -54,7 +53,8 @@ from fond4ltlfpltlf.core import execute
     help="Path to PDDL file to store the new problem.",
     type=click.Path(dir_okay=False),
 )
-def main(in_domain, in_problem, goal, out_domain, out_problem):
+@click.option("--no-disj-preconds", "-n", is_flag=True, default=False, help="No disjunctive preconditions.")
+def main(in_domain, in_problem, goal, out_domain, out_problem, no_disj_preconds):
     """From FOND Planning for LTLf/PLTLf Goals to Classical FOND Planning."""
     try:
         with open(in_domain, "r") as d:
@@ -62,11 +62,9 @@ def main(in_domain, in_problem, goal, out_domain, out_problem):
         with open(in_problem, "r") as p:
             pddl_problem = p.read()
     except Exception:
-        raise IOError(
-            "[ERROR]: Something wrong occurred while parsing the domain and problem."
-        )
+        raise IOError("[ERROR]: Something wrong occurred while parsing the domain and problem.")
 
-    domain_prime, problem_prime = execute(pddl_domain, pddl_problem, goal)
+    domain_prime, problem_prime = execute(pddl_domain, pddl_problem, goal, no_disj_preconds)
 
     try:
         with open(out_domain, "w+") as dom:
@@ -74,9 +72,7 @@ def main(in_domain, in_problem, goal, out_domain, out_problem):
         with open(out_problem, "w+") as prob:
             prob.write(str(problem_prime))
     except Exception:
-        raise IOError(
-            "[ERROR]: Something wrong occurred while writing new problem and domain."
-        )
+        raise IOError("[ERROR]: Something wrong occurred while writing new problem and domain.")
 
 
 if __name__ == "__main__":

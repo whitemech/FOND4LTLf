@@ -1,27 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 import ply.yacc as yacc
 
-from fond4ltlfpltlf.parser.lexer import PDDLLexer
-from fond4ltlfpltlf.pddl.action import Action
-from fond4ltlfpltlf.pddl.domain import Domain
-from fond4ltlfpltlf.pddl.formulas import (
+from fond4ltlf.parser.lexer import PDDLLexer
+from fond4ltlf.pddl.action import Action
+from fond4ltlf.pddl.domain import Domain
+from fond4ltlf.pddl.formulas import (
     FormulaAnd,
     FormulaExists,
     FormulaForall,
@@ -31,10 +31,10 @@ from fond4ltlfpltlf.pddl.formulas import (
     FormulaOr,
     FormulaWhen,
 )
-from fond4ltlfpltlf.pddl.literal import Literal
-from fond4ltlfpltlf.pddl.predicate import Predicate
-from fond4ltlfpltlf.pddl.problem import Problem
-from fond4ltlfpltlf.pddl.term import Term
+from fond4ltlf.pddl.literal import Literal
+from fond4ltlf.pddl.predicate import Predicate
+from fond4ltlf.pddl.problem import Problem
+from fond4ltlf.pddl.term import Term
 
 
 class PDDLParser(object):
@@ -43,22 +43,22 @@ class PDDLParser(object):
         self.lexer.build()
         self.tokens = self.lexer.tokens
         self.symbols = self.lexer.reserved
-        self.parser = yacc.yacc(module=self)
+        self.parser = yacc.yacc(module=self, debug=False, write_tables=False)
 
     def __call__(self, s, **kwargs):
         return self.parser.parse(s, lexer=self.lexer.lexer)
 
     def p_pddl(self, p):
         """pddl : domain
-                | problem"""
+        | problem"""
         p[0] = p[1]
 
     def p_domain(self, p):
-        """domain : LPAREN DEFINE_KEY domain_def require_def types_def constants_def predicates_def action_def_lst RPAREN
-                  | LPAREN DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAREN
-                  | LPAREN DEFINE_KEY domain_def require_def predicates_def action_def_lst RPAREN
-                  | LPAREN DEFINE_KEY domain_def predicates_def action_def_lst RPAREN
-                  | LPAREN DEFINE_KEY domain_def action_def_lst RPAREN"""
+        """domain : LPAR DEFINE_KEY domain_def require_def types_def constants_def predicates_def action_def_lst RPAR
+        | LPAR DEFINE_KEY domain_def require_def types_def predicates_def action_def_lst RPAR
+        | LPAR DEFINE_KEY domain_def require_def predicates_def action_def_lst RPAR
+        | LPAR DEFINE_KEY domain_def predicates_def action_def_lst RPAR
+        | LPAR DEFINE_KEY domain_def action_def_lst RPAR"""
         if len(p) == 10:
             p[0] = Domain(p[3], p[4], p[5], p[6], p[7], p[8])
         elif len(p) == 9:
@@ -72,36 +72,36 @@ class PDDLParser(object):
             p[0] = Domain(p[3], [], [], [], [], p[4])
 
     def p_problem(self, p):
-        """problem : LPAREN DEFINE_KEY problem_def domain_pdef objects_def init_def goal_def RPAREN"""
+        """problem : LPAR DEFINE_KEY problem_def domain_pdef objects_def init_def goal_def RPAR"""
         p[0] = Problem(p[3], p[4], p[5], p[6], p[7])
 
     def p_domain_pdef(self, p):
-        """domain_pdef : LPAREN DOMAIN_PKEY NAME RPAREN"""
+        """domain_pdef : LPAR DOMAIN_PKEY NAME RPAR"""
         p[0] = p[3]
 
     def p_domain_def(self, p):
-        """domain_def : LPAREN DOMAIN_KEY NAME RPAREN"""
+        """domain_def : LPAR DOMAIN_KEY NAME RPAR"""
         p[0] = p[3]
 
     def p_problem_def(self, p):
-        """problem_def : LPAREN PROBLEM_KEY NAME RPAREN"""
+        """problem_def : LPAR PROBLEM_KEY NAME RPAR"""
         p[0] = p[3]
 
     def p_objects_def(self, p):
-        """objects_def : LPAREN OBJECTS_KEY typed_constants_lst RPAREN"""
+        """objects_def : LPAR OBJECTS_KEY typed_constants_lst RPAR"""
         p[0] = p[3]
 
     def p_init_def(self, p):
-        """init_def : LPAREN INIT_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
-                    | LPAREN INIT_KEY ground_predicates_lst RPAREN"""
+        """init_def : LPAR INIT_KEY LPAR AND_KEY ground_predicates_lst RPAR RPAR
+        | LPAR INIT_KEY ground_predicates_lst RPAR"""
         if len(p) == 5:
             p[0] = p[3]
         elif len(p) == 8:
             p[0] = p[5]
 
     def p_goal_def(self, p):
-        """goal_def : LPAREN GOAL_KEY LPAREN AND_KEY ground_predicates_lst RPAREN RPAREN
-                    | LPAREN GOAL_KEY ground_predicate RPAREN"""
+        """goal_def : LPAR GOAL_KEY LPAR AND_KEY ground_predicates_lst RPAR RPAR
+        | LPAR GOAL_KEY ground_predicate RPAR"""
         if len(p) == 8:
             p[0] = FormulaAnd(p[5])
         else:
@@ -109,12 +109,12 @@ class PDDLParser(object):
             p[0] = p[3]
 
     def p_require_def(self, p):
-        """require_def : LPAREN REQUIREMENTS_KEY require_key_lst RPAREN"""
+        """require_def : LPAR REQUIREMENTS_KEY require_key_lst RPAR"""
         p[0] = p[3]
 
     def p_require_key_lst(self, p):
         """require_key_lst : require_key require_key_lst
-                           | require_key"""
+        | require_key"""
         if len(p) == 2:
             p[0] = [p[1]]
         else:
@@ -122,31 +122,35 @@ class PDDLParser(object):
 
     def p_require_key(self, p):
         """require_key : STRIPS_KEY
-                       | EQUALITY_KEY
-                       | TYPING_KEY
-                       | ADL_KEY
-                       | ND_KEY"""
+        | EQUALITY_KEY
+        | TYPING_KEY
+        | ADL_KEY
+        | ND_KEY"""
         p[0] = str(p[1])
 
     def p_types_def(self, p):
-        """types_def : LPAREN TYPES_KEY typed_lst_name RPAREN"""
+        """types_def : LPAR TYPES_KEY typed_lst_name RPAR"""
         p[0] = p[3]
 
     def p_constants_def(self, p):
-        """constants_def : LPAREN CONSTANTS_KEY typed_constants_lst RPAREN
-                         | LPAREN CONSTANTS_KEY names_lst RPAREN"""
+        """constants_def : LPAR CONSTANTS_KEY typed_constants_lst RPAR
+        | LPAR CONSTANTS_KEY names_lst RPAR"""
         p[0] = p[3]
 
     def p_typed_lst_name(self, p):
-        """typed_lst_name : names_lst"""
+        """typed_lst_name : names_lst HYPHEN type typed_lst_name
+        | names_lst HYPHEN NAME
+        | names_lst"""
         if len(p) == 2:
             p[0] = p[1]
-        # elif len(p) == 5:
-        #     p[0] = [Term.constant(value, p[3]) for value in p[1]] + p[4]
+        elif len(p) == 4:
+            p[0] = [Term.constant(value, p[3]) for value in p[1]]
+        elif len(p) == 5:
+            p[0] = [Term.constant(value, p[3]) for value in p[1]] + p[4]
 
     def p_names_lst(self, p):
         """names_lst : NAME names_lst
-                     | NAME"""
+        | NAME"""
         if len(p) == 1:
             p[0] = []
         elif len(p) == 2:
@@ -155,20 +159,20 @@ class PDDLParser(object):
             p[0] = [p[1]] + p[2]
 
     def p_predicates_def(self, p):
-        """predicates_def : LPAREN PREDICATES_KEY predicate_def_lst RPAREN"""
+        """predicates_def : LPAR PREDICATES_KEY predicate_def_lst RPAR"""
         p[0] = p[3]
 
     def p_predicate_def_lst(self, p):
         """predicate_def_lst : predicate_def predicate_def_lst
-                             | predicate_def"""
+        | predicate_def"""
         if len(p) == 2:
             p[0] = [p[1]]
         else:
             p[0] = [p[1]] + p[2]
 
     def p_predicate_def(self, p):
-        """predicate_def : LPAREN NAME typed_variables_lst RPAREN
-                         | LPAREN NAME RPAREN"""
+        """predicate_def : LPAR NAME typed_variables_lst RPAR
+        | LPAR NAME RPAR"""
         if len(p) == 4:
             p[0] = Predicate(p[2])
         elif len(p) == 5:
@@ -176,15 +180,15 @@ class PDDLParser(object):
 
     def p_ground_predicates_lst(self, p):
         """ground_predicates_lst : ground_predicate ground_predicates_lst
-                                 | ground_predicate"""
+        | ground_predicate"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
             p[0] = [p[1]] + p[2]
 
     def p_ground_predicate(self, p):
-        """ground_predicate : LPAREN NAME RPAREN
-                            | LPAREN NAME constants_lst RPAREN"""
+        """ground_predicate : LPAR NAME RPAR
+        | LPAR NAME constants_lst RPAR"""
         if len(p) == 4:
             p[0] = Predicate(p[2])
         elif len(p) == 5:
@@ -192,7 +196,7 @@ class PDDLParser(object):
 
     def p_constants_lst(self, p):
         """constants_lst : constant constants_lst
-                         | constant"""
+        | constant"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
@@ -200,7 +204,7 @@ class PDDLParser(object):
 
     def p_typed_constants_lst(self, p):
         """typed_constants_lst : constants_lst HYPHEN type typed_constants_lst
-                               | constants_lst HYPHEN type"""
+        | constants_lst HYPHEN type"""
         if len(p) == 4:
             p[0] = [Term.constant(value, p[3]) for value in p[1]]
         elif len(p) == 5:
@@ -208,8 +212,8 @@ class PDDLParser(object):
 
     def p_action_def_lst(self, p):
         """action_def_lst : action_def action_def_lst
-                          | action_def
-                          | """
+        | action_def
+        |"""
         if len(p) == 1:
             p[0] = []
         elif len(p) == 2:
@@ -218,36 +222,36 @@ class PDDLParser(object):
             p[0] = [p[1]] + p[2]
 
     def p_action_def(self, p):
-        """action_def : LPAREN ACTION_KEY NAME parameters_def precond_def effects_def RPAREN"""
+        """action_def : LPAR ACTION_KEY NAME parameters_def precond_def effects_def RPAR"""
         p[0] = Action(p[3], p[4], p[5], p[6])
 
     def p_parameters_def(self, p):
-        """parameters_def : PARAMETERS_KEY LPAREN typed_variables_lst RPAREN
-                          | PARAMETERS_KEY LPAREN RPAREN"""
+        """parameters_def : PARAMETERS_KEY LPAR typed_variables_lst RPAR
+        | PARAMETERS_KEY LPAR RPAR"""
         if len(p) == 4:
             p[0] = []
         elif len(p) == 5:
             p[0] = p[3]
 
     def p_precond_def(self, p):
-        """precond_def : PRECONDITION_KEY LPAREN formula RPAREN"""
+        """precond_def : PRECONDITION_KEY LPAR formula RPAR"""
         p[0] = p[3]
 
     def p_formula(self, p):
         """formula : literal
-                   | AND_KEY formula_lst
-                   | OR_KEY formula_lst
-                   | NOT_KEY formula
-                   | IMPLY_KEY formula formula
-                   | EXISTS_KEY LPAREN typed_variables_lst RPAREN formula
-                   | FORALL_KEY LPAREN typed_variables_lst RPAREN formula
-                   | LPAREN AND_KEY formula_lst RPAREN
-                   | LPAREN OR_KEY formula_lst RPAREN
-                   | LPAREN NOT_KEY formula RPAREN
-                   | LPAREN IMPLY_KEY formula formula RPAREN
-                   | LPAREN literal RPAREN
-                   | LPAREN EXISTS_KEY LPAREN typed_variables_lst RPAREN formula RPAREN
-                   | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN formula RPAREN"""
+        | AND_KEY formula_lst
+        | OR_KEY formula_lst
+        | NOT_KEY formula
+        | IMPLY_KEY formula formula
+        | EXISTS_KEY LPAR typed_variables_lst RPAR formula
+        | FORALL_KEY LPAR typed_variables_lst RPAR formula
+        | LPAR AND_KEY formula_lst RPAR
+        | LPAR OR_KEY formula_lst RPAR
+        | LPAR NOT_KEY formula RPAR
+        | LPAR IMPLY_KEY formula formula RPAR
+        | LPAR literal RPAR
+        | LPAR EXISTS_KEY LPAR typed_variables_lst RPAR formula RPAR
+        | LPAR FORALL_KEY LPAR typed_variables_lst RPAR formula RPAR"""
         if len(p) == 2:
             p[0] = p[1]
         elif len(p) == 3:
@@ -284,14 +288,14 @@ class PDDLParser(object):
 
     def p_formula_lst(self, p):
         """formula_lst : formula formula_lst
-                       | formula"""
+        | formula"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
             p[0] = [p[1]] + p[2]
 
     def p_effects_def(self, p):
-        """effects_def : EFFECT_KEY LPAREN one_eff_formula RPAREN"""
+        """effects_def : EFFECT_KEY LPAR one_eff_formula RPAR"""
         p[0] = p[3]
 
     # def p_eff_formula(self, p):
@@ -308,14 +312,14 @@ class PDDLParser(object):
 
     def p_one_eff_formula(self, p):
         """one_eff_formula : literal
-                           | AND_KEY
-                           | AND_KEY one_eff_formula_lst
-                           | ONEOF_KEY atomic_eff_lst
-                           | WHEN_KEY formula atomic_eff
-                           | LPAREN ONEOF_KEY atomic_eff_lst RPAREN
-                           | LPAREN WHEN_KEY formula atomic_eff RPAREN
-                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN atomic_eff RPAREN
-                           | LPAREN FORALL_KEY LPAREN typed_variables_lst RPAREN LPAREN WHEN_KEY formula atomic_eff RPAREN RPAREN"""
+        | AND_KEY
+        | AND_KEY one_eff_formula_lst
+        | ONEOF_KEY atomic_eff_lst
+        | WHEN_KEY formula atomic_eff
+        | LPAR ONEOF_KEY atomic_eff_lst RPAR
+        | LPAR WHEN_KEY formula atomic_eff RPAR
+        | LPAR FORALL_KEY LPAR typed_variables_lst RPAR atomic_eff RPAR
+        | LPAR FORALL_KEY LPAR typed_variables_lst RPAR LPAR WHEN_KEY formula atomic_eff RPAR RPAR"""
         if len(p) == 2:
             if p[1] == "and":
                 p[0] = FormulaAnd()
@@ -341,7 +345,7 @@ class PDDLParser(object):
 
     def p_one_eff_formula_lst(self, p):
         """one_eff_formula_lst : one_eff_formula one_eff_formula_lst
-                               | one_eff_formula"""
+        | one_eff_formula"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
@@ -349,7 +353,7 @@ class PDDLParser(object):
 
     def p_atomic_eff_lst(self, p):
         """atomic_eff_lst : atomic_eff atomic_eff_lst
-                          | atomic_eff"""
+        | atomic_eff"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
@@ -357,10 +361,10 @@ class PDDLParser(object):
 
     def p_atomic_eff(self, p):
         """atomic_eff : literal
-                      | AND_KEY literal_lst
-                      | LPAREN AND_KEY RPAREN
-                      | LPAREN AND_KEY literal_lst RPAREN
-                      | LPAREN WHEN_KEY formula atomic_eff RPAREN"""
+        | AND_KEY literal_lst
+        | LPAR AND_KEY RPAR
+        | LPAR AND_KEY literal_lst RPAR
+        | LPAR WHEN_KEY formula atomic_eff RPAR"""
         if len(p) == 2:
             p[0] = p[1]
         elif len(p) == 3:
@@ -380,27 +384,27 @@ class PDDLParser(object):
 
     def p_literal_lst(self, p):
         """literal_lst : literal literal_lst
-                       | literal"""
+        | literal"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
             p[0] = [p[1]] + p[2]
 
     def p_literal(self, p):
-        """literal : LPAREN NOT_KEY predicate RPAREN
-                   | predicate"""
+        """literal : LPAR NOT_KEY predicate RPAR
+        | predicate"""
         if len(p) == 2:
             p[0] = Literal.positive(p[1])
         elif len(p) == 5:
             p[0] = Literal.negative(p[3])
 
     def p_predicate(self, p):
-        """predicate : LPAREN NAME variables_lst RPAREN
-                     | LPAREN EQUALS VARIABLE VARIABLE RPAREN
-                     | LPAREN NAME RPAREN
-                     | NAME variables_lst
-                     | EQUALS VARIABLE VARIABLE
-                     | NAME"""
+        """predicate : LPAR NAME variables_lst RPAR
+        | LPAR EQUALS VARIABLE VARIABLE RPAR
+        | LPAR NAME RPAR
+        | NAME variables_lst
+        | EQUALS VARIABLE VARIABLE
+        | NAME"""
         if len(p) == 2:
             p[0] = Predicate(p[1])
         elif len(p) == 3:
@@ -417,7 +421,7 @@ class PDDLParser(object):
 
     def p_typed_variables_lst(self, p):
         """typed_variables_lst : variables_lst HYPHEN type typed_variables_lst
-                               | variables_lst HYPHEN type"""
+        | variables_lst HYPHEN type"""
         if len(p) == 4:
             p[0] = [Term.variable(name, p[3]) for name in p[1]]
         else:
@@ -425,7 +429,7 @@ class PDDLParser(object):
 
     def p_variables_lst(self, p):
         """variables_lst : VARIABLE variables_lst
-                         | VARIABLE"""
+        | VARIABLE"""
         if len(p) == 2:
             p[0] = [p[1]]
         elif len(p) == 3:
@@ -449,12 +453,8 @@ class PDDLParser(object):
 
 if __name__ == "__main__":
     par = PDDLParser()
-    with open("../../tests/data/triangle-tireworld/p01.pddl", "r") as f:
+    with open("../../tests/data/pddl-domains/robot-coffee/domain-fond.pddl", "r") as f:
         domain = f.read()
 
     result = par(domain)
-    # states = {'1','2','3','4'}
-    # alpha = ['a','b','c']
-    # transition = 'trans\n:parameters ()\n:precondition (not turnDomain)\n:effect (oneof (when (and (q2) (not a)) (and (q2) (turnDomain))) (when (and (q2) (a)) (turnDomain)))\n'
-    # result1 = result.get_new_domain(alpha, states, transition)
     print(result)

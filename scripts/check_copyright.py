@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 """
@@ -34,20 +34,20 @@ from pathlib import Path
 HEADER_REGEX = r"""(#!/usr/bin/env python3
 )?# -\*- coding: utf-8 -\*-
 #
-# This file is part of fond4ltlfpltlf\.
+# This file is part of FOND4LTLf\.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # \(at your option\) any later version\.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\.  See the
 # GNU General Public License for more details\.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf\.  If not, see <https://www\.gnu\.org/licenses/>\.
+# along with FOND4LTLf\.  If not, see <https://www\.gnu\.org/licenses/>\.
 #
 """
 
@@ -72,26 +72,21 @@ def parse_args():
     import argparse  # pylint: disable=import-outside-toplevel
 
     parser = argparse.ArgumentParser("check_copyright_notice")
-    parser.add_argument(
-        "--directory", type=str, default=".", help="The path to the repository root."
-    )
+    parser.add_argument("--directory", type=str, default=".", help="The path to the repository root.")
 
 
 if __name__ == "__main__":
-    python_files = set(itertools.chain(
-        Path("fond4ltlfpltlf").glob("**/*.py"),
-        Path("tests").glob("**/*.py"),
-        Path("scripts").glob("**/*.py"),
-        [Path("setup.py")],
-    ))
+    python_files = set(
+        itertools.chain(
+            Path("fond4ltlf").glob("**/*.py"),
+            Path("tests").glob("**/*.py"),
+            Path("scripts").glob("**/*.py"),
+        )
+    )
 
-    ignore_files = {
-        Path("fond4ltlfpltlf", "parser", "parsetab.py")
-    }
+    ignore_files = {Path("fond4ltlf", "parser", "parsetab.py")}
 
-    bad_files = {
-        filepath for filepath in python_files.difference(ignore_files) if not check_copyright(filepath)
-    }
+    bad_files = {filepath for filepath in python_files.difference(ignore_files) if not check_copyright(filepath)}
 
     if len(bad_files) > 0:
         print("The following files are not well formatted:")
