@@ -55,7 +55,7 @@ def check_symbols(symbols, parsed_domain):
     return True
 
 
-def execute(planning_domain, planning_problem, goal_formula, no_disj_preconds):
+def execute(planning_domain, planning_problem, goal_formula, no_disj_preconds=False):
     """Execute the compilation."""
     pddl_parser = PDDLParser()
     parsed_domain = pddl_parser(planning_domain)

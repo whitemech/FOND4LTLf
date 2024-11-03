@@ -624,7 +624,6 @@ def test_robot_coffee():
         )
     ).read()
     pddl_parser = PDDLParser()
-    # tmp = list(planning_problem[400:])
     parsed_domain = pddl_parser(planning_domain)
     parsed_problem = pddl_parser(planning_problem)
     assert parsed_domain is not None

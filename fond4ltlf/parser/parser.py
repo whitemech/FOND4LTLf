@@ -138,11 +138,15 @@ class PDDLParser(object):
         p[0] = p[3]
 
     def p_typed_lst_name(self, p):
-        """typed_lst_name : names_lst"""
+        """typed_lst_name : names_lst HYPHEN type typed_lst_name
+        | names_lst HYPHEN NAME
+        | names_lst"""
         if len(p) == 2:
             p[0] = p[1]
-        # elif len(p) == 5:
-        #     p[0] = [Term.constant(value, p[3]) for value in p[1]] + p[4]
+        elif len(p) == 4:
+            p[0] = [Term.constant(value, p[3]) for value in p[1]]
+        elif len(p) == 5:
+            p[0] = [Term.constant(value, p[3]) for value in p[1]] + p[4]
 
     def p_names_lst(self, p):
         """names_lst : NAME names_lst
@@ -449,7 +453,7 @@ class PDDLParser(object):
 
 if __name__ == "__main__":
     par = PDDLParser()
-    with open("../../tests/data/pddl-domains/triangle-tireworld/p01.pddl", "r") as f:
+    with open("../../tests/data/pddl-domains/robot-coffee/domain-fond.pddl", "r") as f:
         domain = f.read()
 
     result = par(domain)
