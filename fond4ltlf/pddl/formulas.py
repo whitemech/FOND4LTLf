@@ -1,26 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 """This module contains the implementations of PDDL formulas."""
 
-from fond4ltlfpltlf.pddl.literal import Literal
-from fond4ltlfpltlf.pddl.predicate import Predicate
+from fond4ltlf.pddl.literal import Literal
+from fond4ltlf.pddl.predicate import Predicate
 
 
 class FormulaAnd:
@@ -124,11 +124,7 @@ class FormulaImply:
 
     def __eq__(self, other):
         """Check equality between two Imply formulas."""
-        return (
-            isinstance(other, FormulaImply)
-            and self.formula1 == other.formula1
-            and self.formula2 == other.formula2
-        )
+        return isinstance(other, FormulaImply) and self.formula1 == other.formula1 and self.formula2 == other.formula2
 
 
 class FormulaExists:
@@ -141,17 +137,11 @@ class FormulaExists:
 
     def __str__(self):
         """Represent the formula."""
-        return "(exists ({0}) {1})".format(
-            " ".join(map(str, self.variables)), self.formula
-        )
+        return "(exists ({0}) {1})".format(" ".join(map(str, self.variables)), self.formula)
 
     def __eq__(self, other):
         """Check equality between two Exists formulas."""
-        return (
-            isinstance(other, FormulaExists)
-            and self.variables == other.variables
-            and self.formula == other.formula
-        )
+        return isinstance(other, FormulaExists) and self.variables == other.variables and self.formula == other.formula
 
 
 class FormulaForall:
@@ -164,17 +154,11 @@ class FormulaForall:
 
     def __str__(self):
         """Represent the formula."""
-        return "(forall ({0}) {1})".format(
-            " ".join(map(str, self.variables)), self.formula
-        )
+        return "(forall ({0}) {1})".format(" ".join(map(str, self.variables)), self.formula)
 
     def __eq__(self, other):
         """Check equality between two Forall formulas."""
-        return (
-            isinstance(other, FormulaForall)
-            and self.variables == other.variables
-            and self.formula == other.formula
-        )
+        return isinstance(other, FormulaForall) and self.variables == other.variables and self.formula == other.formula
 
 
 class FormulaWhen:
@@ -201,11 +185,7 @@ class FormulaWhen:
 
     def __eq__(self, other):
         """Check equality between two When formulas."""
-        return (
-            isinstance(other, FormulaWhen)
-            and self.condition == other.condition
-            and self.formula == other.formula
-        )
+        return isinstance(other, FormulaWhen) and self.condition == other.condition and self.formula == other.formula
 
 
 class FormulaOneOf:
@@ -235,11 +215,7 @@ class FormulaOneOf:
 
     def __eq__(self, other):
         """Check the equality between two OneOf formulas."""
-        return (
-            isinstance(other, FormulaOneOf)
-            and self.oneofList == other.oneofList
-            and self.flag == other.flag
-        )
+        return isinstance(other, FormulaOneOf) and self.oneofList == other.oneofList and self.flag == other.flag
 
     def __iter__(self):
         """Override the iterator of an OneOf Formula."""

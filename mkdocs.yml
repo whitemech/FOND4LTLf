@@ -1,7 +1,7 @@
-site_name: FOND4LTLfPLTLf
-site_url: "https://whitemech.github.io/fond4ltlfpltlf/"
-repo_name: 'whitemech/fond4ltlfpltlf'
-repo_url: "https://github.com/whitemech/fond4ltlfpltlf"
+site_name: FOND4LTLf
+site_url: "https://whitemech.github.io/fond4ltlf/"
+repo_name: 'whitemech/fond4ltlf'
+repo_url: "https://github.com/whitemech/fond4ltlf"
 
 nav:
     - Home: index.md

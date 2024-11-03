@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 """This module contains the implementations of the automaton DFA."""
 
 import re
 
-from fond4ltlfpltlf.pddl.action import Action
-from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaOr
-from fond4ltlfpltlf.pddl.literal import Literal
-from fond4ltlfpltlf.pddl.predicate import Predicate
-from fond4ltlfpltlf.pddl.term import Term
+from fond4ltlf.pddl.action import Action
+from fond4ltlf.pddl.formulas import FormulaAnd, FormulaOr
+from fond4ltlf.pddl.literal import Literal
+from fond4ltlf.pddl.predicate import Predicate
+from fond4ltlf.pddl.term import Term
 
 
 class Automaton:
@@ -95,37 +95,67 @@ class Automaton:
         automa += "transitions: {}".format(str(self.transitions))
         return automa
 
-    def create_operators_trans(self, domain_predicates, grounded_symbols):
+    def create_operators_trans(self, domain_predicates, grounded_symbols, no_disjunctive_preconditions=False):
         """Create operators corresponding to the automaton."""
         new_operators = []
         my_predicates = [symbol.name for symbol in grounded_symbols]
-        (parameters, obj_mapping) = self.compute_parameters(
-            domain_predicates, grounded_symbols
-        )
+        (parameters, obj_mapping) = self.compute_parameters(domain_predicates, grounded_symbols)
         vars_mapping = self.compute_varsMapping(grounded_symbols, obj_mapping)
         my_variables = [param.name for param in parameters]
         counter = 0
+
         for destination, source_action in self.trans_by_dest.items():
             if source_action:
                 fluents_list_precond = self.compute_preconditions(
                     source_action, vars_mapping, my_predicates, my_variables
                 )
-                if isinstance(fluents_list_precond, FormulaAnd):
-                    new_precondition = fluents_list_precond
+
+                if no_disjunctive_preconditions:
+                    # Non-disjunctive mode
+                    assert isinstance(
+                        fluents_list_precond, FormulaOr
+                    ), "Expected FormulaOr for disjunctive preconditions"
+
+                    # For each disjunct, create a new precondition
+                    new_preconditions = [
+                        FormulaAnd(pre.andList + [Literal.negative(Predicate("turnDomain"))])
+                        if isinstance(pre, FormulaAnd)
+                        else FormulaAnd([pre] + [Literal.negative(Predicate("turnDomain"))])
+                        for pre in fluents_list_precond.orList
+                    ]
+
+                    subcounter = 0
+                    for newpre in new_preconditions:
+                        new_effects = self.compute_effects(destination, my_variables)
+                        new_operators.append(
+                            Action(
+                                f"trans-{counter}{subcounter}",
+                                parameters,
+                                newpre,
+                                new_effects,
+                            )
+                        )
+                        subcounter += 1
+
                 else:
-                    new_precondition = FormulaAnd(
-                        [fluents_list_precond]
-                        + [Literal.negative(Predicate("turnDomain"))]
+                    # Disjunctive mode
+                    if isinstance(fluents_list_precond, FormulaAnd):
+                        new_precondition = fluents_list_precond
+                    else:
+                        new_precondition = FormulaAnd(
+                            [fluents_list_precond] + [Literal.negative(Predicate("turnDomain"))]
+                        )
+
+                    new_effects = self.compute_effects(destination, my_variables)
+                    new_operators.append(
+                        Action(
+                            f"trans-{counter}",
+                            parameters,
+                            new_precondition,
+                            new_effects,
+                        )
                     )
-                new_effects = self.compute_effects(destination, my_variables)
-                new_operators.append(
-                    Action(
-                        "trans-" + str(counter),
-                        parameters,
-                        new_precondition,
-                        new_effects,
-                    )
-                )
+
                 counter += 1
             else:
                 pass
@@ -142,9 +172,7 @@ class Automaton:
                         predicate.args[position].type,
                     )
                 else:
-                    raise ValueError(
-                        "[ERROR]: Please check the instantiation on the formula"
-                    )
+                    raise ValueError("[ERROR]: Please check the instantiation on the formula")
             else:
                 pass
 
@@ -160,9 +188,7 @@ class Automaton:
                 for obj in symbol.objects:
                     if obj not in objs_set:
                         objs_set.add(obj)
-                        (name_var, type_) = self.compute_type(
-                            domain_predicates, symbol.name, i, counter
-                        )
+                        (name_var, type_) = self.compute_type(domain_predicates, symbol.name, i, counter)
                         obj_mapping[obj] = [name_var, type_]
                         parameters.append(Term.variable(name_var, type_))
                         counter += 1
@@ -185,39 +211,20 @@ class Automaton:
             temp = []
         return vars_mapping
 
-    def compute_preconditions(
-        self, source_action, vars_mapping, predicates_name, variables
-    ):
+    def compute_preconditions(self, source_action, vars_mapping, predicates_name, variables):
         """Compute new preconditions."""
         if len(source_action) == 1:
-            if (
-                self.get_automaton_formula(
-                    vars_mapping, predicates_name, source_action[0][1]
-                )
-                == []
-            ):
-                formula = Literal.positive(
-                    Predicate("q" + str(source_action[0][0]), variables)
-                )
+            if self.get_automaton_formula(vars_mapping, predicates_name, source_action[0][1]) == []:
+                formula = Literal.positive(Predicate("q" + str(source_action[0][0]), variables))
             else:
-                automaton_state = [
-                    Literal.positive(
-                        Predicate("q" + str(source_action[0][0]), variables)
-                    )
-                ]
+                automaton_state = [Literal.positive(Predicate("q" + str(source_action[0][0]), variables))]
                 formula = FormulaAnd(
                     automaton_state
-                    + self.get_automaton_formula(
-                        vars_mapping, predicates_name, source_action[0][1]
-                    )
+                    + self.get_automaton_formula(vars_mapping, predicates_name, source_action[0][1])
                     + [Literal.negative(Predicate("turnDomain"))]
                 )
         else:
-            formula = FormulaOr(
-                self.get_or_conditions(
-                    vars_mapping, predicates_name, variables, source_action
-                )
-            )
+            formula = FormulaOr(self.get_or_conditions(vars_mapping, predicates_name, variables, source_action))
         return formula
 
     def compute_effects(self, destination, variables):
@@ -225,21 +232,15 @@ class Automaton:
         negated_states = []
         for state in sorted(self.states):
             if state != destination:
-                negated_states.append(
-                    Literal.negative(Predicate("q" + str(state), variables))
-                )
+                negated_states.append(Literal.negative(Predicate("q" + str(state), variables)))
             else:
                 pass
-        automaton_destination = [
-            Literal.positive(Predicate("q" + str(destination), variables))
-        ]
+        automaton_destination = [Literal.positive(Predicate("q" + str(destination), variables))]
         turnDomain = [Literal.positive(Predicate("turnDomain"))]
         formula = FormulaAnd(automaton_destination + negated_states + turnDomain)
         return formula
 
-    def get_or_conditions(
-        self, vars_mapping, predicates_name, variables, source_action_list
-    ):
+    def get_or_conditions(self, vars_mapping, predicates_name, variables, source_action_list):
         """Get conditions with OR formulae."""
         items = []
         for source, action in source_action_list:
@@ -247,16 +248,9 @@ class Automaton:
             if not formula:
                 items.append(Literal.positive(Predicate("q" + str(source), variables)))
             else:
-                automaton_state = [
-                    Literal.positive(Predicate("q" + str(source), variables))
-                ]
+                automaton_state = [Literal.positive(Predicate("q" + str(source), variables))]
                 items.append(
-                    FormulaAnd(
-                        automaton_state
-                        + self.get_automaton_formula(
-                            vars_mapping, predicates_name, action
-                        )
-                    )
+                    FormulaAnd(automaton_state + self.get_automaton_formula(vars_mapping, predicates_name, action))
                 )
         return items
 

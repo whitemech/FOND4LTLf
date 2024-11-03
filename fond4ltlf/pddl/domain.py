@@ -1,33 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 """This module contains the implementations of a PDDL Domain."""
 
-
 import copy
 
-from fond4ltlfpltlf.pddl.action import Action
-from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaWhen
+from fond4ltlf.pddl.action import Action
+from fond4ltlf.pddl.formulas import FormulaAnd, FormulaWhen
 
-# from fond4ltlfpltlf.pddl.literal import Literal
-# from fond4ltlfpltlf.pddl.predicate import Predicate
-# from fond4ltlfpltlf.pddl.term import Term
+# from fond4ltlf.pddl.literal import Literal
+# from fond4ltlf.pddl.predicate import Predicate
+# from fond4ltlf.pddl.term import Term
 
 
 class Domain:
@@ -47,14 +46,10 @@ class Domain:
         domain_str = "(define (domain {0})\n".format(self.name)
         domain_str += "\t(:requirements {0})\n".format(" ".join(self.requirements))
         if self.types:
-            domain_str += "\t(:types {0})\n".format(" ".join(self.types))
+            domain_str += "\t(:types {0})\n".format(" ".join(map(str, self.types)))
         if self.constants:
-            domain_str += "\t(:constants {0})\n".format(
-                " ".join(map(str, self.constants))
-            )
-        domain_str += "\t(:predicates {0})\n".format(
-            " ".join(map(str, self.predicates))
-        )
+            domain_str += "\t(:constants {0})\n".format(" ".join(map(str, self.constants)))
+        domain_str += "\t(:predicates {0})\n".format(" ".join(map(str, self.predicates)))
 
         for op in self.operators:
             domain_str += "\t(:action {0})\n".format(str(op).replace("\n", "\n\t"))
@@ -91,9 +86,7 @@ class Domain:
             #         )
             #     )
             # )
-            self.predicates.append(
-                "(q{0} {1})".format(str(state), " ".join(map(str, parameters)))
-            )
+            self.predicates.append("(q{0} {1})".format(str(state), " ".join(map(str, parameters))))
         self.predicates.append("(turnDomain)")
 
     def add_constants(self, states):
@@ -132,9 +125,7 @@ class Domain:
         else:
             new_preconditions = FormulaAnd([op_copy.preconditions, condition])
             new_effects = formula
-        new_op = Action(
-            op_copy.name, op_copy.parameters, new_preconditions, new_effects
-        )
+        new_op = Action(op_copy.name, op_copy.parameters, new_preconditions, new_effects)
         return new_op
 
     def compile_simple_adl(self):
@@ -145,9 +136,7 @@ class Domain:
                 # it remains only one operator, but we need to modify it
                 condition_formula = op.effects.condition
                 statement_formula = op.effects.formula
-                new_op = self.modify_operator(
-                    copy.deepcopy(op), condition_formula, statement_formula
-                )
+                new_op = self.modify_operator(copy.deepcopy(op), condition_formula, statement_formula)
                 self.operators[i] = new_op
                 continue
             elif isinstance(op.effects, FormulaAnd):
@@ -181,9 +170,7 @@ class Domain:
                 additionals.append(item)
         k = 1
         for j in range(len(pair_precond_effect)):
-            pair_precond_effect[j][k] = FormulaAnd(
-                [pair_precond_effect[j][k]] + additionals
-            )
+            pair_precond_effect[j][k] = FormulaAnd([pair_precond_effect[j][k]] + additionals)
 
         for u in range(number):
             new_op = Action(

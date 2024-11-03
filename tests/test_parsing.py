@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 """Test the parsing module."""
@@ -25,12 +25,12 @@ from pathlib import Path
 
 import pytest
 
-from fond4ltlfpltlf.parser.parser import PDDLParser
-from fond4ltlfpltlf.pddl.action import Action
-from fond4ltlfpltlf.pddl.formulas import FormulaAnd, FormulaOneOf
-from fond4ltlfpltlf.pddl.literal import Literal
-from fond4ltlfpltlf.pddl.predicate import Predicate
-from fond4ltlfpltlf.pddl.term import Term
+from fond4ltlf.parser.parser import PDDLParser
+from fond4ltlf.pddl.action import Action
+from fond4ltlf.pddl.formulas import FormulaAnd, FormulaOneOf
+from fond4ltlf.pddl.literal import Literal
+from fond4ltlf.pddl.predicate import Predicate
+from fond4ltlf.pddl.term import Term
 
 from .conftest import TEST_ROOT_DIR
 
@@ -38,16 +38,8 @@ from .conftest import TEST_ROOT_DIR
 @pytest.mark.parametrize(
     ["domain"],
     [
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "domain.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -67,16 +59,8 @@ from .conftest import TEST_ROOT_DIR
                 "domain.pddl",
             ),
         ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "d01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "d01.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -86,27 +70,11 @@ from .conftest import TEST_ROOT_DIR
                 "domain.pddl",
             ),
         ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "domain.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "domain.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "domain.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "domain.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "domain.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -116,11 +84,7 @@ from .conftest import TEST_ROOT_DIR
                 "domain.pddl",
             ),
         ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "domain.pddl"),),
     ],
 )
 def test_domain_parsing_is_deterministic(domain):
@@ -137,29 +101,13 @@ def test_domain_parsing_is_deterministic(domain):
 @pytest.mark.parametrize(
     ["problem"],
     [
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "beam-walk", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "blocksworld-ipc08", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "doors", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "earth_observation", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "earth_observation", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "elevators", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "faults-ipc08", "p01.pddl"),),
         (
             os.path.join(
                 TEST_ROOT_DIR,
@@ -171,27 +119,11 @@ def test_domain_parsing_is_deterministic(domain):
         ),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "islands", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "miner", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "spiky-tireworld", "p01.pddl"),),
         (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld", "p01.pddl"),),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "p01.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "triangle-tireworld", "p01.pddl"
-            ),
-        ),
-        (
-            os.path.join(
-                TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "p01.pddl"
-            ),
-        ),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "tireworld-truck", "p01.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "triangle-tireworld", "p01.pddl"),),
+        (os.path.join(TEST_ROOT_DIR, "data", "pddl-domains", "zenotravel", "p01.pddl"),),
     ],
 )
 def test_problem_parsing_is_deterministic(problem):
@@ -377,7 +309,12 @@ class TestParsingDomain1:
                     Literal.negative(Predicate("broken-leg")),
                     Literal.positive(Predicate("up")),
                     Literal.positive(Predicate("position", ["?from"])),
-                    Literal.positive(Predicate("next-fwd", ["?from", "?middle"],)),
+                    Literal.positive(
+                        Predicate(
+                            "next-fwd",
+                            ["?from", "?middle"],
+                        )
+                    ),
                     Literal.positive(Predicate("next-fwd", ["?middle", "?to"])),
                 ]
             ),
@@ -438,15 +375,7 @@ class TestParsingProblem1:
     def setup_class(cls):
         """Set the test up."""
         parser = PDDLParser()
-        cls.pddl_obj = parser(
-            open(
-                str(
-                    Path(
-                        TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"
-                    )
-                )
-            ).read()
-        )  # type: Problem
+        cls.pddl_obj = parser(open(str(Path(TEST_ROOT_DIR, "data", "pddl-domains", "acrobatics", "p01.pddl"))).read())  # type: Problem
         cls.pddl_name = cls.pddl_obj.name
         cls.pddl_domain = cls.pddl_obj.domain
         cls.pddl_objects = cls.pddl_obj.objects
@@ -479,9 +408,7 @@ class TestParsingProblem1:
 
     def test_problem_goal(self):
         """Test that the goal condition is correct."""
-        assert self.pddl_goal == FormulaAnd(
-            [Predicate("up"), Predicate("position", ["p1"])]
-        )
+        assert self.pddl_goal == FormulaAnd([Predicate("up"), Predicate("position", ["p1"])])
 
 
 class TestParsingDomain2:
@@ -578,7 +505,9 @@ class TestParsingDomain2:
         )
         op2 = Action(
             name="changetire",
-            parameters=[Term.variable("?loc", "location"),],
+            parameters=[
+                Term.variable("?loc", "location"),
+            ],
             preconditions=FormulaAnd(
                 [
                     Literal.positive(Predicate("spare-in", ["?loc"])),
@@ -669,3 +598,33 @@ class TestParsingProblem2:
     def test_problem_goal(self):
         """Test that the goal condition is correct."""
         assert self.pddl_goal == Predicate("vehicleat", ["l13"])
+
+
+def test_robot_coffee():
+    planning_domain = open(
+        str(
+            Path(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "robot-coffee",
+                "domain-fond.pddl",
+            )
+        )
+    ).read()
+    planning_problem = open(
+        str(
+            Path(
+                TEST_ROOT_DIR,
+                "data",
+                "pddl-domains",
+                "robot-coffee",
+                "coffee2.pddl",
+            )
+        )
+    ).read()
+    pddl_parser = PDDLParser()
+    parsed_domain = pddl_parser(planning_domain)
+    parsed_problem = pddl_parser(planning_problem)
+    assert parsed_domain is not None
+    assert parsed_problem is not None

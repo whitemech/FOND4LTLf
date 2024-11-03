@@ -1,31 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# This file is part of fond4ltlfpltlf.
+# This file is part of FOND4LTLf.
 #
-# fond4ltlfpltlf is free software: you can redistribute it and/or modify
+# FOND4LTLf is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# fond4ltlfpltlf is distributed in the hope that it will be useful,
+# FOND4LTLf is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with fond4ltlfpltlf.  If not, see <https://www.gnu.org/licenses/>.
+# along with FOND4LTLf.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Core module of the fonod4ltlfpltlf tool."""
+"""Core module of the fond4ltlf tool."""
 
 import re
 
 from ltlf2dfa.parser.ltlf import LTLfParser
 from ltlf2dfa.parser.pltlf import ParsingError, PLTLfParser
 
-from fond4ltlfpltlf.automa.aparser import parse_dfa
-from fond4ltlfpltlf.automa.symbol import Symbol
-from fond4ltlfpltlf.parser.parser import PDDLParser
+from fond4ltlf.automa.aparser import parse_dfa
+from fond4ltlf.automa.symbol import Symbol
+from fond4ltlf.parser.parser import PDDLParser
 
 FUTURE_OPS = {"X", "F", "U", "G", "W", "R"}
 PAST_OPS = {"Y", "O", "S", "H"}
@@ -55,7 +55,7 @@ def check_symbols(symbols, parsed_domain):
     return True
 
 
-def execute(planning_domain, planning_problem, goal_formula):
+def execute(planning_domain, planning_problem, goal_formula, no_disj_preconds=False):
     """Execute the compilation."""
     pddl_parser = PDDLParser()
     parsed_domain = pddl_parser(planning_domain)
@@ -64,9 +64,7 @@ def execute(planning_domain, planning_problem, goal_formula):
     # parsed_problem = planning_problem
 
     symbols = compute_symb_vars(goal_formula)
-    if not check_symbols(
-        symbols, parsed_domain
-    ):  # TODO: it checks symbols but not objects....
+    if not check_symbols(symbols, parsed_domain):  # TODO: it checks symbols but not objects....
         raise ValueError("[ERROR]: Formula symbols not in the domain.")
 
     if all(c in FUTURE_OPS for c in goal_formula if c.isupper()):
@@ -87,7 +85,7 @@ def execute(planning_domain, planning_problem, goal_formula):
     mona_output = formula.to_dfa(mona_dfa_out=True)
     dfa = parse_dfa(mona_output)
     operators_trans, parameters = dfa.create_operators_trans(
-        parsed_domain.predicates, symbols
+        parsed_domain.predicates, symbols, no_disjunctive_preconditions=no_disj_preconds
     )
 
     new_domain = parsed_domain.get_new_domain(parameters, dfa.states, operators_trans)

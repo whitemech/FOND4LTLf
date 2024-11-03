@@ -3,7 +3,6 @@ name: test
 on:
   push:
     branches:
-      - develop
       - master
   pull_request:
 
@@ -14,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: ["3.8", "3.9", "3.10"]
 
     timeout-minutes: 30
 
@@ -31,12 +30,10 @@ jobs:
       run: |
         tox -e py${{ matrix.python-version }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v4
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: true
+        verbose: true
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     - name: Generate Documentation
       run: tox -e docs
