@@ -20,7 +20,6 @@ import ply.lex as lex
 
 
 class PDDLLexer(object):
-
     reserved = {
         "define": "DEFINE_KEY",
         "domain": "DOMAIN_KEY",
@@ -53,13 +52,11 @@ class PDDLLexer(object):
     }
 
     # List of token names. This is always required
-    tokens = ("NAME", "VARIABLE", "LPAREN", "RPAREN", "HYPHEN", "EQUALS") + tuple(
-        reserved.values()
-    )
+    tokens = ("NAME", "VARIABLE", "LPAR", "RPAR", "HYPHEN", "EQUALS") + tuple(reserved.values())
 
     # Regular expression rules for simple tokens
-    t_LPAREN = r"\("
-    t_RPAREN = r"\)"
+    t_LPAR = r"\("
+    t_RPAR = r"\)"
     t_HYPHEN = r"\-"
     t_EQUALS = r"="
 
@@ -113,4 +110,4 @@ if __name__ == "__main__":
     # Build the lexer and try it out
     m = PDDLLexer()
     m.build()  # Build the lexer
-    m.test("(and (and) (oneof (ciao) (come) ))")  # Test it
+    m.test("(and (and) (oneof (hello) (world) ))")  # Test it
